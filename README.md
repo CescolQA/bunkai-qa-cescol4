@@ -907,3 +907,5 @@ MIT — see [`LICENSE`](LICENSE).
 <sub><b>You are here</b> — QA boilerplate repo overview for visitors · <b>Read time</b> ~5 min · <b>Next</b>: <code>bunx create-agentic-qa@latest &lt;your-repo-name&gt;</code> to bootstrap · <code>bun run onboarding</code> for the visual repo tour · <a href="INSTALLER.md"><code>INSTALLER.md</code></a> for installer details.</sub>
 
 </div>
+#   b u n k a i - q a - c e s c o l 4  
+ 

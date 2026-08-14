@@ -117,6 +117,6 @@ environments:
     api_mcp: local-openapi # MCP server name for local API (e.g. myproject-local-api)
   staging:
     web_url: 'https://staging-upexbunkai.vercel.app' # Frontend URL for staging env (e.g. https://staging.myproject.com)
-    api_url: 'https://api-staging.myproject.com' # API base URL for staging env (e.g. https://api-staging.myproject.com)
+    api_url: 'https://staging-upexbunkai.vercel.app/api' # API base URL for staging env (e.g. https://api-staging.myproject.com)
     db_mcp: staging-dbhub # MCP server name for staging DB (e.g. myproject-staging-db)
     api_mcp: staging-openapi # MCP server name for staging API (e.g. myproject-staging-api)

@@ -198,6 +198,7 @@ Full contract: `.claude/skills/agentic-qa-core/references/skill-composition-stra
 | `/break-down-tests` | Plain-English breakdown of automated tests for a module / spec. |
 | `/fix-traceability` | Repair broken US-ATP-ATR-TC traceability links in TMS. |
 | `/jira-instance-migration` | Repoint the repo at a new Atlassian instance (`.env` + `.agents/project.yaml` + machine-global `acli` session) and regenerate the `.agents/` catalogs the migration invalidated. Takes source + target instance as arguments; asks for whatever is missing. |
+| `/project-status` | Live snapshot of project config — compiled fresh every run from `.agents/project.yaml` + `.env` (names only, secrets masked) + `.mcp.json` + Jira QA credentials epic + `git status`. Never cached, never written to disk. Optional `$ARGUMENTS` scopes to one section (`mcp`, `env`, `jira`, `db`, `git`). |
 
 ### MCPs (decision rules)
 

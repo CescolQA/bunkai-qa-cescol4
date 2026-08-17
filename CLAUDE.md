@@ -447,3 +447,59 @@ Self-check after every task: *did I make decision, fix bug, learn something non-
 ---
 
 *AI persistent memory. Update when behaviors / skills / rules change.*
+
+---
+
+## Project Assessment (Phase 1)
+
+> Target repo assessed: `upex-bunkai-tms` (local path `../upex-bunkai-tms`). Read-only pass — no files modified in the target repo.
+
+Assessment Date: 2026-08-17
+
+### Testing Maturity: 2/4
+- Current state: Moderate
+- Test files: 135 (`find . -type f \( -name "*.test.*" -o -name "*.spec.*" \) -not -path "*/node_modules/*"` in target repo root)
+- Frameworks: Bun's built-in test runner (`bun:test`) only — no Jest/Vitest/Playwright test files found anywhere in the repo
+- Coverage: unknown (no coverage tool/threshold configured; `package.json` `test` script is plain `bun test`, no `--coverage`)
+- Composition (sampled `lib/api/rls-parity.test.ts`, `lib/bugs/validation.test.ts`, and file-name pattern across all 135): mix of pure unit tests (validation/format/slug helpers) and substantial DB-dependent integration tests (`*-isolation.test.ts`, `*-rls*.test.ts`, `*-rpc.test.ts` — real Supabase RLS/cross-tenant regression guards, `describe.skip` gracefully when Supabase env vars absent). No E2E automation exists in this repo — that gap is exactly the reason `bunkai-qa-cescol4` exists as a separate QA automation repo.
+- **Not gated anywhere**: `bun test` is not invoked in `.husky/pre-commit`, `.husky/pre-push`, or any CI (confirmed no `.github/workflows/` — `ls .github/workflows/` fails, directory absent). The pre-commit/pre-push hooks run `types:check` / `vars:check` / `skills:check` / `format:check` / `lint:check` / `skills:registry:check` but never `bun run test`. The 135-file suite is developer-run-on-demand only.
+
+### Documentation State: Good
+- README: yes, but describes the wrong product — `README.md` documents an unrelated meta-framework ("agentic-dev-boilerplate" / "The dev workflow, but AI runs it"), not Bunkai TMS itself. Same pattern in `CONTEXT.md` ("Context Engineering in This Repo"). A reader looking for "what does Bunkai TMS do" will not find it in either file.
+- API docs: yes — `public/openapi.json` + `@scalar/api-reference-react` dependency + `scripts/openapi-gen.ts` / `sync-openapi.ts` / `openapi-diff.ts` pipeline
+- Architecture: yes — `docs/architectures/`, plus `DESIGN.md` (genuinely Bunkai-specific: brand identity, design tokens, byte-exact with `app/globals.css` + `tailwind.config.ts`)
+- Setup guide: yes — `README.md` "Get started in one command" section + `INSTALLER.md`
+- Gap: no `CONTRIBUTING.md` at root (checked, absent)
+
+### Code Quality
+- [x] ESLint: configured — `eslint.config.js` (`@antfu/eslint-config` + `@next/eslint-plugin-next`), script `lint:check` / `lint:fix`
+- [x] Prettier: configured — `.prettierrc` (semi, singleQuote, printWidth 100, etc.), script `format:check` / `format:fix`
+- [x] TypeScript: strict — `tsconfig.json` line 21 `"strict": true` (matches `.context/project-config.md`)
+- [x] Pre-commit hooks: configured — Husky `.husky/pre-commit` (lint-staged + `types:check` + `vars:check` + `skills:check` + conditional `skills:registry:check`) and `.husky/pre-push` (full-repo `format:check` + `lint:check` + `vars:env:check` + `skills:registry:check`)
+
+### CI/CD Maturity: None
+- No `.github/workflows/` directory exists at all (confirmed by direct check, not just an empty dir)
+- Deploy path is Vercel (per `.context/project-config.md`), which provides a build-time gate (`next build`) on deploy, but there is no server-side lint/test/typecheck gate on PRs — only the bypassable local Husky hooks
+
+### Identified Risks
+
+| Risk | Severity | Mitigation |
+|------|----------|------------|
+| No CI/CD pipeline | MEDIUM | No PR-level enforcement of lint/types/tests; mitigated somewhat by local Husky pre-commit/pre-push hooks (bypassable with `--no-verify`) and Vercel's build-time gate on deploy. Recommend adding a minimal GitHub Actions workflow (`lint` + `types:check` + `bun test`) before contributor count grows. |
+| `bun test` suite (135 files) never runs automatically | MEDIUM | Neither Husky hooks nor CI invoke `bun run test` — regressions in the suite go undetected until someone runs it manually. Add `bun run test` to `pre-push` at minimum, or to a CI workflow. |
+| README/CONTEXT.md describe an unrelated meta-framework, not Bunkai TMS | LOW | Product-specific docs do exist (`DESIGN.md`, `docs/architectures/`, `public/openapi.json`), so the gap is discoverability of the top-level entry doc, not a missing-documentation problem. Recommend a short "What is Bunkai TMS" section at the top of `README.md`. |
+| No `CONTRIBUTING.md` | LOW | Setup guide (`INSTALLER.md`) partially covers onboarding; contribution conventions are otherwise undocumented. |
+
+No hardcoded secrets found. Secret-sweep grep (`(api[_-]?key\|secret\|password\|token)\s*[:=]\s*['"]`) over `app/` and `lib/` returned 2 file hits — both false positives, verified by inspection: `app/design-tokens/page.tsx` matches are CSS design-token names (`--bg-0`, `--accent`, unrelated "token" meaning), and `app/qa/qa-config.ts` matches are QA documentation with placeholder/example values (`bk_pat_<prefix>.<secret>`, `<see credentials source>`), not real credentials. No values reproduced in this report per Critical Rule.
+
+No missing type-checking risk — `tsconfig.json` `strict: true` confirmed directly (not just relayed from `.context/project-config.md`).
+
+### Phase Prioritization
+
+- Phase 1: Normal — Constitution largely complete via `.context/project-config.md` + this assessment; Business Model + Domain Glossary sub-steps remain.
+- Phase 2: Normal — codebase has clear, consistent `lib/` module conventions (validation/errors/view co-located per domain), should reverse-engineer cleanly.
+- Phase 3: Extended — CI/CD is fully absent; the Infrastructure sub-step needs to document the gap thoroughly (no workflows, Vercel-only deploy gate, un-gated test suite) rather than a one-line "None" skip.
+- Phase 4: Extended — domain surface is large and non-trivial (bugs, ATCs, runs, workspaces, traceability, milestones, notifications, tokens/PATs — 20+ `lib/` subdomains observed), warrants full Specification treatment rather than a quick pass.
+
+### Blockers
+- [ ] None blocking — proceed to Business Model Discovery. Carry forward from `.context/project-config.md` Discovery Gaps: production environment URL unconfirmed, `TEST_ENV`/`testing.default_env` mismatch, credential variable-name mismatch (`LOCAL_USER_EMAIL` vs `QA_E2E_USER_EMAIL`) — none of these block Phase 1 Assessment itself.

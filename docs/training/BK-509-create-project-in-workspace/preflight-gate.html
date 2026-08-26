@@ -1,0 +1,926 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --ink: #1c2430;
+    --muted: #5b6259;
+    --paper: #edefe8;
+    --panel: #e1e4da;
+    --panel-2: #d7dbcc;
+    --line: #c4c9b9;
+    --accent: #2e6f71;
+    --accent-ink: #0f3b3d;
+    --accent-soft: #d9e9e6;
+    --status-go: #3e7a4e;
+    --status-go-soft: #dcebdd;
+    --status-stop: #a6362e;
+    --status-stop-soft: #f3dcd8;
+    --risk-critical: #a6362e;
+    --risk-high: #c07a2a;
+    --risk-medium: #8f8536;
+    --risk-low: #5c7568;
+    --shadow: rgba(28, 36, 48, 0.1);
+    --font-display: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
+    --font-body: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Consolas', monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+      --ink: #e7e9e1;
+      --muted: #a7ae9e;
+      --paper: #10151a;
+      --panel: #171e24;
+      --panel-2: #1e262d;
+      --line: #2a333b;
+      --accent: #5fb8b4;
+      --accent-ink: #dff3f1;
+      --accent-soft: #173634;
+      --status-go: #7fbf86;
+      --status-go-soft: #173420;
+      --status-stop: #e08579;
+      --status-stop-soft: #3a1d1b;
+      --risk-critical: #e08579;
+      --risk-high: #e0a860;
+      --risk-medium: #c9be72;
+      --risk-low: #8fa79a;
+      --shadow: rgba(0, 0, 0, 0.45);
+    }
+  }
+
+  :root[data-theme='dark'] {
+    --ink: #e7e9e1;
+    --muted: #a7ae9e;
+    --paper: #10151a;
+    --panel: #171e24;
+    --panel-2: #1e262d;
+    --line: #2a333b;
+    --accent: #5fb8b4;
+    --accent-ink: #dff3f1;
+    --accent-soft: #173634;
+    --status-go: #7fbf86;
+    --status-go-soft: #173420;
+    --status-stop: #e08579;
+    --status-stop-soft: #3a1d1b;
+    --risk-critical: #e08579;
+    --risk-high: #e0a860;
+    --risk-medium: #c9be72;
+    --risk-low: #8fa79a;
+    --shadow: rgba(0, 0, 0, 0.45);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding: 0 0 5rem;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+  }
+
+  a {
+    color: var(--accent);
+  }
+
+  .wrap {
+    max-width: 840px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 0;
+  }
+
+  /* ---------- Header ---------- */
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    gap: 0.6em;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+
+  .eyebrow b {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  h1.title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.6rem, 7vw, 4.2rem);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin: 0.3em 0 0.35em;
+    text-wrap: balance;
+  }
+
+  p.subtitle {
+    max-width: 62ch;
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin: 0 0 2rem;
+  }
+
+  /* ---------- Gate status readout ---------- */
+
+  .gate-readout {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 1.1rem 1.3rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    margin-bottom: 2.2rem;
+    box-shadow: 0 1px 0 var(--shadow);
+  }
+
+  .gate-lamp {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--status-go);
+    box-shadow: 0 0 0 4px var(--status-go-soft);
+    flex: none;
+  }
+  .gate-lamp.blocked {
+    background: var(--status-stop);
+    box-shadow: 0 0 0 4px var(--status-stop-soft);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .gate-lamp {
+      animation: gate-flip 2.6s 0.4s 1 both;
+    }
+    @keyframes gate-flip {
+      0% {
+        background: var(--status-stop);
+        box-shadow: 0 0 0 4px var(--status-stop-soft);
+      }
+      55% {
+        background: var(--status-stop);
+        box-shadow: 0 0 0 4px var(--status-stop-soft);
+      }
+      100% {
+        background: var(--status-go);
+        box-shadow: 0 0 0 4px var(--status-go-soft);
+      }
+    }
+  }
+
+  .gate-text {
+    flex: 1;
+  }
+  .gate-text .label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .gate-text .value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+
+  .gate-progress {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* ---------- Narrative block ---------- */
+
+  .narrative {
+    margin-bottom: 2.6rem;
+    padding-left: 1.1rem;
+    border-left: 3px solid var(--accent);
+  }
+  .narrative p {
+    margin: 0 0 0.9em;
+    max-width: 68ch;
+  }
+  .narrative p:last-child {
+    margin-bottom: 0;
+  }
+  .narrative code {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    background: var(--panel-2);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+  }
+
+  /* ---------- Pipeline strip ---------- */
+
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+  }
+
+  .pipeline a {
+    background: var(--panel);
+    color: var(--ink);
+    text-decoration: none;
+    padding: 0.85rem 0.5rem 0.7rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    transition: background 0.15s ease;
+  }
+  .pipeline a:hover,
+  .pipeline a:focus-visible {
+    background: var(--accent-soft);
+    outline: none;
+  }
+  .pipeline a:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--accent);
+  }
+
+  .pipeline .n {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .pipeline .lbl {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.98rem;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.05;
+  }
+  .pipeline a.gate-cell {
+    background: var(--accent-soft);
+  }
+  .pipeline a.gate-cell .n,
+  .pipeline a.gate-cell .lbl {
+    color: var(--accent-ink);
+  }
+
+  @media (max-width: 620px) {
+    .pipeline {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* ---------- Cards ---------- */
+
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--panel);
+    margin-bottom: 1.1rem;
+    scroll-margin-top: 1.5rem;
+    box-shadow: 0 1px 0 var(--shadow);
+  }
+
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.3rem 1.4rem 1rem;
+  }
+
+  .card-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    font-weight: 600;
+    padding-top: 0.35rem;
+    flex: none;
+    width: 1.6em;
+  }
+
+  .card-heading {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .card h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin: 0 0 0.2rem;
+    text-wrap: balance;
+  }
+
+  .card .kicker {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 0.7rem;
+  }
+
+  .stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .stat {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0.3rem 0.55rem;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .stat b {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .review-toggle {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    cursor: pointer;
+    user-select: none;
+    padding-top: 0.3rem;
+  }
+  .review-toggle input {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  details.body-detail {
+    border-top: 1px solid var(--line);
+  }
+  details.body-detail > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 0.75rem 1.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  details.body-detail > summary::-webkit-details-marker {
+    display: none;
+  }
+  details.body-detail > summary::before {
+    content: '▸';
+    display: inline-block;
+    transition: transform 0.15s ease;
+  }
+  details.body-detail[open] > summary::before {
+    transform: rotate(90deg);
+  }
+  details.body-detail > summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .body-inner {
+    padding: 0.2rem 1.4rem 1.4rem;
+  }
+
+  .body-inner h3 {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin: 1.1rem 0 0.5rem;
+  }
+  .body-inner h3:first-child {
+    margin-top: 0;
+  }
+
+  .body-inner ul {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+  .body-inner li {
+    margin-bottom: 0.4rem;
+  }
+  .body-inner p {
+    margin: 0 0 0.7rem;
+  }
+
+  .why {
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    border-radius: 3px;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.94rem;
+  }
+  .why b {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .risk-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.15em 0.5em;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+  .risk-pill.critical {
+    background: color-mix(in srgb, var(--risk-critical) 18%, transparent);
+    color: var(--risk-critical);
+  }
+  .risk-pill.high {
+    background: color-mix(in srgb, var(--risk-high) 18%, transparent);
+    color: var(--risk-high);
+  }
+
+  code.path {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--panel-2);
+    padding: 0.05em 0.35em;
+    border-radius: 3px;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+  table.mini {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.88rem;
+    margin: 0.4rem 0 0.8rem;
+  }
+  table.mini th,
+  table.mini td {
+    text-align: left;
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  table.mini th {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+
+  /* ---------- Footer ---------- */
+
+  footer {
+    margin-top: 2.6rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+    max-width: 68ch;
+  }
+  footer code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+</style>
+
+<div class="wrap">
+  <div class="eyebrow"><b>BK-509</b> · registro de sesión · 2026-08-26</div>
+  <h1 class="title">Preflight Gate</h1>
+  <p class="subtitle">
+    Antes de refinar BK-509 en Phase 2 de
+    <code class="path" style="font-family: var(--font-mono)">/shift-left-testing</code>, el propio
+    skill exigió cuatro mapas de negocio que nunca se habían generado. Esta es la bitácora de qué
+    produjo cada uno y por qué el gate no negocia.
+  </p>
+
+  <div class="gate-readout">
+    <span class="gate-lamp" id="gateLamp" aria-hidden="true"></span>
+    <span class="gate-text">
+      <span class="label">Readiness Preflight Gate</span>
+      <span class="value" id="gateValue">Despejado</span>
+    </span>
+    <span class="gate-progress" id="reviewProgress">0/5 repasado</span>
+  </div>
+
+  <div class="narrative">
+    <p>
+      El gate de <code>/shift-left-testing</code> declara cuatro archivos como <b>REQUIRED</b> antes
+      de que corra siquiera la Phase 0: <code>business-data-map.md</code>,
+      <code>business-feature-map.md</code>, <code>business-api-map.md</code> y
+      <code>master-test-plan.md</code>. Su propia doctrina lo justifica así:
+      <em
+        >"refinement without business context produces low-value PO/Dev questions and dilutes the
+        batch report"</em
+      >.
+    </p>
+    <p>
+      Lo que sí existía — <code>business-model.md</code> y <code>domain-glossary.md</code> — es
+      salida de la Phase 1 (Constitution) de <code>/project-discovery</code>, un entregable
+      distinto. Confundir "hay documentación" con "hay la documentación correcta" es exactamente el
+      tipo de gap que un analista funcional revisa antes de dar por cerrado un alcance — acá lo
+      revisó el propio skill, de forma automática.
+    </p>
+    <p>
+      Los cinco checkpoints de abajo son clickeables y saltan a su tarjeta. Cada tarjeta tiene un
+      resumen fijo (siempre visible) y un detalle expandible — y un check de "repasado" que se
+      guarda en este navegador.
+    </p>
+  </div>
+
+  <nav class="pipeline" aria-label="Secuencia de generación">
+    <a href="#discovery"><span class="n">01</span><span class="lbl">Discovery</span></a>
+    <a href="#data"><span class="n">02</span><span class="lbl">Data Map</span></a>
+    <a href="#features"><span class="n">03</span><span class="lbl">Feature Map</span></a>
+    <a href="#api"><span class="n">04</span><span class="lbl">API Map</span></a>
+    <a href="#testplan"><span class="n">05</span><span class="lbl">Test Plan</span></a>
+    <a href="#gate" class="gate-cell"><span class="n">06</span><span class="lbl">Gate</span></a>
+  </nav>
+
+  <!-- ============ 01 DISCOVERY ============ -->
+  <section class="card" id="discovery">
+    <div class="card-head">
+      <span class="card-num">01</span>
+      <div class="card-heading">
+        <h2>Discovery — Constitution</h2>
+        <div class="kicker">
+          /project-discovery · Phase 1 · corrido antes de esta sesión, 2026-08-17
+        </div>
+        <div class="stat-row">
+          <span class="stat">Madurez de testing <b>2/4</b></span>
+          <span class="stat"><b>135</b> archivos de test</span>
+          <span class="stat">CI/CD <b>ninguno</b></span>
+          <span class="stat"><b>0</b> de los 4 archivos del gate</span>
+        </div>
+      </div>
+      <label class="review-toggle"><input type="checkbox" data-card="discovery" /> repasado</label>
+    </div>
+    <details class="body-detail">
+      <summary>Ver detalle</summary>
+      <div class="body-inner">
+        <h3>Qué encontró</h3>
+        <ul>
+          <li>
+            Suite de <code class="path">bun:test</code> (135 archivos) mezcla unit tests puros con
+            integration tests reales contra RLS/tenancy — pero <b>nunca corre sola</b>: ni en
+            <code class="path">.husky/pre-push</code> ni en CI (no existe
+            <code class="path">.github/workflows/</code>).
+          </li>
+          <li>
+            <code class="path">README.md</code> y <code class="path">CONTEXT.md</code> del repo
+            target describen un framework genérico, no Bunkai TMS — pero
+            <code class="path">DESIGN.md</code>, <code class="path">docs/architectures/</code> y
+            <code class="path">public/openapi.json</code> sí son específicos del producto.
+          </li>
+          <li>
+            ESLint, Prettier, TypeScript strict y Husky pre-commit/pre-push: los cuatro configurados
+            y activos.
+          </li>
+          <li>
+            Produjo <code class="path">business-model.md</code> (78 líneas) y
+            <code class="path">domain-glossary.md</code> (753 líneas) — vocabulario de negocio, no
+            los cuatro mapas que el gate exige.
+          </li>
+        </ul>
+        <div class="why">
+          <b>Por qué importa</b>Esta fue la foto de "salud general" del repo target. Confirmó que
+          existía vocabulario de negocio, pero no todavía ningún mapa accionable de datos, features,
+          API o riesgo — ninguno de los cuatro archivos que <code>/shift-left-testing</code> exige
+          estaba generado.
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 02 DATA MAP ============ -->
+  <section class="card" id="data">
+    <div class="card-head">
+      <span class="card-num">02</span>
+      <div class="card-heading">
+        <h2>Business Data Map</h2>
+        <div class="kicker">
+          project-context · modo data →
+          <code class="path" style="font-family: var(--font-mono)">business-data-map.md</code>
+        </div>
+        <div class="stat-row">
+          <span class="stat"><b>13</b> entidades</span>
+          <span class="stat"><b>13</b> flujos de negocio</span>
+          <span class="stat"><b>5</b> máquinas de estado</span>
+          <span class="stat"><b>5</b> integraciones</span>
+          <span class="stat"><b>10</b> discovery gaps</span>
+        </div>
+      </div>
+      <label class="review-toggle"><input type="checkbox" data-card="data" /> repasado</label>
+    </div>
+    <details class="body-detail">
+      <summary>Ver detalle</summary>
+      <div class="body-inner">
+        <h3>Entidades núcleo</h3>
+        <p>
+          Workspace, Workspace Member, Project, Module, User Story, Acceptance Criterion, ATC, Test,
+          Project Environment, Run, Bug, Milestone, Notification.
+        </p>
+        <h3>Flujos trazados end-to-end</h3>
+        <p>
+          Sign-up &amp; Workspace Bootstrap · Team Invite &amp; Join · Project &amp; Module Setup ·
+          Jira Import (async) · Story &amp; AC Authoring · ATC Authoring · Test Composition · Run
+          Execution · Bug Filing &amp; Lifecycle · Notification Delivery · Reporting · PAT Issuance
+          · Milestone Tracking.
+        </p>
+        <h3>Gap más fuerte</h3>
+        <p>
+          Tabla <code class="path">test_plans</code> viva en staging (15 filas, con trigger de
+          <code class="path">updated_at</code>) que no aparece en ninguna de las 69 migraciones
+          locales ni la toca código de aplicación alguno — dato huérfano, marcado como discovery gap
+          en vez de asumido.
+        </p>
+        <div class="why">
+          <b>Por qué importa</b>Es el mapa de "qué existe y por qué existe". Sin esto, cualquier
+          refinamiento de ACs habla de entidades en abstracto — con este mapa, cada AC refinado
+          puede anclarse a una entidad y un flujo reales.
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 03 FEATURE MAP ============ -->
+  <section class="card" id="features">
+    <div class="card-head">
+      <span class="card-num">03</span>
+      <div class="card-heading">
+        <h2>Business Feature Map</h2>
+        <div class="kicker">
+          project-context · modo features →
+          <code class="path" style="font-family: var(--font-mono)">business-feature-map.md</code>
+        </div>
+        <div class="stat-row">
+          <span class="stat"><b>52</b> features · 11 dominios</span>
+          <span class="stat"><b>18</b> entidades en matriz CRUD</span>
+          <span class="stat"><b>82</b> endpoints</span>
+          <span class="stat"><b>~30</b> componentes UI</span>
+          <span class="stat"><b>10</b> riesgo alto</span>
+        </div>
+      </div>
+      <label class="review-toggle"><input type="checkbox" data-card="features" /> repasado</label>
+    </div>
+    <details class="body-detail">
+      <summary>Ver detalle</summary>
+      <div class="body-inner">
+        <h3>Distribución</h3>
+        <p>
+          Core 33 · Secondary 15 · Beta 1 · Planned 3. Endpoints: 8 públicos, 74 dual cookie/bearer,
+          4 solo-cookie. Integraciones: Supabase, Vercel, Jira, GitHub OAuth, Google OAuth, Scalar —
+          sin billing ni proveedor de email.
+        </p>
+        <h3>Huecos de contrato CRUD (nuevos, no estaban en el data map)</h3>
+        <p>
+          Project, Module y ATC no tienen un <code class="path">GET</code> de recurso individual en
+          los 82 endpoints; Project y ATC tampoco tienen <code class="path">DELETE</code>.
+        </p>
+        <h3>Trampa evitada</h3>
+        <p>
+          El propio repo target guarda un <code class="path">business-feature-map.md</code> viejo —
+          un PRD de mayo 2026, "greenfield, sin código que reversar" — que hoy contradice el código
+          real (da por no-construida una vista que ya está shippeada). Se citó solo como referencia
+          de roadmap, marcado explícitamente como no verificado.
+        </p>
+        <div class="why">
+          <b>Por qué importa</b>Es la auditoría de capacidades: qué puede hacer el sistema, con qué
+          endpoint, con qué UI. Los huecos de CRUD son exactamente lo que un analista funcional
+          lista antes de firmar un alcance como "completo".
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 04 API MAP ============ -->
+  <section class="card" id="api">
+    <div class="card-head">
+      <span class="card-num">04</span>
+      <div class="card-heading">
+        <h2>Business API Map</h2>
+        <div class="kicker">
+          project-context · modo api →
+          <code class="path" style="font-family: var(--font-mono)">business-api-map.md</code>
+        </div>
+        <div class="stat-row">
+          <span class="stat"><b>7</b> niveles de auth</span>
+          <span class="stat"><b>7</b> journeys críticos</span>
+          <span class="stat"><b>7</b> integraciones</span>
+          <span class="stat"><b>6</b> discovery gaps</span>
+        </div>
+      </div>
+      <label class="review-toggle"><input type="checkbox" data-card="api" /> repasado</label>
+    </div>
+    <details class="body-detail">
+      <summary>Ver detalle</summary>
+      <div class="body-inner">
+        <h3>Niveles de autenticación</h3>
+        <p>
+          Public · Cookie session · Bearer PAT · Cookie-only (mint/revoke de token, salir de
+          workspace) · Dual · Workspace-scoped (sub-restricción de PAT) · límite RLS/DB de tenant.
+        </p>
+        <h3>Journeys trazados (tope del método, máx. 7)</h3>
+        <p>
+          Sign-up &amp; Bootstrap · Jira Import · ATC Authoring · Run Execution · Bug Filing &amp;
+          Lifecycle · PAT Issuance → llamada con scope · Cross-Workspace Isolation (el límite de
+          tenant bajo una llamada real).
+        </p>
+        <h3>Gaps</h3>
+        <p>
+          ADRs citados en comentarios del código (0001, 0005, 0006) pero ningún documento de ADR
+          localizado. <code class="path">.env.example</code> del target menciona
+          <code class="path">RESEND_API_KEY</code> pero no existe paquete
+          <code class="path">resend</code> en ningún lado — resto de scaffolding, no resuelve el gap
+          de email.
+        </p>
+        <div class="why">
+          <b>Por qué importa</b>Es el "cómo se llega a cada capacidad" — qué nivel de auth protege
+          qué, y qué pasa si una llamada cruza el límite de tenant. Lectura obligatoria antes de
+          diseñar cualquier caso negativo de seguridad o permisos.
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 05 MASTER TEST PLAN ============ -->
+  <section class="card" id="testplan">
+    <div class="card-head">
+      <span class="card-num">05</span>
+      <div class="card-heading">
+        <h2>Master Test Plan</h2>
+        <div class="kicker">
+          project-context · modo test-plan →
+          <code class="path" style="font-family: var(--font-mono)">master-test-plan.md</code>
+        </div>
+        <div class="stat-row">
+          <span class="stat risk-pill critical">6 critical</span>
+          <span class="stat risk-pill high">3 high</span>
+          <span class="stat"><b>3</b> silent killers</span>
+          <span class="stat"><b>4</b> puntos de falla</span>
+          <span class="stat"><b>7</b> discovery gaps</span>
+        </div>
+      </div>
+      <label class="review-toggle"><input type="checkbox" data-card="testplan" /> repasado</label>
+    </div>
+    <details class="body-detail">
+      <summary>Ver detalle</summary>
+      <div class="body-inner">
+        <h3>Flujos CRITICAL</h3>
+        <p>
+          Cross-Workspace Tenant Isolation · Auth &amp; Session · PAT Scope Enforcement · ATC
+          Anchoring Moat &amp; Editing · Run Execution · Coverage/Traceability/Defect Heatmap
+          Reporting.
+        </p>
+        <h3>Silent killers</h3>
+        <p>
+          Fan-out de notificaciones con la supresión de auto-finalización aún inerte (migración
+          <code class="path">0067</code> sin aplicar) · import de Jira ejecutado fire-and-forget vía
+          <code class="path">after()</code> · fallo silencioso de RLS (resultado vacío, no error).
+        </p>
+        <h3>Dato que valida el ranking</h3>
+        <p>
+          Los flujos CRITICAL coinciden con bugs reales ya shippeados: BK-329 (fuga de trazabilidad
+          cross-tenant), BK-401 (flake de aislamiento en búsqueda de ATC), BK-400 (bug de magic-link
+          cross-device), BK-316 (bypass de límite de workspace vía bearer token). El ranking de
+          riesgo no es especulación.
+        </p>
+        <h3>Mirror en Jira</h3>
+        <p>
+          Epic <code class="path">BK-514</code> ("QA Master Test Plan") ya existía — su pantalla de
+          edición no expone <code class="path">description</code>, así que el mirror se posteó como
+          comentario. Links a los epics hermanos: <code class="path">BK-70</code> y
+          <code class="path">BK-183</code> OK, <code class="path">BK-515</code> falló por permiso de
+          Jira.
+        </p>
+        <div class="why">
+          <b>Por qué importa</b>Convierte los tres mapas anteriores en un orden de prioridad
+          accionable — el "qué probar primero, y por qué" que un analista funcional entrega a QA
+          antes de que arranque un sprint.
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 06 GATE ============ -->
+  <section class="card" id="gate" style="border-color: var(--accent)">
+    <div class="card-head">
+      <span class="card-num">06</span>
+      <div class="card-heading">
+        <h2>Gate — Despejado</h2>
+        <div class="kicker">Readiness Preflight Gate de /shift-left-testing</div>
+        <div class="stat-row">
+          <span class="stat">4/4 archivos <b>REQUIRED</b> presentes</span>
+        </div>
+      </div>
+    </div>
+    <div class="body-inner" style="padding-top: 0.4rem">
+      <p>
+        Con los cuatro archivos escritos, Phase 0 de
+        <code class="path">/shift-left-testing</code> puede arrancar sobre BK-509. Este trabajo no
+        es un costo hundido de una sola story: los cuatro mapas quedan en
+        <code class="path">.context/business/</code> y
+        <code class="path">.context/master-test-plan.md</code> como contexto reutilizable para
+        cualquier story futura que pase por el mismo gate.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    Generado en la sesión de práctica shift-left sobre <code>BK-509</code>. Los cinco documentos
+    fuente viven en <code>.context/business/</code> y <code>.context/master-test-plan.md</code> del
+    repo <code>bunkai-qa-cescol4</code>.
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var STORAGE_KEY = 'preflight-gate-review-v1';
+    var checkboxes = Array.prototype.slice.call(
+      document.querySelectorAll('.review-toggle input[type="checkbox"]')
+    );
+    var progressEl = document.getElementById('reviewProgress');
+
+    function load() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function save(state) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    function updateProgress() {
+      var checked = checkboxes.filter(function (cb) {
+        return cb.checked;
+      }).length;
+      if (progressEl) {
+        progressEl.textContent = checked + '/' + checkboxes.length + ' repasado';
+      }
+    }
+
+    var state = load();
+    checkboxes.forEach(function (cb) {
+      var key = cb.getAttribute('data-card');
+      if (state[key]) {
+        cb.checked = true;
+      }
+      cb.addEventListener('change', function () {
+        var s = load();
+        s[key] = cb.checked;
+        save(s);
+        updateProgress();
+      });
+    });
+    updateProgress();
+  })();
+</script>

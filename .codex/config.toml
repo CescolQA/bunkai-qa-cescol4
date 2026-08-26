@@ -8,7 +8,7 @@
 inherit = "core"
 
 [mcp_servers.context7]
-command = "npx"
+command = "bunx"
 enabled = true
 args = [
   "-y",
@@ -28,6 +28,14 @@ args = [
   "@bytebase/dbhub@1.2.1",
   "--config",
   "dbhub.toml",
+]
+env_vars = [
+  "DBHUB_DATABASE",
+  "DBHUB_HOST",
+  "DBHUB_PASSWORD",
+  "DBHUB_PORT",
+  "DBHUB_TYPE",
+  "DBHUB_USER",
 ]
 
 [mcp_servers.openapi]

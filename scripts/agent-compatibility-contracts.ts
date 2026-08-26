@@ -36,7 +36,7 @@ interface JsonObject {
 const EXPECTED_MCP: Record<McpId, NormalizedMcpServer> = {
   context7: {
     transport: 'stdio',
-    command: 'npx',
+    command: 'bunx',
     args: ['-y', '@upstash/context7-mcp@4.0.3'],
     env: [],
     enabled: true,
@@ -68,7 +68,7 @@ const EXPECTED_MCP: Record<McpId, NormalizedMcpServer> = {
     transport: 'stdio',
     command: 'bunx',
     args: ['-y', '@bytebase/dbhub@1.2.1', '--config', 'dbhub.toml'],
-    env: [],
+    env: ['DBHUB_DATABASE', 'DBHUB_HOST', 'DBHUB_PASSWORD', 'DBHUB_PORT', 'DBHUB_TYPE', 'DBHUB_USER'],
     enabled: true,
   },
   openapi: {

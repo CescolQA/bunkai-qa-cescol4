@@ -53,7 +53,9 @@ qa:
     master_test_plan_epic:
       name: QA Master Test Plan # the MTP — parent of every Test Plan (FTP/STP/ATP); description mirrors
       # .context/master-test-plan.md + points to the official QA repo; cross-linked to the 3 sibling QA epics
-      key: null # discovered/created at runtime, then cached here (e.g. PROJ-100)
+      key: BK-514 # discovered via JQL search on 2026-08-26; description field is screen-locked for this
+      # issue (editmeta shows only `assignee` editable) — the mirror is posted as a comment instead, see
+      # .context/master-test-plan.md generation report
     test_repository_epic:
       name: QA Test Repository # convention name; holds every Test (TC) issue
       key: null # discovered/created at runtime, then cached here (e.g. PROJ-456)

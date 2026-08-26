@@ -302,6 +302,7 @@ type ContentMode = 'split' | 'single' | 'description' | 'auto';
 interface WorkTypeEntry {
   slug: string
   jiraIssueType: string
+  jiraIssueTypeId: string | null
   sync: SyncMode
   recommended: boolean
   coverable: boolean
@@ -315,6 +316,7 @@ interface WorkTypeEntry {
 interface Registry {
   list: WorkTypeEntry[]
   byJiraType: Map<string, WorkTypeEntry>
+  byJiraTypeId: Map<string, WorkTypeEntry>
   bySlug: Map<string, WorkTypeEntry>
 }
 
@@ -360,6 +362,10 @@ function loadRegistry(): Registry {
         const e = raw as Record<string, unknown>;
         const jiraIssueType = typeof e.jira_issue_type === 'string' ? e.jira_issue_type.trim() : '';
         if (!jiraIssueType) { continue; }
+        const jiraIssueTypeIdRaw = e.jira_issue_type_id;
+        const jiraIssueTypeId = typeof jiraIssueTypeIdRaw === 'string' && jiraIssueTypeIdRaw.trim()
+          ? jiraIssueTypeIdRaw.trim()
+          : typeof jiraIssueTypeIdRaw === 'number' ? String(jiraIssueTypeIdRaw) : null;
 
         const role: 'atp' | 'atr' | null = e.role === 'atp' ? 'atp' : e.role === 'atr' ? 'atr' : null;
         const cr = e.content;
@@ -372,6 +378,7 @@ function loadRegistry(): Registry {
         list.push({
           slug,
           jiraIssueType,
+          jiraIssueTypeId,
           sync,
           recommended: e.recommended === true,
           coverable: e.coverable === true,
@@ -386,12 +393,14 @@ function loadRegistry(): Registry {
   }
 
   const byJiraType = new Map<string, WorkTypeEntry>();
+  const byJiraTypeId = new Map<string, WorkTypeEntry>();
   const bySlug = new Map<string, WorkTypeEntry>();
   for (const e of list) {
     byJiraType.set(e.jiraIssueType, e);
+    if (e.jiraIssueTypeId) { byJiraTypeId.set(e.jiraIssueTypeId, e); }
     bySlug.set(e.slug, e);
   }
-  REGISTRY_CACHE = { list, byJiraType, bySlug };
+  REGISTRY_CACHE = { list, byJiraType, byJiraTypeId, bySlug };
   return REGISTRY_CACHE;
 }
 
@@ -441,6 +450,7 @@ interface JiraPriority {
 }
 
 interface JiraIssueType {
+  id?: string
   name: string
   subtask: boolean
 }
@@ -2942,7 +2952,7 @@ async function syncTypeSweep(
       await syncCoverableStandalone(config, m.key, entry, options, result);
     }
     else {
-      await syncStandaloneIssue(config, m.key, entry.jiraIssueType, options, result);
+      await syncStandaloneIssue(config, m.key, entry.jiraIssueType, entry.jiraIssueTypeId ?? undefined, options, result);
     }
   }
 }
@@ -3483,10 +3493,12 @@ async function syncStandaloneIssue(
   config: Config,
   key: string,
   type: string,
+  typeId: string | undefined,
   options: SyncOptions,
   result: SyncResult,
 ): Promise<void> {
-  const entry = loadRegistry().byJiraType.get(type);
+  const reg = loadRegistry();
+  const entry = (typeId ? reg.byJiraTypeId.get(typeId) : undefined) ?? reg.byJiraType.get(type);
   if (!entry) {
     result.warnings.push(
       `${key}: issue type '${type}' is not declared under work_types: in .agents/jira-required.yaml — skipped`,
@@ -3532,15 +3544,24 @@ async function routeIssueByKey(
 ): Promise<void> {
   const probe = await fetchIssue(config, key, ['issuetype', 'summary']);
   const type = probe.fields.issuetype?.name ?? 'Unknown';
+  const typeId = probe.fields.issuetype?.id;
 
-  if (type === 'Epic') {
+  // Match by issue-type ID first: Jira Cloud lets a project translate an issue
+  // type's displayed `name` (e.g. Story -> "Historia") independently of the
+  // requesting user's locale, so `name` alone can silently drift from the
+  // registry. `id` is stable regardless of translation.
+  const reg = loadRegistry();
+  const epicId = reg.bySlug.get('epic')?.jiraIssueTypeId;
+  const storyId = reg.bySlug.get('story')?.jiraIssueTypeId;
+
+  if ((typeId != null && typeId === epicId) || type === 'Epic') {
     await syncEpic(config, key, options, result);
   }
-  else if (type === 'Story') {
+  else if ((typeId != null && typeId === storyId) || type === 'Story') {
     await syncSingleStory(config, key, options, result);
   }
   else {
-    await syncStandaloneIssue(config, key, type, options, result);
+    await syncStandaloneIssue(config, key, type, typeId, options, result);
   }
 }
 

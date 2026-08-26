@@ -382,6 +382,7 @@ link_types:
 work_types:
   story:
     jira_issue_type: Story
+    jira_issue_type_id: '10005'
     description: User story / feature work item
     sync: default
     coverable: true
@@ -484,6 +485,7 @@ work_types:
 
   bug:
     jira_issue_type: Bug
+    jira_issue_type_id: '10020'
     description: Defect / bug work item
     sync: default
     coverable: true
@@ -543,6 +545,7 @@ work_types:
 
   test_case:
     jira_issue_type: Test
+    jira_issue_type_id: '10006'
     description: Test case (TC) work item
     sync: never
     local_dir: tests
@@ -626,6 +629,7 @@ work_types:
   # the keys below drive `sync-jira-issues.ts` coverage routing. ----
   epic:
     jira_issue_type: Epic
+    jira_issue_type_id: '10000'
     description: Epic / feature container (holds child stories)
     sync: default
     container: true
@@ -646,6 +650,7 @@ work_types:
 
   defect:
     jira_issue_type: Defect
+    jira_issue_type_id: '10017'
     description: Defect found during QA of a coverable issue (story / bug / etc.)
     sync: discovery
     coverable: true
@@ -701,6 +706,7 @@ work_types:
 
   improvement:
     jira_issue_type: Improvement
+    jira_issue_type_id: '10021'
     description: Improvement / enhancement work item
     sync: optional
     recommended: true
@@ -759,6 +765,7 @@ work_types:
 
   tech_story:
     jira_issue_type: Tech Story
+    jira_issue_type_id: '10012'
     description: Technical story (same coverage shape as a user story)
     sync: optional
     recommended: true
@@ -796,6 +803,7 @@ work_types:
 
   tech_debt:
     jira_issue_type: Tech Debt
+    jira_issue_type_id: '10015'
     description: Technical debt work item (coverable like a story)
     sync: optional
     recommended: true
@@ -833,6 +841,7 @@ work_types:
 
   test_plan:
     jira_issue_type: Test Plan
+    jira_issue_type_id: '10008'
     description: Xray Test Plan — holds the ATP body in its description (role atp)
     sync: discovery
     role: atp
@@ -841,6 +850,7 @@ work_types:
 
   test_execution:
     jira_issue_type: Test Execution
+    jira_issue_type_id: '10009'
     description: Xray Test Execution — holds the ATR body in its description (role atr)
     sync: discovery
     role: atr
@@ -849,6 +859,7 @@ work_types:
 
   re_test_execution:
     jira_issue_type: Re-Test Execution
+    jira_issue_type_id: '10019'
     description: Xray Re-Test Execution (subtask) — retest ATR (role atr)
     sync: discovery
     role: atr
@@ -857,12 +868,14 @@ work_types:
 
   test_set:
     jira_issue_type: Test Set
+    jira_issue_type_id: '10007'
     description: Xray Test Set — grouping of tests (not synced)
     sync: never
     local_dir: test-sets
 
   precondition:
     jira_issue_type: Precondition
+    jira_issue_type_id: '10010'
     description: Xray Precondition — reusable test prerequisite (not synced)
     sync: never
     local_dir: preconditions

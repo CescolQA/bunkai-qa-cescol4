@@ -107,8 +107,11 @@ required:
     fallback: { target: comment, label: Feature Test Plan (QA) }
     description: |
       Epic-level QA test plan (strategy + coverage approach for the whole feature/epic).
-      Authored by sprint-testing/feature-test-planning, written to this field, then synced
-      to `.context/PBI/epics/EPIC-<KEY>-<slug>/feature-test-plan.md`.
+      Authored by sprint-testing/feature-test-planning. ITEM-FIRST: the home of the FTP body
+      is the `FTP: {EPIC-KEY}: {feature}` Test Plan item (parent: QA Master Test Plan), which
+      syncs to `.context/PBI/test-plans/FTP-<KEY>-<slug>.md`. THIS FIELD IS THE FALLBACK ONLY,
+      for an instance without the Test Plan work type; when used, it syncs to
+      `.context/PBI/epics/EPIC-<KEY>-<slug>/feature-test-plan.md`.
     used_by: [sprint-testing, sync-jira-issues]
 
   feature_implementation_plan:
@@ -382,7 +385,6 @@ link_types:
 work_types:
   story:
     jira_issue_type: Story
-    jira_issue_type_id: '10005'
     description: User story / feature work item
     sync: default
     coverable: true
@@ -485,7 +487,6 @@ work_types:
 
   bug:
     jira_issue_type: Bug
-    jira_issue_type_id: '10020'
     description: Defect / bug work item
     sync: default
     coverable: true
@@ -545,7 +546,6 @@ work_types:
 
   test_case:
     jira_issue_type: Test
-    jira_issue_type_id: '10006'
     description: Test case (TC) work item
     sync: never
     local_dir: tests
@@ -629,7 +629,6 @@ work_types:
   # the keys below drive `sync-jira-issues.ts` coverage routing. ----
   epic:
     jira_issue_type: Epic
-    jira_issue_type_id: '10000'
     description: Epic / feature container (holds child stories)
     sync: default
     container: true
@@ -650,7 +649,6 @@ work_types:
 
   defect:
     jira_issue_type: Defect
-    jira_issue_type_id: '10017'
     description: Defect found during QA of a coverable issue (story / bug / etc.)
     sync: discovery
     coverable: true
@@ -706,7 +704,6 @@ work_types:
 
   improvement:
     jira_issue_type: Improvement
-    jira_issue_type_id: '10021'
     description: Improvement / enhancement work item
     sync: optional
     recommended: true
@@ -765,7 +762,6 @@ work_types:
 
   tech_story:
     jira_issue_type: Tech Story
-    jira_issue_type_id: '10012'
     description: Technical story (same coverage shape as a user story)
     sync: optional
     recommended: true
@@ -803,7 +799,6 @@ work_types:
 
   tech_debt:
     jira_issue_type: Tech Debt
-    jira_issue_type_id: '10015'
     description: Technical debt work item (coverable like a story)
     sync: optional
     recommended: true
@@ -841,8 +836,15 @@ work_types:
 
   test_plan:
     jira_issue_type: Test Plan
-    jira_issue_type_id: '10008'
-    description: Xray Test Plan — holds the ATP body in its description (role atp)
+    description: |
+      Xray Test Plan — holds the ATP body in its description (role atp). Altitude guard
+      (sync-jira-issues): only a Plan titled `ATP:*` syncs as a Story's acceptance-test-plan.md;
+      `FTP:*` / `STP:*` Plans are higher ladder altitudes and are skipped with an info line.
+      No `MTP:*` guard: the Master Test Plan is an Epic, never a Test Plan (defect-management
+      doctrine Part 4), so no Plan can legitimately carry that prefix. Unprefixed titles keep
+      the legacy behavior (any linked Plan counts). Higher altitudes still MATERIALIZE — the
+      QA-process-epic sweep writes them to test-plans/ as FTP-/STP-/ATP-<KEY>-<slug>.md
+      (non-conforming titles fall back to TESTPLAN-).
     sync: discovery
     role: atp
     content: description
@@ -850,8 +852,14 @@ work_types:
 
   test_execution:
     jira_issue_type: Test Execution
-    jira_issue_type_id: '10009'
-    description: Xray Test Execution — holds the ATR body in its description (role atr)
+    description: |
+      Xray Test Execution — holds the ATR body in its description (role atr). Altitude guard
+      (sync-jira-issues): only an Execution titled `ATR:*` / `ReTest:*` syncs as a Story's
+      acceptance-test-results.md; `STR:*` / `FTR:*` Executions are skipped with an info line
+      (`FTR` is a legacy guard — the rung was cut, the skip stays for pre-migration data).
+      Unprefixed titles keep the legacy behavior (any linked Execution counts). Higher
+      altitudes still MATERIALIZE — the QA-process-epic sweep writes them to test-executions/
+      as STR-/ATR-<KEY>-<slug>.md (non-conforming titles fall back to TESTEXEC-).
     sync: discovery
     role: atr
     content: description
@@ -859,8 +867,9 @@ work_types:
 
   re_test_execution:
     jira_issue_type: Re-Test Execution
-    jira_issue_type_id: '10019'
-    description: Xray Re-Test Execution (subtask) — retest ATR (role atr)
+    description: |
+      Xray Re-Test Execution (subtask) — retest ATR (role atr, same altitude guard as
+      test_execution). Files as RETEST-<KEY>-<slug>.md when titled `ReTest:*`, else RETESTEXEC-.
     sync: discovery
     role: atr
     content: description
@@ -868,14 +877,37 @@ work_types:
 
   test_set:
     jira_issue_type: Test Set
-    jira_issue_type_id: '10007'
-    description: Xray Test Set — grouping of tests (not synced)
-    sync: never
+    description: |
+      Xray Test Set — grouping of tests. A Set titled `ATS:*` linked to a coverable issue feeds
+      cascade rung 1 of sync-jira-issues: its member Tests (Xray GraphQL membership, or TC→ATS
+      Jira links in Modality jira-native) materialize under that issue's test-cases/.
+      Feature-level `TS:*` Sets stay ignored by the cascade.
+      `sync: discovery` — reachable by an explicit `get <KEY>` / `jql`, and swept from the QA
+      Test Artifacts epic, but never by a plain type sweep. It was `never` while the code wrote
+      it anyway on `get`: declaration and behavior now agree (`sync: never` is honored).
+    sync: discovery
     local_dir: test-sets
 
   precondition:
     jira_issue_type: Precondition
-    jira_issue_type_id: '10010'
-    description: Xray Precondition — reusable test prerequisite (not synced)
-    sync: never
+    description: |
+      Xray Precondition — reusable test prerequisite. `sync: discovery` — reachable by an
+      explicit `get <KEY>` / `jql`, and swept from the QA Test Artifacts epic, but never by a
+      plain type sweep. Was `never` while the code wrote it anyway on `get`; the two now agree.
+    sync: discovery
     local_dir: preconditions
+
+  subtask:
+    # `A | B | C` = ordered alternatives; the first one the project actually has
+    # wins. The subtask level is named differently per instance: Jira's default is
+    # "Sub-task", the BK instance calls it "Task", a Spanish-localized instance
+    # calls it "Subtarea". Declaring a single name made every other spelling a
+    # silent skip in jira:sync-workflows — which is exactly why this work_type was
+    # missing from the catalog while being declared right here. Add your own
+    # spelling to the list if your instance uses another.
+    # Consumed by /shift-left-testing for the per-Story "[QA] Shift-Left Review"
+    # tracking subtask (find-or-create; skip with a warning when the project has
+    # no subtask-level type at all).
+    jira_issue_type: Sub-task | Task | Subtarea
+    description: Generic subtask under a Story — tracking-only, never synced as its own folder
+    sync: never

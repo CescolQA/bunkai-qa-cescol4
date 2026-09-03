@@ -3,25 +3,25 @@
   "templateRepo": "upex-galaxy/agentic-qa-boilerplate",
   "templateCommit": "a31b6e1908ee69b224042d7e7a07c7f3efbebaa8",
   "perComponentCommit": {
-    "skills": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
+    "skills": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
     "commands": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
-    "scripts": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
-    "docs": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
+    "scripts": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
+    "docs": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
     "cli": "a31b6e1908ee69b224042d7e7a07c7f3efbebaa8",
-    "vscode": "a31b6e1908ee69b224042d7e7a07c7f3efbebaa8",
-    "husky": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
+    "vscode": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
+    "husky": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
     "agents-docs": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
     "claude-config": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
     "tooling": "a31b6e1908ee69b224042d7e7a07c7f3efbebaa8",
-    "env-template": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
+    "env-template": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
     "agent-compatibility": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
-    "codex-config": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
-    "agent-root-config": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47"
+    "codex-config": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
+    "agent-root-config": "903d5f6b2f9fca12ebc13458e37409c7d35a3202"
   },
   "syncedComponents": [],
   "ignoreFileSync": {
     ".gitignore": {
-      "lastSyncedSha": "c5dd162728278252c192d3ff34a9fd487ba34165",
+      "lastSyncedSha": "a293ad9759098669d09ad4106f2e96acb2c11187",
       "appendedLines": [
         ".context/reports/*",
         "!.context/reports/README.md",
@@ -40,14 +40,16 @@
         ".agents/skills/playwright-best-practices/",
         ".agents/skills/resend-cli/",
         "!skills-lock.json",
-        "!**/skills-lock.json"
+        "!**/skills-lock.json",
+        ".backups*/"
       ]
     },
     ".prettierignore": {
-      "lastSyncedSha": "6460aa238f8aeb3794a1496d3cac5b47199e9698",
+      "lastSyncedSha": "2d65bedc55be87885be51510bc1b977c8aef67c2",
       "appendedLines": [
         ".scratch/",
-        ".session/"
+        ".session/",
+        ".backups*/"
       ]
     }
   },
@@ -81,6 +83,6 @@
     }
   },
   "cliVersion": "7.0",
-  "lastSyncedAt": "2026-08-24T18:07:12.284Z",
+  "lastSyncedAt": "2026-09-03T17:59:15.142Z",
   "variableSystemVersion": 1
 }

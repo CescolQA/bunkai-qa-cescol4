@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BK-859 - Pasada ciega</title>
+    <style>
+      :root {
+        --ink: #1c2430;
+        --muted: #5b6259;
+        --paper: #eef0ea;
+        --panel: #ffffff;
+        --panel-2: #e3e7db;
+        --line: #c8ccbd;
+        --accent: #2e6f71;
+        --accent-ink: #0f3b3d;
+        --accent-soft: #d9e9e6;
+        --ok: #3e7a4e;
+        --ok-soft: #dcebdd;
+        --warn: #a6362e;
+        --shadow: rgba(28, 36, 48, 0.12);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --ink: #e7e9e1;
+          --muted: #a7ae9e;
+          --paper: #10151a;
+          --panel: #171e24;
+          --panel-2: #1e262d;
+          --line: #2a333b;
+          --accent: #5fb8b4;
+          --accent-ink: #dff3f1;
+          --accent-soft: #173634;
+          --ok: #7fbf86;
+          --ok-soft: #173420;
+          --warn: #e08579;
+          --shadow: rgba(0, 0, 0, 0.45);
+        }
+      }
+      :root[data-theme='dark'] {
+        --ink: #e7e9e1;
+        --muted: #a7ae9e;
+        --paper: #10151a;
+        --panel: #171e24;
+        --panel-2: #1e262d;
+        --line: #2a333b;
+        --accent: #5fb8b4;
+        --accent-ink: #dff3f1;
+        --accent-soft: #173634;
+        --ok: #7fbf86;
+        --ok-soft: #173420;
+        --warn: #e08579;
+        --shadow: rgba(0, 0, 0, 0.45);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family:
+          'Segoe UI',
+          system-ui,
+          -apple-system,
+          sans-serif;
+        font-size: 15px;
+        line-height: 1.55;
+      }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 28px 20px 120px;
+      }
+      h1 {
+        font-size: 24px;
+        margin: 0 0 4px;
+      }
+      h2 {
+        font-size: 16px;
+        margin: 30px 0 10px;
+        padding-bottom: 6px;
+        border-bottom: 2px solid var(--line);
+      }
+      .sub {
+        color: var(--muted);
+        margin: 0 0 20px;
+      }
+      .rules {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 14px 16px;
+        box-shadow: 0 1px 3px var(--shadow);
+      }
+      .rules h3 {
+        margin: 0 0 6px;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .rules ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      .rules code {
+        font-family: 'Consolas', monospace;
+        font-size: 12.5px;
+      }
+      .rules .no h3 {
+        color: var(--warn);
+      }
+      @media (max-width: 620px) {
+        .rules {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 16px;
+        margin-top: 8px;
+        box-shadow: 0 1px 3px var(--shadow);
+      }
+      label.q {
+        display: block;
+        font-weight: 600;
+        margin: 0 0 6px;
+      }
+      .hint {
+        color: var(--muted);
+        font-size: 13px;
+        margin: 0 0 8px;
+      }
+      textarea,
+      input[type='text'],
+      select {
+        width: 100%;
+        background: var(--paper);
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 9px 10px;
+        font: inherit;
+        resize: vertical;
+      }
+      textarea {
+        min-height: 74px;
+      }
+      textarea.tall {
+        min-height: 120px;
+      }
+      textarea:focus,
+      input:focus,
+      select:focus {
+        outline: 2px solid var(--accent);
+        border-color: var(--accent);
+      }
+
+      table.scen {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 4px;
+      }
+      table.scen th,
+      table.scen td {
+        border: 1px solid var(--line);
+        padding: 8px;
+        vertical-align: top;
+        text-align: left;
+      }
+      table.scen th {
+        background: var(--panel-2);
+        font-size: 13px;
+      }
+      table.scen td:first-child {
+        width: 190px;
+        font-weight: 600;
+        background: var(--panel-2);
+      }
+      table.scen textarea {
+        min-height: 56px;
+      }
+
+      .tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .tech label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        background: var(--panel-2);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 4px 12px;
+        cursor: pointer;
+      }
+
+      .bar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--panel);
+        border-top: 1px solid var(--line);
+        box-shadow: 0 -2px 10px var(--shadow);
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .bar .status {
+        color: var(--muted);
+        font-size: 13px;
+        margin-right: auto;
+      }
+      .bar .status.saved {
+        color: var(--ok);
+      }
+      button {
+        font: inherit;
+        font-weight: 600;
+        border: 1px solid var(--accent);
+        background: var(--accent);
+        color: #fff;
+        border-radius: 8px;
+        padding: 8px 14px;
+        cursor: pointer;
+      }
+      button.ghost {
+        background: transparent;
+        color: var(--accent);
+      }
+      button.danger {
+        background: transparent;
+        color: var(--warn);
+        border-color: var(--warn);
+      }
+      .meta {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>BK-859 &mdash; Pasada ciega</h1>
+      <p class="sub">
+        Paso 4 de la practica de sprint-testing. Lo llenas vos, a mano, sin IA. Es tu charter de
+        pruebas para "Leave a workspace".
+      </p>
+
+      <div class="rules">
+        <div class="si">
+          <h3>Podes leer</h3>
+          <ul>
+            <li><code>business-context-brief.md</code></li>
+            <li><code>rampa-de-arranque.md</code></li>
+            <li><code>modelo-de-roles-y-membership.md</code></li>
+          </ul>
+        </div>
+        <div class="no">
+          <h3>NO abrir hasta terminar</h3>
+          <ul>
+            <li><code>implementation-plan.md</code></li>
+            <li><code>acceptance-test-plan.md</code></li>
+            <li><code>reconocimiento-hallazgos-SELLADO.md</code></li>
+            <li>resolucion real de BK-90</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>1. La feature en mis palabras</h2>
+      <div class="card">
+        <p class="hint">2-4 lineas: que hace, para quien, que la hace no trivial.</p>
+        <textarea id="feature" class="tall"></textarea>
+      </div>
+
+      <h2>2. Que probaria &mdash; condiciones e ideas de test</h2>
+      <div class="card">
+        <p class="hint">Lista libre. Una idea por linea. No te censures, despues se ordena.</p>
+        <textarea id="ideas" class="tall"></textarea>
+      </div>
+
+      <h2>3. Escenarios por forma de membership</h2>
+      <div class="card">
+        <p class="hint">Para cada forma: que intento hacer y que espero que pase.</p>
+        <table class="scen">
+          <thead>
+            <tr>
+              <th>Forma</th>
+              <th>Que intento</th>
+              <th>Resultado que espero</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Unica membresia</td>
+              <td><textarea id="s_unica_intento"></textarea></td>
+              <td><textarea id="s_unica_espero"></textarea></td>
+            </tr>
+            <tr>
+              <td>Sole owner</td>
+              <td><textarea id="s_sole_intento"></textarea></td>
+              <td><textarea id="s_sole_espero"></textarea></td>
+            </tr>
+            <tr>
+              <td>Co-owner (queda otro owner)</td>
+              <td><textarea id="s_co_intento"></textarea></td>
+              <td><textarea id="s_co_espero"></textarea></td>
+            </tr>
+            <tr>
+              <td>Member no-owner</td>
+              <td><textarea id="s_member_intento"></textarea></td>
+              <td><textarea id="s_member_espero"></textarea></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>4. Edge cases / limites que veo</h2>
+      <div class="card">
+        <p class="hint">Bordes, concurrencia, orden de operaciones, estados raros.</p>
+        <textarea id="edge" class="tall"></textarea>
+      </div>
+
+      <h2>5. Riesgos</h2>
+      <div class="card">
+        <label class="q" for="risk_level">Nivel</label>
+        <select id="risk_level">
+          <option value="">(elegir)</option>
+          <option>LOW</option>
+          <option>MEDIUM</option>
+          <option>HIGH</option>
+          <option>CRITICAL</option>
+        </select>
+        <p class="hint" style="margin-top: 10px">
+          Por que ese nivel: usuarios afectados, datos, seguridad, negocio.
+        </p>
+        <textarea id="risk_note"></textarea>
+      </div>
+
+      <h2>6. Supuestos que hago</h2>
+      <div class="card">
+        <p class="hint">Donde el brief no dice, que asumo para poder disenar.</p>
+        <textarea id="assume"></textarea>
+      </div>
+
+      <h2>7. Preguntas abiertas / ambiguedades</h2>
+      <div class="card">
+        <p class="hint">Lo que le preguntaria al PO o al dev antes de ejecutar.</p>
+        <textarea id="questions"></textarea>
+      </div>
+
+      <h2>8. Notas y enfoque</h2>
+      <div class="card">
+        <p class="hint">Que tecnica de diseno aplicarias y donde.</p>
+        <div class="tech" id="tech">
+          <label><input type="checkbox" value="EP" /> EP (particiones)</label>
+          <label><input type="checkbox" value="BVA" /> BVA (limites)</label>
+          <label><input type="checkbox" value="State-Transition" /> State-Transition</label>
+          <label><input type="checkbox" value="Decision-Table" /> Decision Table</label>
+          <label><input type="checkbox" value="Pairwise" /> Pairwise</label>
+          <label><input type="checkbox" value="Error-Guessing" /> Error Guessing</label>
+        </div>
+        <textarea id="notes" class="tall"></textarea>
+      </div>
+
+      <div class="meta">
+        <span>Autor: <input type="text" id="author" style="width: 180px" /></span>
+        <span id="started"></span>
+      </div>
+    </div>
+
+    <div class="bar">
+      <span class="status" id="status">Sin guardar</span>
+      <button class="ghost" id="btn-save">Guardar borrador</button>
+      <button id="btn-md">Exportar Markdown</button>
+      <button class="ghost" id="btn-json">Exportar JSON</button>
+      <button class="danger" id="btn-clear">Limpiar</button>
+    </div>
+
+    <script>
+      (function () {
+        var KEY = 'bk859-pasada-ciega-v1';
+        var FIELDS = [
+          'feature',
+          'ideas',
+          's_unica_intento',
+          's_unica_espero',
+          's_sole_intento',
+          's_sole_espero',
+          's_co_intento',
+          's_co_espero',
+          's_member_intento',
+          's_member_espero',
+          'edge',
+          'risk_level',
+          'risk_note',
+          'assume',
+          'questions',
+          'notes',
+          'author',
+        ];
+        var statusEl = document.getElementById('status');
+        var startedEl = document.getElementById('started');
+
+        function techValues() {
+          return Array.prototype.slice
+            .call(document.querySelectorAll('#tech input:checked'))
+            .map(function (c) {
+              return c.value;
+            });
+        }
+        function collect() {
+          var o = {};
+          FIELDS.forEach(function (id) {
+            o[id] = (document.getElementById(id).value || '').trim();
+          });
+          o.techniques = techValues();
+          return o;
+        }
+        function load() {
+          var raw;
+          try {
+            raw = localStorage.getItem(KEY);
+          } catch (e) {
+            raw = null;
+          }
+          var data = {};
+          if (raw) {
+            try {
+              data = JSON.parse(raw);
+            } catch (e) {
+              data = {};
+            }
+          }
+          FIELDS.forEach(function (id) {
+            if (data[id] != null) document.getElementById(id).value = data[id];
+          });
+          if (Array.isArray(data.techniques)) {
+            document.querySelectorAll('#tech input').forEach(function (c) {
+              c.checked = data.techniques.indexOf(c.value) !== -1;
+            });
+          }
+          if (!data.started_at) {
+            data.started_at = new Date().toISOString();
+            try {
+              localStorage.setItem(KEY, JSON.stringify(data));
+            } catch (e) {}
+          }
+          startedEl.textContent =
+            'Iniciado: ' + (data.started_at ? data.started_at.slice(0, 16).replace('T', ' ') : '-');
+          return data;
+        }
+        function save(explicit) {
+          var data = collect();
+          var prev = {};
+          try {
+            prev = JSON.parse(localStorage.getItem(KEY) || '{}');
+          } catch (e) {}
+          data.started_at = prev.started_at || new Date().toISOString();
+          data.saved_at = new Date().toISOString();
+          try {
+            localStorage.setItem(KEY, JSON.stringify(data));
+            statusEl.textContent =
+              (explicit ? 'Guardado ' : 'Autoguardado ') + data.saved_at.slice(11, 16);
+            statusEl.className = 'status saved';
+          } catch (e) {
+            statusEl.textContent = 'No se pudo guardar (localStorage bloqueado)';
+            statusEl.className = 'status';
+          }
+          return data;
+        }
+        function download(name, text, type) {
+          var blob = new Blob([text], { type: type || 'text/plain;charset=utf-8' });
+          var a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = name;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(function () {
+            URL.revokeObjectURL(a.href);
+            a.remove();
+          }, 0);
+        }
+        function mdBlock(v) {
+          return v && v.length ? v : '_(sin completar)_';
+        }
+        function toMarkdown() {
+          var d = save(true);
+          var L = [];
+          L.push('# BK-859 "Leave a workspace" - Pasada ciega (completada)');
+          L.push('');
+          L.push('- Autor: ' + mdBlock(d.author));
+          L.push('- Iniciado: ' + (d.started_at || '-'));
+          L.push('- Exportado: ' + new Date().toISOString());
+          L.push('');
+          L.push('## 1. La feature en mis palabras');
+          L.push('');
+          L.push(mdBlock(d.feature));
+          L.push('');
+          L.push('## 2. Que probaria - condiciones e ideas de test');
+          L.push('');
+          L.push(mdBlock(d.ideas));
+          L.push('');
+          L.push('## 3. Escenarios por forma de membership');
+          L.push('');
+          L.push('| Forma | Que intento | Resultado que espero |');
+          L.push('|---|---|---|');
+          L.push(
+            '| Unica membresia | ' + cell(d.s_unica_intento) + ' | ' + cell(d.s_unica_espero) + ' |'
+          );
+          L.push('| Sole owner | ' + cell(d.s_sole_intento) + ' | ' + cell(d.s_sole_espero) + ' |');
+          L.push('| Co-owner | ' + cell(d.s_co_intento) + ' | ' + cell(d.s_co_espero) + ' |');
+          L.push(
+            '| Member no-owner | ' +
+              cell(d.s_member_intento) +
+              ' | ' +
+              cell(d.s_member_espero) +
+              ' |'
+          );
+          L.push('');
+          L.push('## 4. Edge cases / limites');
+          L.push('');
+          L.push(mdBlock(d.edge));
+          L.push('');
+          L.push('## 5. Riesgos');
+          L.push('');
+          L.push('Nivel: ' + mdBlock(d.risk_level));
+          L.push('');
+          L.push(mdBlock(d.risk_note));
+          L.push('');
+          L.push('## 6. Supuestos');
+          L.push('');
+          L.push(mdBlock(d.assume));
+          L.push('');
+          L.push('## 7. Preguntas abiertas / ambiguedades');
+          L.push('');
+          L.push(mdBlock(d.questions));
+          L.push('');
+          L.push('## 8. Notas y enfoque');
+          L.push('');
+          L.push(
+            'Tecnicas marcadas: ' +
+              (d.techniques && d.techniques.length ? d.techniques.join(', ') : '_(ninguna)_')
+          );
+          L.push('');
+          L.push(mdBlock(d.notes));
+          L.push('');
+          return L.join('\n');
+        }
+        function cell(v) {
+          return (v || '').replace(/\n+/g, ' / ').replace(/\|/g, '\\|') || ' ';
+        }
+
+        FIELDS.forEach(function (id) {
+          var el = document.getElementById(id);
+          el.addEventListener('input', function () {
+            save(false);
+          });
+          el.addEventListener('change', function () {
+            save(false);
+          });
+        });
+        document.querySelectorAll('#tech input').forEach(function (c) {
+          c.addEventListener('change', function () {
+            save(false);
+          });
+        });
+
+        document.getElementById('btn-save').addEventListener('click', function () {
+          save(true);
+        });
+        document.getElementById('btn-md').addEventListener('click', function () {
+          download('pasada-ciega-completada.md', toMarkdown(), 'text/markdown;charset=utf-8');
+        });
+        document.getElementById('btn-json').addEventListener('click', function () {
+          var d = save(true);
+          download('pasada-ciega.json', JSON.stringify(d, null, 2), 'application/json');
+        });
+        document.getElementById('btn-clear').addEventListener('click', function () {
+          if (!confirm('Borrar todo lo cargado en este formulario?')) return;
+          try {
+            localStorage.removeItem(KEY);
+          } catch (e) {}
+          FIELDS.forEach(function (id) {
+            document.getElementById(id).value = '';
+          });
+          document.querySelectorAll('#tech input').forEach(function (c) {
+            c.checked = false;
+          });
+          statusEl.textContent = 'Limpiado';
+          statusEl.className = 'status';
+          load();
+        });
+
+        load();
+      })();
+    </script>
+  </body>
+</html>

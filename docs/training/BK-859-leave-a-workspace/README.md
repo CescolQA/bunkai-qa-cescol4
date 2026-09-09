@@ -13,7 +13,7 @@ Ticket: BK-859 (clon de práctica de BK-90), Epic BK-85, Sprint 4.
 | 3.5 | Rampa de arranque + reconocimiento in-app | hecho - `rampa-de-arranque.md` + `modelo-de-roles-y-membership.md` |
 | 4 | **Pasada ciega** (a mano, sin IA) | hecho - `pasada-ciega-completada.md` (sellada en commit 7d01f4d) |
 | 5 | Pasada asistida (con el doc sellado + técnicas) | pendiente |
-| 6 | Fixtures + exploratoria hands-on | pendiente - arranca con **fixture B armado a mano por Postman** (ver abajo) |
+| 6 | Fixtures + exploratoria hands-on | en curso - `fixture-b-postman.md` listo, falta ejecutarlo en Postman |
 | 7 | Comparativo ciego vs asistido vs real | pendiente |
 | 8 | Marcar real vs simulado en Jira | pendiente |
 
@@ -39,12 +39,8 @@ Se leen antes de la pasada ciega. Idioma castellano, identificadores textuales.
 
 ## Paso 6 - Fixtures a mano (entrenamiento API)
 
-Antes de que la IA arme los fixtures por script, Cesar hace **al menos el fixture B a mano con Postman**, como repaso de API:
+Antes de que la IA arme los fixtures por script, Cesar hace **el fixture B a mano con Postman**, como repaso de API. Procedimiento completo: `fixture-b-postman.md`.
 
-- **Fixture B**: 2do workspace propio vía `POST /api/v1/workspaces` (body `name` + `slug`), para levantar el guard `last_membership`.
-- Pendiente de escribir: un procedimiento paso a paso (`fixture-b-postman.md`) que cubra:
-  1. Config de Postman: base URL de staging, cómo obtener y setear la cookie de sesión (auth es cookie-only), headers.
-  2. El request: método, path, body, validaciones de `slug` (regex, 16 reservados).
-  3. Qué respuesta esperar (201 + shape) y cómo verificar en `/settings/workspaces` y en DB.
-  4. Teardown: cómo dejar el estado limpio.
-- Cesar confirma cuál es el caso exacto al retomar; el doc se arma antes de tocar Postman.
+- **Fixture B**: 2do workspace propio vía `POST /api/v1/workspaces` (body `name` + `slug`). Deja al usuario con 2 membresías activas, así el guard `last_membership` deja de aplicar y queda aislado `sole_owner`.
+- **Cambio vs plan viejo**: crear workspace acepta `bearerAuth`, no es cookie-only (solo "leave" lo es). El flujo es `POST /api/v1/auth/signin` (email+password → PAT) y después `POST /api/v1/workspaces` con `Authorization: Bearer <pat>`. Sin cookies.
+- Contrato leído del OpenAPI de staging el 2026-09-09 (base URL `https://staging-upexbunkai.vercel.app`).

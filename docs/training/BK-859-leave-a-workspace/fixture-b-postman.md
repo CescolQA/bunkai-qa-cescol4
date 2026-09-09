@@ -229,9 +229,9 @@ Para BK-859 alcanza la opción 1 hasta terminar la práctica.
 
 ## 10. Checklist
 
-- [ ] Environment `bunkai-staging` creado con las 5 variables
-- [ ] Paso 5: sign-in `200`, `{{pat}}` guardado
-- [ ] Paso 6: create `201`, `{{wsId}}` guardado y anotado en la sección 9
+- [x] Environment `bunkai-staging` creado con las 5 variables (sesión 2026-09-09)
+- [x] Paso 5: request 1 (sign-in) configurado y probado, quedó cómodo (sesión 2026-09-09)
+- [ ] Paso 6: create `201`, `{{wsId}}` guardado y anotado en la sección 9  ← **próxima sesión arranca acá**
 - [ ] Paso 7: `GET /api/v1/workspaces` muestra 2 workspaces
 - [ ] Anotadas las dudas o diferencias con el contrato
 

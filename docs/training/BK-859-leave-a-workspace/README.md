@@ -13,7 +13,7 @@ Ticket: BK-859 (clon de práctica de BK-90), Epic BK-85, Sprint 4.
 | 3.5 | Rampa de arranque + reconocimiento in-app | hecho - `rampa-de-arranque.md` + `modelo-de-roles-y-membership.md` |
 | 4 | **Pasada ciega** (a mano, sin IA) | hecho - `pasada-ciega-completada.md` (sellada en commit 7d01f4d) |
 | 5 | Pasada asistida (con el doc sellado + técnicas) | pendiente |
-| 6 | Fixtures + exploratoria hands-on | en curso - `fixture-b-postman.md` listo, falta ejecutarlo en Postman |
+| 6 | Fixtures + exploratoria hands-on | en curso - `fixture-b-postman.md` listo. Request 1 (sign-in) probado OK. Próxima sesión: request 2 (crear 2do workspace) |
 | 7 | Comparativo ciego vs asistido vs real | pendiente |
 | 8 | Marcar real vs simulado en Jira | pendiente |
 

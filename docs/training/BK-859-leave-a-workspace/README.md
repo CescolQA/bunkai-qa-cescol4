@@ -3,6 +3,12 @@
 Espejo de la práctica de shift-left de BK-509, ahora sobre sprint-testing.
 Ticket: BK-859 (clon de práctica de BK-90), Epic BK-85, Sprint 4.
 
+> **Estado: CERRADA (2026-09-10).** La práctica se da por terminada en el paso 7.
+> El paso 8 no se ejecuta. Los fixtures C y D no se montaron y los casos que
+> dependen de ellos quedan sin correr. Es una decisión de alcance, no un bloqueo:
+> el objetivo de entrenamiento (comprender, aplicar, correr y comparar
+> `/sprint-testing` sobre una historia real) quedó cubierto con lo hecho.
+
 ## Plan de 8 pasos
 
 | Paso | Qué | Estado |
@@ -15,7 +21,10 @@ Ticket: BK-859 (clon de práctica de BK-90), Epic BK-85, Sprint 4.
 | 5 | Pasada asistida (con el doc sellado + técnicas) | hecho - carpeta `pasada-asistida/` (README + 4 checkpoints de técnica + matriz de 28 casos + comparativa ciega/asistida) |
 | 6 | Fixtures + exploratoria hands-on | parcial (cerrado por alcance) - fixtures A y B hechos. Ejecución: 7 casos PASS + 2 defectos hallados (DEF-1, DEF-2) en `pasada-asistida/08-ejecucion-fixtures-A-B.md`. Fixtures C y D NO se montaron (decisión de César); los 12 casos que dependen de ellos quedan fuera |
 | 7 | Comparativa manual vs asistida | hecho - `pasada-asistida/07-comparativa-ciega-vs-asistida.md` (cerrado; el testing real se cita como respaldo) |
-| 8 | Marcar real vs simulado en Jira | pendiente |
+| 8 | Marcar real vs simulado en Jira | no se ejecuta - práctica cerrada por decisión de alcance (2026-09-10) |
+
+DEF-1 y DEF-2 quedan como hallazgos de ejercicio: comentados en la historia,
+sin filear como defects formales. No se avanza más sobre ellos.
 
 ## Archivos de contexto (este folder)
 

@@ -17,7 +17,7 @@ Lifecycle: an entry starts as a row in **Backlog**, moves to **Active practices*
 | Practice | Type | Status | Folder |
 |---|---|---|---|
 | BK-509 — Create a project inside a workspace | shift-left | Cerrada (2026-08-26) — Fase 1 análisis a ciegas, Fase 2 `/shift-left-testing` real, Fase 3 comparación 3 vías | [`BK-509-create-project-in-workspace/`](./BK-509-create-project-in-workspace/) |
-| BK-859 — Leave a workspace | sprint-testing | Activa — pasos 1-3.5 hechos (brief acotado + rampa + modelo de roles + reconocimiento in-app, todo en el folder); paso 4 pasada ciega en curso (`pasada-ciega.html`) | [`BK-859-leave-a-workspace/`](./BK-859-leave-a-workspace/) |
+| BK-859 — Leave a workspace | sprint-testing | Cerrada (2026-09-10) — pasos 1-7 hechos (brief acotado + rampa + modelo de roles + reconocimiento in-app + pasada ciega sellada + pasada asistida con 4 técnicas y matriz de 28 casos + ejecución parcial 7 PASS / 2 defectos + comparativa). Paso 8 y fixtures C/D fuera de alcance | [`BK-859-leave-a-workspace/`](./BK-859-leave-a-workspace/) |
 
 ## Backlog
 
@@ -26,6 +26,8 @@ Ideas de práctica sin empezar. Una línea cada una: qué historia o tema, qué 
 | Idea | Type | Nota |
 |---|---|---|
 | _(vacío — agregá acá)_ | | |
+
+> El backlog ancho de iniciativas e ideas de método vive en [`BACKLOG.md`](./BACKLOG.md). Esta tabla es solo para próximas prácticas por historia.
 
 ## Referencias transversales
 
@@ -38,12 +40,7 @@ Documentos que no pertenecen a una historia puntual, sino al método — se leen
 
 ## Ideas / hilos pendientes del método
 
-Cosas surgidas durante la práctica que todavía no son un documento ni una práctica formal.
-
-- **Brief de contexto de negocio por historia:** antes de refinar una historia, la IA lee los 4 mapas de negocio project-wide; un analista humano arranca sin eso. Idea: formalizar un brief acotado a la historia como herramienta personal, después proponerlo al equipo. Piloteado en BK-509.
-- **Trío de onboarding de contexto (piloteado en BK-859):** brief acotado + `rampa-de-arranque.md` (checklist de arranque + reconocimiento in-app) + `modelo-de-roles-y-membership.md` (roles / estados / formas mapeadas a los guards de la feature + primer de "fixture"). Candidato a plantilla en `_TEMPLATE/`.
-- **Formulario local para pasadas a mano (piloteado en BK-859):** HTML standalone con autoguardado en `localStorage` y export a Markdown/JSON, para llenar la pasada ciega sin depender de la IA y después comparar. Ver `BK-859-leave-a-workspace/pasada-ciega.html`.
-- **Fixtures a mano antes de automatizar:** armar al menos un fixture de API a mano (Postman) como repaso, con un procedimiento paso a paso documentado, antes de que la IA lo scriptee. Arranca en BK-859 paso 6 con el fixture B (`POST /api/v1/workspaces`).
+Movidos a [`BACKLOG.md`](./BACKLOG.md) (secciones **Iniciativas** e **Ideas / hilos sueltos**). Se mantienen ahí para no duplicar.
 
 ## Why this exists, not `.context/PBI/`
 

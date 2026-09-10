@@ -12,9 +12,9 @@ Ticket: BK-859 (clon de práctica de BK-90), Epic BK-85, Sprint 4.
 | 3 | Brief de contexto de negocio acotado | hecho - `business-context-brief.md` |
 | 3.5 | Rampa de arranque + reconocimiento in-app | hecho - `rampa-de-arranque.md` + `modelo-de-roles-y-membership.md` |
 | 4 | **Pasada ciega** (a mano, sin IA) | hecho - `pasada-ciega-completada.md` (sellada en commit 7d01f4d) |
-| 5 | Pasada asistida (con el doc sellado + técnicas) | pendiente |
-| 6 | Fixtures + exploratoria hands-on | en curso - `fixture-b-postman.md` listo. Request 1 (sign-in) probado OK. Próxima sesión: request 2 (crear 2do workspace) |
-| 7 | Comparativo ciego vs asistido vs real | pendiente |
+| 5 | Pasada asistida (con el doc sellado + técnicas) | hecho - carpeta `pasada-asistida/` (README + 4 checkpoints de técnica + matriz de 28 casos + comparativa ciega/asistida) |
+| 6 | Fixtures + exploratoria hands-on | parcial (cerrado por alcance) - fixtures A y B hechos. Ejecución: 7 casos PASS + 2 defectos hallados (DEF-1, DEF-2) en `pasada-asistida/08-ejecucion-fixtures-A-B.md`. Fixtures C y D NO se montaron (decisión de César); los 12 casos que dependen de ellos quedan fuera |
+| 7 | Comparativa manual vs asistida | hecho - `pasada-asistida/07-comparativa-ciega-vs-asistida.md` (cerrado; el testing real se cita como respaldo) |
 | 8 | Marcar real vs simulado en Jira | pendiente |
 
 ## Archivos de contexto (este folder)
@@ -36,6 +36,7 @@ Se leen antes de la pasada ciega. Idioma castellano, identificadores textuales.
 - `pasada-ciega.html` - **paso 4, superficie principal para llenar**. Formulario local: se abre con doble click (file://), autoguarda en `localStorage`, y exporta `pasada-ciega-completada.md` + `pasada-ciega.json` con los botones de la barra inferior. Sin conexión, sin dependencias.
 - `pasada-ciega.md` - mismo cuestionario en texto plano, por si preferís tipear markdown directo. Espejo, no obligatorio.
 - `pasada-ciega-completada.md` - lo que exporta el HTML cuando terminás. Es lo que se lee para el comparativo del paso 5/7.
+- `pasada-asistida/` - **paso 5, entregable**. Carpeta con índice (`README.md`), un archivo por técnica (`02`..`05`, cada uno = un checkpoint), la matriz consolidada de 28 casos (`06-matriz-de-casos.md`) y la comparativa ciega vs asistida (`07`, insumo del paso 7). Separado en archivos cortos a propósito, para leerlo por partes.
 
 ## Paso 6 - Fixtures a mano (entrenamiento API)
 

@@ -26,21 +26,36 @@ Ticket: BK-859 (clon de práctica de BK-90), Epic BK-85, Sprint 4.
 DEF-1 y DEF-2 quedan como hallazgos de ejercicio: comentados en la historia,
 sin filear como defects formales. No se avanza más sobre ellos.
 
-## Archivos de contexto (este folder)
+## Niveles (dial profundidad + registro)
+
+Esta práctica fue hecha en el nivel default. Todo el contenido vive dentro de
+`niveles/<combinación>/`, para poder comparar contra otras combinaciones del
+dial (`AGENTS.md` I-7) más adelante.
+
+| Combinación | Estado |
+|---|---|
+| `niveles/profundidad-semi-senior_registro-semi-senior/` | **hecho** - esta práctica (default) |
+| `niveles/profundidad-senior_registro-semi-senior/` | pendiente |
+| `niveles/profundidad-senior_registro-senior/` | pendiente |
+| `niveles/profundidad-semi-senior_registro-junior/` | pendiente |
+
+Las rutas de abajo son relativas a esa carpeta de nivel.
+
+## Archivos de contexto (dentro de la carpeta de nivel)
 
 Se leen antes de la pasada ciega. Idioma castellano, identificadores textuales.
 
 - `business-context-brief.md` - referencia de negocio (corregida con hallazgos del reconocimiento)
 - `rampa-de-arranque.md` - checklist de arranque + hallazgos del reconocimiento in-app + queries de DB
 - `modelo-de-roles-y-membership.md` - roles / estados / formas de membership / fixtures + primer de "fixture"
-- `../bunkai-capas-e-integraciones-para-qa.md` - **compartido**. Mapa de capas (UI / API / RPC / DB / RLS / agéntica) + glosario en criollo. Lente para leer los dos docs de reconocimiento
+- `../../../bunkai-capas-e-integraciones-para-qa.md` - **compartido**. Mapa de capas (UI / API / RPC / DB / RLS / agéntica) + glosario en criollo. Lente para leer los dos docs de reconocimiento
 - `reconocimiento-hallazgos-SELLADO.md` - detalle de RPC y contrato de API. **NO abrir hasta terminar el paso 4** (ya terminado)
 - `reconocimiento-hallazgos-2-lenguaje-simple.md` - **Documento 2**. Mismo contenido que el sellado, reescrito en lenguaje más llano. Para comparar cuál se entiende mejor
 - `evidence/recon-01..05.png` - capturas del reconocimiento (la carpeta `evidence/` está en `.gitignore` repo-wide: son locales, no se versionan; los hallazgos que sostienen sí están en los `.md`)
 
-> El contexto Jira-sincronizado (`story.md`, `acceptance-criteria.md`, `scope.md`, `implementation-plan.md`, etc.) vive en `.context/PBI/epics/EPIC-BK-85-account-settings/stories/STORY-BK-859-tms-workspace-leave-a-workspace/` y NO se versiona (cache de sync). Los archivos de esta carpeta sí se versionan.
+> El contexto Jira-sincronizado (`story.md`, `acceptance-criteria.md`, `scope.md`, `implementation-plan.md`, etc.) vive en `.context/PBI/epics/EPIC-BK-85-account-settings/stories/STORY-BK-859-tms-workspace-leave-a-workspace/` y NO se versiona (cache de sync). Los archivos de la carpeta de nivel sí se versionan.
 
-## Archivos de esta práctica (este folder)
+## Archivos de esta práctica (dentro de la carpeta de nivel)
 
 - `pasada-ciega.html` - **paso 4, superficie principal para llenar**. Formulario local: se abre con doble click (file://), autoguarda en `localStorage`, y exporta `pasada-ciega-completada.md` + `pasada-ciega.json` con los botones de la barra inferior. Sin conexión, sin dependencias.
 - `pasada-ciega.md` - mismo cuestionario en texto plano, por si preferís tipear markdown directo. Espejo, no obligatorio.
@@ -49,7 +64,7 @@ Se leen antes de la pasada ciega. Idioma castellano, identificadores textuales.
 
 ## Paso 6 - Fixtures a mano (entrenamiento API)
 
-Antes de que la IA arme los fixtures por script, Cesar hace **el fixture B a mano con Postman**, como repaso de API. Procedimiento completo: `fixture-b-postman.md`.
+Antes de que la IA arme los fixtures por script, Cesar hace **el fixture B a mano con Postman**, como repaso de API. Procedimiento completo: `fixture-b-postman.md` (dentro de la carpeta de nivel).
 
 - **Fixture B**: 2do workspace propio vía `POST /api/v1/workspaces` (body `name` + `slug`). Deja al usuario con 2 membresías activas, así el guard `last_membership` deja de aplicar y queda aislado `sole_owner`.
 - **Cambio vs plan viejo**: crear workspace acepta `bearerAuth`, no es cookie-only (solo "leave" lo es). El flujo es `POST /api/v1/auth/signin` (email+password → PAT) y después `POST /api/v1/workspaces` con `Authorization: Bearer <pat>`. Sin cookies.

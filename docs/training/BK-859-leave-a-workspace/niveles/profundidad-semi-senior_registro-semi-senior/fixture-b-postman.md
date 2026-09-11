@@ -40,7 +40,7 @@ El plan viejo (en el README) asumía que había que sacar la cookie de sesión d
 Traducción: **email + password → PAT → creás el workspace con ese PAT.** Todo desde Postman,
 sin tocar cookies.
 
-Recordatorio de términos (detalle en `../bunkai-capas-e-integraciones-para-qa.md`):
+Recordatorio de términos (detalle en `../../../bunkai-capas-e-integraciones-para-qa.md`):
 
 - **PAT**: token que un programa manda en el header `Authorization: Bearer <token>`.
 - **Bearer**: la forma de mandar ese token en un header HTTP.

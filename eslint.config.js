@@ -45,6 +45,10 @@ export default antfu({
     // MCP reference templates — syntax-sensitive opt-in configs. Linting them
     // (e.g. toml/array-bracket-newline) corrupts the layout users copy from.
     'docs/mcp/**',
+    // html-ppt skill's shared assets (fonts.css, base.css, runtime.js),
+    // vendored verbatim into each deck's presentaciones/assets/ so decks
+    // stay self-contained — third-party code, not authored/linted here.
+    'docs/training/**/presentaciones/assets/**',
   ],
 
   // Custom rules

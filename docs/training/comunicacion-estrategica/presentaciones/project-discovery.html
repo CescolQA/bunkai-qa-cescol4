@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>project-discovery</title>
+    <link rel="stylesheet" href="assets/fonts.css" />
+    <link rel="stylesheet" href="assets/base.css" />
+    <link rel="stylesheet" href="assets/knowledge-arch-blueprint.css" />
+  </head>
+  <body class="tpl-knowledge-arch-blueprint">
+    <div class="deck">
+      <!-- 1. COVER — específica de esta skill, tipografía protagonista -->
+      <section class="slide is-active">
+        <div class="kb-grid-bg"></div>
+        <div style="margin: auto 0">
+          <img
+            src="assets/img/bunkai-mark-flat.png"
+            style="height: 86px; width: auto; display: block; margin-bottom: 18px"
+          />
+          <div class="kb-kicker">Pilar destacado · Rol + IA asistida</div>
+          <h1 class="kb-h1" style="font-size: 104px">
+            project-<span class="rust">discovery</span>
+          </h1>
+          <p class="kb-sub" style="font-size: 22px; margin-top: 18px; max-width: 680px">
+            Cero contexto, un repositorio entero: cómo se reconstruye el modelo de negocio de un
+            producto real, con evidencia, sin inventar nada.
+          </p>
+        </div>
+        <div class="kb-footer"><span>project-discovery</span><span>01 / 11</span></div>
+      </section>
+
+      <!-- 2. CONTENT: las 4 fases -->
+      <section class="slide">
+        <div class="kb-grid-bg"></div>
+        <div class="kb-kicker">El recorrido de esta skill</div>
+        <h1 class="kb-h1" style="font-size: 46px">Las <span class="rust">4 fases</span></h1>
+        <p class="kb-sub">
+          Corridas completas sobre Bunkai TMS, sin conocer el repositorio de antemano.
+        </p>
+        <div class="kb-pipeline">
+          <div class="kb-step">
+            <div class="kb-step-num">FASE 1</div>
+            <div class="kb-step-title">Constitution</div>
+            <div class="kb-step-body">El diagnóstico honesto</div>
+          </div>
+          <div class="kb-step">
+            <div class="kb-step-num">FASE 2</div>
+            <div class="kb-step-title">Architecture</div>
+            <div class="kb-step-body">El negocio, desde el código</div>
+          </div>
+          <div class="kb-step hero">
+            <div class="kb-step-num">FASE 3 · EXTENDIDA</div>
+            <div class="kb-step-title">Infrastructure</div>
+            <div class="kb-step-body">El gap documentado a fondo</div>
+          </div>
+          <div class="kb-step">
+            <div class="kb-step-num">FASE 4</div>
+            <div class="kb-step-title">Specification</div>
+            <div class="kb-step-body">20+ subdominios mapeados</div>
+          </div>
+        </div>
+        <div class="kb-footer"><span>Las 4 fases</span><span>02 / 11</span></div>
+      </section>
+
+      <!-- 3. SECTION: el desafío -->
+      <section class="slide">
+        <div class="kb-grid-bg"></div>
+        <div style="margin: auto 0">
+          <div class="kb-kicker">El desafío</div>
+          <h1 class="kb-h1" style="font-size: 90px">
+            Leer un producto <span class="rust">que nunca viste</span>
+          </h1>
+          <p class="kb-sub" style="font-size: 24px; margin-top: 20px">
+            Sin README confiable, sin nadie a quién preguntar. Solo migraciones de base de datos, un
+            spec de API, y la disciplina de no afirmar nada sin poder citar la línea exacta que lo
+            respalda.
+          </p>
+        </div>
+        <div class="kb-footer"><span>El desafío</span><span>03 / 11</span></div>
+      </section>
+
+      <!-- 4. CONTENT: el producto en sus propias palabras -->
+      <section class="slide">
+        <div class="kb-grid-bg"></div>
+        <div class="kb-kicker">Hallazgo · Fase 2</div>
+        <h1 class="kb-h1" style="font-size: 44px">
+          El producto lo dice <span class="rust">en su propio spec</span>
+        </h1>
+        <pre
+          class="kb-codebox"
+        ><span class="cm"># public/openapi.json — descripción real de la API</span>
+<span class="st">"Designed to be operated by</span>
+<span class="hl">humans, scripts, CI/CD, and AI agents"</span></pre>
+        <p class="kb-sub" style="margin-top: 18px">
+          Bunkai TMS fue pensado desde su propio diseño para ser operado por agentes de IA — el
+          mismo tema que estoy entrenando, ya escrito en el producto que estudié.
+        </p>
+        <div class="kb-footer"><span>Contenido · El producto</span><span>04 / 11</span></div>
+      </section>
+
+      <!-- 5. CONTENT: el candado estructural -->
+      <section class="slide">
+        <div class="kb-grid-bg"></div>
+        <div class="kb-kicker">Hallazgo · Fase 2</div>
+        <h1 class="kb-h1" style="font-size: 44px">
+          Un <span class="rust">candado</span>, no una promesa
+        </h1>
+        <div class="kb-grid-2">
+          <div class="kb-card">
+            <h4>Lo común</h4>
+            <p>
+              La mayoría de los sistemas de QA confían en que el equipo, por disciplina, linkee cada
+              test al requisito que cubre.
+            </p>
+          </div>
+          <div
+            class="kb-card"
+            style="background: var(--kb-rust-soft); border-color: var(--kb-rust)"
+          >
+            <h4>Bunkai TMS</h4>
+            <p>
+              Un ATC no puede crearse sin apuntar a ≥1 criterio de aceptación. Está forzado por una
+              función de base de datos, no por buena voluntad.
+            </p>
+          </div>
+        </div>
+        <div class="kb-footer"><span>Contenido · Hallazgo</span><span>05 / 11</span></div>
+      </section>
+
+      <!-- 6. CONTENT: Fase 3 extendida (hero) -->
+      <section class="slide">
+        <div class="kb-grid-bg"></div>
+        <div class="kb-kicker">Fase 3 · Infrastructure — extendida</div>
+        <h1 class="kb-h1" style="font-size: 44px">
+          Cuando el gap <span class="rust">merece más que una línea</span>
+        </h1>
+        <p class="kb-sub">
+          No hay un solo workflow de CI/CD en el repo. Lo fácil hubiera sido anotar "None" y
+          avanzar. Se optó por extender la fase: documentar qué sí existe, qué no, y el riesgo
+          concreto — 135 tests que nunca corren solos, sobre una madurez de testing que ya arrancaba
+          en 2/4.
+        </p>
+        <div class="kb-footer"><span>Contenido · Fase 3</span><span>06 / 11</span></div>
+      </section>
+
+      <!-- 7. CONTENT: resultado tangible -->
+      <section class="slide">
+        <div class="kb-grid-bg"></div>
+        <div class="kb-kicker">Resultado tangible</div>
+        <h1 class="kb-h1" style="font-size: 44px">Qué quedó <span class="rust">generado</span></h1>
+        <div class="kb-grid-2">
+          <div class="kb-card">
+            <h4>Documentos versionados</h4>
+            <p>
+              `business-model.md`, `domain-glossary.md`, `PRD/`, `SRS/` — 20+ subdominios mapeados,
+              consultables para cada práctica posterior.
+            </p>
+          </div>
+          <div class="kb-card">
+            <h4>Nada especulativo</h4>
+            <p>
+              Lo que no tenía evidencia quedó marcado "Unknown" — modelo de ingresos, costos,
+              competencia. No se rellenó a ciegas.
+            </p>
+          </div>
+        </div>
+        <div class="kb-footer"><span>Contenido · Resultado</span><span>07 / 11</span></div>
+      </section>
+
+      <!-- 8. CONTENT: pilar destacado -->
+      <section class="slide">
+        <div class="kb-grid-bg"></div>
+        <div class="kb-kicker">Pilar destacado · Rol + IA asistida</div>
+        <h1 class="kb-h1" style="font-size: 44px">
+          Dirigir la skill, <span class="rust">no solo correrla</span>
+        </h1>
+        <p class="kb-sub">
+          Todo lo anterior fue posible por una razón puntual: decidir cuándo un hallazgo alcanzaba
+          nivel de evidencia, y cuándo un gap (el de CI/CD) merecía que la fase se extendiera en vez
+          de cerrarse rápido. Esa dirección es lo entrenable — no "usar IA", sino dirigirla con
+          criterio de analista.
+        </p>
+        <div class="kb-footer"><span>Reflexión · Pilar 2</span><span>08 / 11</span></div>
+      </section>
+
+      <!-- 9. CONTENT: pilar 4 — experiencia y criterio propio -->
+      <section class="slide">
+        <div class="kb-grid-bg"></div>
+        <div class="kb-kicker">Pilar 4 · Experiencia y criterio propio</div>
+        <h1 class="kb-h1" style="font-size: 42px">
+          Lo que <span class="rust">rara vez se te da</span> al entrar a un proyecto
+        </h1>
+        <div class="kb-grid-2">
+          <div class="kb-card">
+            <h4>Lo de siempre</h4>
+            <p>
+              Entrás a un proyecto nuevo, te dan un onboarding breve. A las semanas te llega una
+              historia de usuario o un cliente — contexto del presente y del futuro, casi nunca del
+              pasado.
+            </p>
+          </div>
+          <div
+            class="kb-card"
+            style="background: var(--kb-rust-soft); border-color: var(--kb-rust)"
+          >
+            <h4>Con project-discovery</h4>
+            <p>
+              Antes de tocar el primer requerimiento nuevo: qué ya existe, qué está registrado,
+              documentado, definido — los mapas, las capas, todas las integraciones.
+            </p>
+          </div>
+        </div>
+        <p class="kb-sub" style="margin-top: 18px">
+          No hace falta delegarle a la IA la ejecución ni los cambios de código para que esto valga
+          la pena. Incluso en modo exclusivamente de lectura, usarla para mantener el contexto de un
+          proyecto organizado y accesible ya aporta — para el rol funcional y para el de QA por
+          igual.
+        </p>
+        <div class="kb-footer"><span>Reflexión · Pilar 4</span><span>09 / 11</span></div>
+      </section>
+
+      <!-- 10. SECTION: qué sigue -->
+      <section class="slide">
+        <div class="kb-grid-bg"></div>
+        <div style="margin: auto 0">
+          <div class="kb-kicker">Continúa la serie</div>
+          <h1 class="kb-h1" style="font-size: 80px">
+            <span class="rust">shift-left-testing</span>
+          </h1>
+          <p class="kb-sub" style="font-size: 22px; margin-top: 20px">
+            Refinar acceptance criteria antes de que la historia entre al sprint — el ojo funcional
+            puesto a prueba.
+          </p>
+        </div>
+        <div class="kb-footer"><span>Qué viene</span><span>10 / 11</span></div>
+      </section>
+
+      <!-- 11. CIERRE -->
+      <section class="slide">
+        <div class="kb-grid-bg"></div>
+        <div style="margin: auto 0; text-align: center">
+          <div class="kb-kicker">Serie en curso</div>
+          <h1 class="kb-h1" style="font-size: 80px; margin-top: 24px">
+            Sigue <span class="rust">la serie</span>
+          </h1>
+          <p class="kb-sub" style="margin: 0 auto; font-size: 22px">
+            `shift-left-testing` llega a continuación.
+          </p>
+        </div>
+        <div class="kb-footer"><span>Fin del deck</span><span>11 / 11</span></div>
+      </section>
+    </div>
+    <script src="assets/runtime.js"></script>
+  </body>
+</html>

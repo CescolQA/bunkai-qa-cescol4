@@ -94,7 +94,7 @@ próximo paso concreto.
 | Estado | Iniciativas |
 |---|---|
 | Activa (convención) | **I-7** dial de profundidad y registro |
-| En curso | **I-1** dominar skills en contexto · **I-2** registro por audiencia |
+| En curso | **I-1** dominar skills en contexto · **I-2** registro por audiencia · **I-8** comunicación estratégica del entrenamiento |
 | Pendiente | **I-3** trío de onboarding · **I-4** método de pasada a mano · **I-5** brief como herramienta de equipo |
 | Bloqueado | **I-6** skill relevamiento funcional inverso (espera input de diseño) |
 
@@ -217,13 +217,25 @@ Si hay un cambio por tarea, lo refleja: `Dial: profundidad senior (solo esta tar
 
 ---
 
+**I-8 · Comunicación estratégica del entrenamiento** &nbsp;`método`
+
+| | |
+|---|---|
+| Qué es | Convertir los 4 pilares del entrenamiento (rol analista base / rol + IA asistida / ecosistema de agentes orquestados / experiencia y criterio propio) en una narrativa comunicable, con núcleo en el rol híbrido (analista funcional + QA) demostrado a través de `project-discovery`, `shift-left-testing` y `sprint-testing`. |
+| Para qué | Comunicar hacia afuera (GitHub, sitio personal, LinkedIn) de forma estratégica y agnóstica, entendible por reclutadores sin trasfondo QA. |
+| Dónde nació | Conversación del 2026-09-11, después de cerrar BK-859 y armar `niveles/`. |
+| Estado | `en curso` — deck 1 (onboarding, 9 slides) y deck 2 (`project-discovery`, 11 slides) son la **base aprobada**: 4 pilares, paleta de marca de LinkedIn fija (blanco/navy `#1D0847`/lavanda `#9486A9`/gris `#AFB4B3`), castellano neutro, 20 reglas generales de formato. Detalle completo en `comunicacion-estrategica/README.md`; decisiones descartadas en `comunicacion-estrategica/CHANGELOG.md`. |
+| Próximo paso | `shift-left-testing` (deck 3, candidato Pilar 1 · Rol analista) — aplicar la base ya cerrada desde el arranque, no reabrir decisiones ya tomadas. Converge con la comparación de niveles (I-7) como insumo de calibración. |
+
+---
+
 ## Ideas / hilos sueltos
 
 Surgieron durante la práctica. Todavía no son iniciativa.
 
 - **Elegir próximas historias a practicar:** el backlog de prácticas por historia (README) está vacío después de BK-859. Definir 2-3 candidatas para `test-documentation` y `test-automation`.
 - **Guía nueva a incorporar:** hay una guía que se quiere guardar y listar acá. Pendiente de recibir el contenido.
-- **Sitio personal `cescolqa.github.io`:** repo separado, prototipo de diseño a iterar. Fuera del alcance de este repo, se anota para no perderlo.
+- **Sitio personal `cescolqa.github.io`:** repo separado, prototipo de diseño a iterar. Fuera del alcance de este repo; ahora es uno de los canales destino de **I-8**.
 
 DEF-1 / DEF-2 de BK-859: cerrados como hallazgos de ejercicio. Quedan comentados en
 la historia, sin filear como defects formales. No se avanza más.

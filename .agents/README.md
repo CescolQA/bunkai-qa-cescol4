@@ -15,7 +15,7 @@ The directory has two roles:
 
 | File | What it is | Who edits it | How to regenerate |
 |---|---|---|---|
-| `project.yaml` | Human-edited project config: project name, repo paths, URLs, MCP server names, issue-tracker metadata, default env. ALSO holds the `git_strategy:` block (this repo's git workflow — read by `git-flow-master`; see §"`git_strategy`" below). | You (project owner) / `git-flow-master` (git_strategy block) | `bun run agents:setup` (identity/env fields) or edit by hand. The `git_strategy:` block is filled by `git-flow-master` Strategy Setup, NOT by `agents:setup`. |
+| `project.yaml` | Human-edited project config: project name, repo paths, URLs, MCP server names, issue-tracker metadata, default env. ALSO holds the `git_strategy:` block (this repo's git workflow — read by `git-flow-master`; see §"`git_strategy`" below) and the `updater:` block (files `bun run up` must keep as the project's own; see §"`updater`" below). | You (project owner) / `git-flow-master` (git_strategy block) | `bun run agents:setup` (identity/env fields) or edit by hand. The `git_strategy:` block is filled by `git-flow-master` Strategy Setup, NOT by `agents:setup`. |
 | `jira-fields.json` | Auto-generated catalog of every custom field in your Jira workspace, keyed by canonical slug. Each entry has `id`, `type`, optional `name`, `options`, `system`, `provider`. | Generated only — **do not edit by hand** | `bun run jira:sync-fields` |
 | `jira-workflows.json` | Auto-generated catalog of workflow statuses + transitions per `work_type`, keyed by canonical slug. Each `work_type` entry has `jira_issue_type`, `workflow_scheme`, `workflow`, `statuses`, `transitions`. | Generated only — **do not edit by hand** | `bun run jira:sync-workflows` |
 | `jira-link-types.json` | Auto-generated catalog of every issue link type in your Jira workspace (e.g. `blocks`, `relates`, `is caused by`), keyed by canonical slug. Each entry has `id`, `name`, `outward`, `inward`, `exists_in_workspace`. | Generated only — **do not edit by hand** | `bun run jira:sync-link-types` |
@@ -57,6 +57,22 @@ The persisted source of truth for **this repository's** git workflow lives as th
 | `meta.setup_version` | int | Strategy Setup schema version. |
 | `meta.created` | string | Date stamped by Strategy Setup. |
 
+## `updater` (block inside `project.yaml`)
+
+`bun run up` never overwrites the files on its protected watchlist (`AGENTS.md`, `.agents/project.yaml`, `.agents/jira-required.yaml`, `tsconfig.json`, `eslint.config.js`, `allurerc.mjs`, `playwright.config.ts`, `config/variables.ts`, the KATA bases under `tests/components/`, `scripts/api-login.ts`, the CI workflows under `.github/workflows/`, `.mcp.json`, `opencode.jsonc`, `.codex/config.toml`, `.claude/settings.json`, `.husky/pre-commit`, `.husky/pre-push`): a watched file inside a synced component is delivered once when missing, then it is project-owned, and when upstream's copy changes the parity report shows a drift row with evidence (keys, headings or hunks) instead of touching it. The `updater:` block lets a project extend that list.
+
+```yaml
+updater:
+  protected_paths: # repo-relative FILE paths; empty by default
+    - scripts/lint-vars.ts
+    - .agents/skills/acli/SKILL.md
+```
+
+- **When to list a path**: a synced file you merged by hand and want to keep across syncs. The parity row `project edit overwritten; backup: .backups/...` names exactly that situation and ends with the fix (`add the path to updater.protected_paths in .agents/project.yaml so the next sync keeps your merge`); the saved `parity-plan.md` repeats it under the row as the YAML to paste.
+- **Semantics**: identical to the upstream watchlist. Never overwritten (also under `--auto` and `--force`), delivered once from upstream when the file is missing locally, included in the sparse checkout so its upstream copy can be diffed, one drift row per upstream change (marker under `.template/upstream-sha/`).
+- **Validation**: a path outside the repo (absolute, `..`), under `.git`, a directory, or a non-string is reported at the start of the run (`updater.protected_paths (.agents/project.yaml): entrada ignorada "...": <reason>.`) and ignored; the run continues. Duplicates and paths already on the upstream watchlist are folded silently.
+- **Bootstrap-only**: `project.yaml` is never synced, so the list is entirely yours. The nested list is structured config read directly by the updater, so `vars:check` skips it (same carve-out as `git_strategy` and `qa.qa_epics`).
+
 ## Variable syntax conventions
 
 Three syntaxes coexist across skills, commands and docs. Each resolves from a different place:
@@ -82,6 +98,20 @@ The `{{…}}` vs `<<…>>` distinction is intentional: it removes the previous a
 2. Otherwise fall back to `testing.default_env` from `project.yaml`.
 
 When a document genuinely needs to compare environments (e.g. the constitution's environment-table or context-generator examples that demonstrate URL-shape differences), use the explicit form `{{environments.local.web_url}}` / `{{environments.staging.web_url}}` instead. Both forms are validated by `bun run vars:check`.
+
+### TC creation stage
+
+`testing.tc_creation_stage` (read as the flat project variable `{{TC_CREATION_STAGE}}`) decides **which stage turns a test case into a `Test` work item in the TMS**. It is the one testing knob that is not a URL or a tool name, so it is documented here rather than inferred:
+
+| Value | Meaning |
+|---|---|
+| `auto` (shipped default) | follow the TMS modality: jira-xray → `/sprint-testing` Stage 1 · jira-native → `/test-documentation` Stage 4 |
+| `sprint-testing` | Stage 1 creates the `Test` items in **both** modalities; Stage 4 refines + promotes them |
+| `test-documentation` | Stage 4 creates them in **both** modalities; Stage 1 produces outlines only |
+
+Both `/sprint-testing` and `/test-documentation` resolve it at their modality gate, alongside `{{TMS_CLI}}`, and keep it sticky for the session. An unset or unrecognized value is treated as `auto` — a missing knob is the default, never a hard stop. The rationale for each value (and the cost of each override) is in `.agents/skills/sprint-testing/SKILL.md` §"Which stage creates the TCs", which is the authoritative section.
+
+Because it is a scalar leaf of a top-level section, `bun run vars:check` validates `{{TC_CREATION_STAGE}}` like any other flat project variable — no linter change was needed to register it.
 
 ## Workflows
 

@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "aliases": [
+    {
+      "alias": "project-status",
+      "skill": "project-status",
+      "mode": "status",
+      "description": "Live snapshot of this project's configuration, compiled fresh every run.",
+      "argumentHint": "[mcp|env|jira|db|git]",
+      "forwardArguments": true,
+      "mutability": "read-only"
+    }
+  ]
+}

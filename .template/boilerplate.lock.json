@@ -3,14 +3,14 @@
   "templateRepo": "upex-galaxy/agentic-qa-boilerplate",
   "templateCommit": "a31b6e1908ee69b224042d7e7a07c7f3efbebaa8",
   "perComponentCommit": {
-    "skills": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
+    "skills": "35f296d05ac55452b0db924f34ec37643393d2c9",
     "commands": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
-    "scripts": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
-    "docs": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
-    "cli": "a31b6e1908ee69b224042d7e7a07c7f3efbebaa8",
-    "vscode": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
+    "scripts": "35f296d05ac55452b0db924f34ec37643393d2c9",
+    "docs": "35f296d05ac55452b0db924f34ec37643393d2c9",
+    "cli": "35f296d05ac55452b0db924f34ec37643393d2c9",
+    "vscode": "35f296d05ac55452b0db924f34ec37643393d2c9",
     "husky": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
-    "agents-docs": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
+    "agents-docs": "35f296d05ac55452b0db924f34ec37643393d2c9",
     "claude-config": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
     "tooling": "a31b6e1908ee69b224042d7e7a07c7f3efbebaa8",
     "env-template": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
@@ -21,7 +21,7 @@
   "syncedComponents": [],
   "ignoreFileSync": {
     ".gitignore": {
-      "lastSyncedSha": "a293ad9759098669d09ad4106f2e96acb2c11187",
+      "lastSyncedSha": "82195b81ce755d511e8da13bbd672adae0959232",
       "appendedLines": [
         ".context/reports/*",
         "!.context/reports/README.md",
@@ -41,7 +41,8 @@
         ".agents/skills/resend-cli/",
         "!skills-lock.json",
         "!**/skills-lock.json",
-        ".backups*/"
+        ".backups*/",
+        ".template/last-apply.json"
       ]
     },
     ".prettierignore": {
@@ -56,7 +57,7 @@
   "packageJsonSync": {
     "package.json": {
       "scripts": {
-        "lastSyncedSha": "f043848877ffcc7e5865cedd022766333074efcc",
+        "lastSyncedSha": "477cbad473d1d9f96311a8edb9d9d8463b621c50",
         "appliedKeys": [
           "agents:compat",
           "agents:compat:check",
@@ -65,24 +66,25 @@
           "git:policy",
           "jira:components",
           "jira:url",
-          "tests:map"
+          "tests:map",
+          "skills:evals"
         ]
       },
       "devDependencies": {
-        "lastSyncedSha": "f043848877ffcc7e5865cedd022766333074efcc",
+        "lastSyncedSha": "477cbad473d1d9f96311a8edb9d9d8463b621c50",
         "appliedKeys": []
       },
       "dependencies": {
-        "lastSyncedSha": "f043848877ffcc7e5865cedd022766333074efcc",
+        "lastSyncedSha": "477cbad473d1d9f96311a8edb9d9d8463b621c50",
         "appliedKeys": []
       },
       "lint-staged": {
-        "lastSyncedSha": "f043848877ffcc7e5865cedd022766333074efcc",
+        "lastSyncedSha": "477cbad473d1d9f96311a8edb9d9d8463b621c50",
         "appliedKeys": []
       }
     }
   },
-  "cliVersion": "7.0",
-  "lastSyncedAt": "2026-09-03T17:59:15.142Z",
+  "cliVersion": "8.4",
+  "lastSyncedAt": "2026-09-17T16:33:46.637Z",
   "variableSystemVersion": 1
 }

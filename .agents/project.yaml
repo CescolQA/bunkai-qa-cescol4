@@ -37,6 +37,18 @@ issue_tracker:
 testing:
   default_env: staging # Default testing environment — must match a key under `environments:` (e.g. staging)
   tms_cli: bun xray # Test management CLI command (e.g. bun xray)
+  # Which stage turns a test case into a `Test` work item in the TMS. One of:
+  # auto | sprint-testing | test-documentation. `auto` (the shipped default) follows the
+  # TMS modality resolved from `tms_cli`: jira-xray -> /sprint-testing Stage 1 (Xray's
+  # `Test` IS the execution unit, so the item must exist during the sprint for the Test
+  # Execution, coverage panel and Test Plan membership to work); jira-native -> Stage 4
+  # /test-documentation (a native `Test` issue IS documentation, so creating one per sprint
+  # outline fills the regression repository with cases that were never ROI-gated).
+  # Override only when the project weighs repository cleanliness against in-sprint
+  # traceability differently — the cost of each override is stated in
+  # `.agents/skills/sprint-testing/SKILL.md` §"Which stage creates the TCs".
+  # Read as {{TC_CREATION_STAGE}}; unset or unrecognized is treated as `auto`.
+  tc_creation_stage: auto
 
 qa:
   formal_blocked_gate: true # When true and the substrate exposes a `blocked` story status, FAILED stories dispatch `defect_reported` (in_test -> blocked). When false (or no `blocked` slug), the skill leaves the story in `in_test` with the linked bug — non-strict fallback. See sprint-testing/references/sprint-orchestration.md Briefing 4 Step 5.
@@ -74,18 +86,13 @@ qa:
 git_strategy:
   strategy: solo-main # null until Strategy Setup runs; then one of: solo-main | main-integration | enterprise | trunk-based | gitflow | github-flow | gitlab-flow | sdet
   description: >
-    Single long-lived branch (main); single maintainer (this repo is the boilerplate
-    template itself). Work is committed and pushed DIRECTLY to main — never via a PR, and
-    without asking the user to confirm each push (standing authorization). Every push to
-    main is effectively a release of the template. No integration branch, no promotion
-    path, no hotfix ceremony.
-    Operational note for the AI: the GitHub ruleset "ProtectPublic" (require-PR +
-    required-signatures on main/staging/dev) is bypassed AUTOMATICALLY on `git push`
-    because the push credential is a repo/org admin — there is NO explicit bypass flag to
-    add; a plain `git push origin main` already applies it. The remote line
-    "Bypassed rule violations ... Changes must be made through a pull request" is EXPECTED
-    and harmless. Do NOT open a PR, do NOT try to satisfy the rule, do NOT ask to confirm —
-    just commit and push.
+    Single long-lived branch (main); single maintainer (César, working solo on this QA
+    practice/personal repo). Work is committed and pushed DIRECTLY to main — never via a
+    PR, and without asking the user to confirm each push (standing authorization). No
+    integration branch, no promotion path, no hotfix ceremony. No GitHub ruleset governs
+    `main` on this repo (`bun run git:policy verify` confirms "no ruleset rules apply") —
+    there is nothing to bypass, a plain `git push origin main` just works. Do NOT open a
+    PR, do NOT ask to confirm each push.
   branches:
     production: main # release / default branch
     integration: null # long-lived integration branch name (e.g. staging), or null
@@ -97,7 +104,7 @@ git_strategy:
     hotfix_policy: n/a # branch-off-prod-backmerge | via-integration | none | n/a
   policy: # how strictly protected branches are guarded (set by Strategy Setup Q4; defaults are safe)
     direct_push_to_protected: allowed # forbidden | confirm | allowed (solo-main = allowed)
-    admin_bypass: true # normal flow here: the admin push credential auto-bypasses the ProtectPublic ruleset on every push (no flag needed). "Bypassed rule violations" is expected — never open a PR.
+    admin_bypass: true # no ruleset governs main on this repo, so there is nothing to bypass — direct push just works. Field kept true for consistency with a solo-main default.
     require_pr_reviews: 0 # null | 0 | N — min approvals before merge to a protected branch (informational)
   branch_prefixes:
     precedence: [feat, fix, refactor, test, docs, chore]
@@ -106,6 +113,23 @@ git_strategy:
   meta:
     setup_version: 1
     created: 2026-06-20 # YYYY-MM-DD stamped by Strategy Setup
+    policy_verified: 2026-09-17 # YYYY-MM-DD of the last `bun run git:policy verify`. null = never reconciled against the host
+    policy_source: verified # verified | accepted | declared. `verified` = host matches the yaml exactly.
+    strategy_source: chosen # inherited | chosen. CHOSEN 2026-09-17: César reconfirmed solo-main and its Q4 policy (allowed / admin_bypass true / 0 reviews) via git-flow-master Strategy Setup — single-branch mechanics already matched real usage, nothing to rematerialize.
+
+# Files `bun run up` must keep as THIS project's own. Read by `cli/update-boilerplate.ts`
+# at the start of every run and merged into the protected watchlist (AGENTS.md,
+# .agents/project.yaml, .mcp.json, opencode.jsonc, .codex/config.toml,
+# .claude/settings.json, .husky/pre-commit, .husky/pre-push, allurerc.mjs,
+# playwright.config.ts, the KATA bases under tests/components/, ...): a listed path is
+# never overwritten, is delivered once from upstream when missing, and shows a drift row
+# with hunk evidence when upstream's copy changes. List a SYNCED file you merged by hand
+# (the parity row "project edit overwritten" names the path to add); repo-relative FILE
+# paths only, no directories, nothing under .git. An invalid entry is reported and
+# ignored. Empty by default. Read directly by the updater (not a {{VAR}} source): the
+# nested list is skipped by vars:check like git_strategy and qa.qa_epics.
+updater:
+  protected_paths: [.vscode/settings.json] # e.g. [scripts/lint-vars.ts, .agents/skills/acli/SKILL.md]
 
 # Per-environment config. Add/remove environments freely (production, dev, qa, uat, etc.).
 # Each environment must define ALL four keys: web_url, api_url, db_mcp, api_mcp.

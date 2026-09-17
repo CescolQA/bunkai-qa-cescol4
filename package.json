@@ -92,7 +92,8 @@
     "git:policy": "bun scripts/git-policy.ts",
     "jira:components": "bun scripts/sync-jira-components.ts",
     "jira:url": "bun scripts/atlassian-url.ts",
-    "tests:map": "bun scripts/tests-map.ts"
+    "tests:map": "bun scripts/tests-map.ts",
+    "skills:evals": "bun scripts/run-skill-evals.ts"
   },
   "dependencies": {
     "@clack/prompts": "^1.4.0",

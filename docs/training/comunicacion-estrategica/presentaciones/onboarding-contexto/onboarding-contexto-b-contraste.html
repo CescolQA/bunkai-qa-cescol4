@@ -3,26 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Onboarding — El recorrido que estoy entrenando</title>
-    <link rel="stylesheet" href="assets/fonts.css" />
-    <link rel="stylesheet" href="assets/base.css" />
-    <link rel="stylesheet" href="assets/knowledge-arch-blueprint.css" />
+    <title>Onboarding — Opción B, contraste híbrido</title>
+    <link rel="stylesheet" href="../assets/fonts.css" />
+    <link rel="stylesheet" href="../assets/base.css" />
+    <link rel="stylesheet" href="../assets/knowledge-arch-blueprint-contrast.css" />
   </head>
   <body class="tpl-knowledge-arch-blueprint">
     <div class="deck">
-      <!-- 1. COVER — hero visual -->
-      <section class="slide is-active">
+      <!-- 1. COVER — morado fuerte -->
+      <section class="slide tone-dark is-active" data-title="Portada">
         <div class="kb-grid-bg"></div>
         <div style="display: flex; align-items: center; gap: 40px; margin: auto 0">
           <img
-            src="assets/img/bunkai-login-hero.png"
+            src="../assets/img/bunkai-login-hero.png"
             style="
               width: 480px;
               height: auto;
-              border: 2px solid #1d0847;
+              border: 2px solid var(--kb-rust);
               border-radius: 10px;
               display: block;
-              box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
+              box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
               flex: 0 0 auto;
             "
           />
@@ -40,8 +40,8 @@
         <div class="kb-footer"><span>Onboarding</span><span>01 / 09</span></div>
       </section>
 
-      <!-- 2. SECTION: contexto breve -->
-      <section class="slide">
+      <!-- 2. SECTION: contexto breve — claro -->
+      <section class="slide tone-light" data-title="Contexto">
         <div class="kb-grid-bg"></div>
         <div style="margin: auto 0">
           <div class="kb-kicker">Contexto</div>
@@ -56,8 +56,8 @@
         <div class="kb-footer"><span>Contexto</span><span>02 / 09</span></div>
       </section>
 
-      <!-- 3. CONTENT: qué es este recorrido -->
-      <section class="slide">
+      <!-- 3. CONTENT: qué es este recorrido — intermedio -->
+      <section class="slide tone-mid" data-title="El recorrido">
         <div class="kb-grid-bg"></div>
         <div class="kb-kicker">El recorrido</div>
         <h1 class="kb-h1" style="font-size: 46px">
@@ -77,8 +77,8 @@
         <div class="kb-footer"><span>Contexto · Recorrido</span><span>03 / 09</span></div>
       </section>
 
-      <!-- 4. CONTENT: el proyecto/negocio -->
-      <section class="slide">
+      <!-- 4. CONTENT: el proyecto/negocio — claro -->
+      <section class="slide tone-light" data-title="El producto">
         <div class="kb-grid-bg"></div>
         <div class="kb-kicker">Sobre qué estoy practicando</div>
         <h1 class="kb-h1" style="font-size: 36px">
@@ -87,17 +87,17 @@
         <div style="display: flex; gap: 24px; margin-top: 14px; align-items: flex-start">
           <div style="flex: 0 0 auto">
             <img
-              src="assets/img/bunkai-login-full.png"
+              src="../assets/img/bunkai-login-full.png"
               style="
                 height: 400px;
                 width: auto;
                 max-width: 100%;
-                border: 2px solid #1d0847;
+                border: 2px solid var(--kb-ink);
                 border-radius: 8px;
                 display: block;
               "
             />
-            <p style="font-size: 11px; color: #888; margin-top: 6px">
+            <p style="font-size: 11px; color: var(--kb-ink3); margin-top: 6px">
               Página de inicio — donde entra cualquier usuario
             </p>
           </div>
@@ -129,7 +129,7 @@
         <p
           style="
             font-size: 12px;
-            color: #9486a9;
+            color: var(--kb-rust);
             margin-top: 10px;
             font-weight: 700;
             letter-spacing: 0.05em;
@@ -140,8 +140,8 @@
         <div class="kb-footer"><span>Contexto · El producto</span><span>04 / 09</span></div>
       </section>
 
-      <!-- 5. CONTENT: 4 pilares grid -->
-      <section class="slide">
+      <!-- 5. CONTENT: 4 pilares grid — intermedio -->
+      <section class="slide tone-mid" data-title="4 pilares">
         <div class="kb-grid-bg"></div>
         <div class="kb-kicker">Cómo lo ordeno</div>
         <h1 class="kb-h1" style="font-size: 46px">Los <span class="rust">4 pilares</span></h1>
@@ -183,8 +183,8 @@
         <div class="kb-footer"><span>Contexto · 4 pilares</span><span>05 / 09</span></div>
       </section>
 
-      <!-- 6. CONTENT: el núcleo elegido -->
-      <section class="slide">
+      <!-- 6. CONTENT: el núcleo elegido — morado fuerte -->
+      <section class="slide tone-dark" data-title="Núcleo">
         <div class="kb-grid-bg"></div>
         <div class="kb-kicker">El hilo central</div>
         <h1 class="kb-h1" style="font-size: 44px">
@@ -214,8 +214,8 @@
         <div class="kb-footer"><span>Contexto · Núcleo</span><span>06 / 09</span></div>
       </section>
 
-      <!-- 7. SECTION: qué viene -->
-      <section class="slide">
+      <!-- 7. SECTION: qué viene — claro -->
+      <section class="slide tone-light" data-title="Qué viene">
         <div class="kb-grid-bg"></div>
         <div style="margin: auto 0">
           <div class="kb-kicker">Próxima entrega</div>
@@ -230,8 +230,8 @@
         <div class="kb-footer"><span>Qué viene</span><span>07 / 09</span></div>
       </section>
 
-      <!-- 8. CONTENT: por qué importa -->
-      <section class="slide">
+      <!-- 8. CONTENT: por qué importa — intermedio -->
+      <section class="slide tone-mid" data-title="Por qué importa">
         <div class="kb-grid-bg"></div>
         <div class="kb-kicker">Por qué esto importa</div>
         <h1 class="kb-h1" style="font-size: 44px">
@@ -245,8 +245,8 @@
         <div class="kb-footer"><span>Por qué</span><span>08 / 09</span></div>
       </section>
 
-      <!-- 9. CIERRE -->
-      <section class="slide">
+      <!-- 9. CIERRE — morado fuerte, espejo de la portada -->
+      <section class="slide tone-dark" data-title="Cierre">
         <div class="kb-grid-bg"></div>
         <div style="margin: auto 0; text-align: center">
           <div class="kb-kicker">Serie en curso</div>
@@ -260,6 +260,6 @@
         <div class="kb-footer"><span>Fin del deck</span><span>09 / 09</span></div>
       </section>
     </div>
-    <script src="assets/runtime.js"></script>
+    <script src="../assets/runtime.js"></script>
   </body>
 </html>

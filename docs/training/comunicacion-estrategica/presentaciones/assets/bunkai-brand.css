@@ -1,0 +1,322 @@
+/* bunkai-brand — Opcion C: arquitectura generica de base.css (variables + card/grid)
+   + vocabulario mas rico tomado del deck de referencia (workflow map, terminal, step-cards,
+   gradient-text animado, fondo mesh-gradient), recoloreado a la paleta de marca de Cesar
+   (blanco / navy #1D0847 / lavanda #9486A9 / gris #AFB4B3). No es tokyo-night: mismo esqueleto
+   de componentes, identidad visual propia. */
+.tpl-bunkai-brand {
+  --good: #7ed6a5;
+  --warn: #f2c078;
+  --bad: #f2849a;
+  --grad: linear-gradient(135deg, #ffffff, #9486a9 55%, #afb4b3);
+  --grad-soft: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(148, 134, 169, 0.16));
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* fondo plano solido, igual de simple que el deck de referencia (tokyo-night no usa degrade).
+   Lo que da textura de fondo ahi es el efecto canvas [data-fx="constellation"], no un gradiente. */
+.tpl-bunkai-brand .slide {
+  background: var(--bg);
+  color: var(--text-1);
+}
+
+/* ---- tonos por slide — mismo mecanismo que la opcion B, ahora en la arquitectura de C ---- */
+.tpl-bunkai-brand .slide.tone-dark {
+  --bg: #1d0847;
+  --surface: #2a1259;
+  --border: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.24);
+  --text-1: #ffffff;
+  --text-2: #cbc3da;
+  --text-3: #9486a9;
+  --accent: #9486a9;
+  --accent-2: #afb4b3;
+  --badge-ink: #1d0847;
+  --grad-1: #ffffff;
+  --grad-2: #afb4b3;
+  --grad-3: #9486a9;
+  --grad-4: #ffffff;
+}
+.tpl-bunkai-brand .slide.tone-mid {
+  --bg: #f1ecf7;
+  --surface: #ffffff;
+  --border: rgba(148, 134, 169, 0.25);
+  --border-strong: rgba(148, 134, 169, 0.4);
+  --text-1: #1d0847;
+  --text-2: #5c5568;
+  --text-3: #8574a0;
+  --accent: #6e5c8c;
+  --accent-2: #9486a9;
+  --badge-ink: #1d0847;
+  --grad-1: #1d0847;
+  --grad-2: #6e5c8c;
+  --grad-3: #9486a9;
+  --grad-4: #1d0847;
+}
+.tpl-bunkai-brand .slide.tone-light {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --border: rgba(175, 180, 179, 0.4);
+  --border-strong: rgba(148, 134, 169, 0.35);
+  --text-1: #1d0847;
+  --text-2: #5c5568;
+  --text-3: #afb4b3;
+  --accent: #9486a9;
+  --accent-2: #6e5c8c;
+  --badge-ink: #1d0847;
+  --grad-1: #1d0847;
+  --grad-2: #9486a9;
+  --grad-3: #6e5c8c;
+  --grad-4: #1d0847;
+}
+
+.tpl-bunkai-brand .fx-host {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+}
+/* slides con contenido (no solo portada/cierre) llevan el fondo mas discreto para no pelear con el texto,
+   pero visible — antes quedaba casi invisible sobre fondo claro/intermedio */
+.tpl-bunkai-brand .fx-host.subtle {
+  opacity: 0.4;
+}
+.tpl-bunkai-brand .above {
+  position: relative;
+  z-index: 1;
+}
+
+.tpl-bunkai-brand .kicker::before {
+  content: '// ';
+  opacity: 0.7;
+}
+
+/* gradient-text animado (en vez del clip estatico de base.css); los 4 colores vienen de
+   --grad-1..4, definidos por el tono de la slide, asi el highlight siempre se lee. */
+.tpl-bunkai-brand .gradient-text {
+  background: linear-gradient(90deg, var(--grad-1), var(--grad-2), var(--grad-3), var(--grad-4));
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: bk-gradflow 5s linear infinite;
+}
+@keyframes bk-gradflow {
+  to {
+    background-position: 300% 0;
+  }
+}
+
+/* entrada suave */
+@keyframes bk-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.tpl-bunkai-brand .anim-fade-up {
+  animation: bk-fade-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.tpl-bunkai-brand .anim-stagger-list > * {
+  opacity: 0;
+  animation: bk-fade-up 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.tpl-bunkai-brand .anim-stagger-list > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.tpl-bunkai-brand .anim-stagger-list > *:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.tpl-bunkai-brand .anim-stagger-list > *:nth-child(3) {
+  animation-delay: 0.25s;
+}
+.tpl-bunkai-brand .anim-stagger-list > *:nth-child(4) {
+  animation-delay: 0.35s;
+}
+
+/* chip */
+.tpl-bunkai-brand .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  color: var(--text-1);
+}
+.tpl-bunkai-brand .cdot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+
+/* step cards con badge numerado flotante (pilares) */
+.tpl-bunkai-brand .step {
+  position: relative;
+  padding: 24px 18px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.tpl-bunkai-brand .step.accent {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent) inset;
+}
+.tpl-bunkai-brand .step .num {
+  position: absolute;
+  top: -15px;
+  left: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: var(--grad);
+  color: var(--badge-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.tpl-bunkai-brand .step h4 {
+  margin: 8px 0 6px;
+  font-size: 15px;
+}
+.tpl-bunkai-brand .step p {
+  font-size: 12.5px;
+  color: var(--text-2);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* mapa de workflow — linea vertical con degrade + nodos numerados */
+.tpl-bunkai-brand .wf {
+  position: relative;
+  margin-top: 18px;
+}
+.tpl-bunkai-brand .wf::before {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent-2), var(--accent));
+  opacity: 0.5;
+}
+.tpl-bunkai-brand .wf-row {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 0;
+}
+.tpl-bunkai-brand .wf-node {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-1);
+  position: relative;
+  z-index: 1;
+}
+.tpl-bunkai-brand .wf-num {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  color: var(--accent-2);
+  box-shadow: 0 0 0 4px var(--bg);
+}
+.tpl-bunkai-brand .wf-node.hero .wf-num {
+  background: var(--grad);
+  border-color: transparent;
+  color: var(--badge-ink);
+}
+.tpl-bunkai-brand .wf-what {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.45;
+}
+.tpl-bunkai-brand .wf-what b {
+  color: var(--text-1);
+}
+
+/* terminal falsa — reemplaza al codebox plano para la slide "producto" */
+.tpl-bunkai-brand .term {
+  background: #140a33;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  box-shadow: var(--shadow);
+  margin-top: 16px;
+}
+.tpl-bunkai-brand .term .bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 14px;
+  background: #1c0f45;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-3);
+}
+.tpl-bunkai-brand .term .tdot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #f2849a;
+  flex: none;
+}
+.tpl-bunkai-brand .term .tdot:nth-child(2) {
+  background: #f2c078;
+}
+.tpl-bunkai-brand .term .tdot:nth-child(3) {
+  background: #7ed6a5;
+}
+.tpl-bunkai-brand .term pre {
+  margin: 0;
+  padding: 16px 20px;
+  color: #ffffff;
+  overflow: auto;
+  white-space: pre;
+}
+.tpl-bunkai-brand .term .cmt {
+  color: #9486a9;
+  font-style: italic;
+}
+.tpl-bunkai-brand .term .kw {
+  color: #afb4b3;
+  font-weight: 700;
+}
+
+/* glow decorativo para el cierre */
+.tpl-bunkai-brand .glow-spot {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 55%, rgba(148, 134, 169, 0.4), transparent 55%);
+}

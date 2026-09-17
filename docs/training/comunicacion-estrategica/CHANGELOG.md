@@ -10,6 +10,29 @@ sigue iterando) está documentada en `README.md`.
   `knowledge-arch-blueprint` original) — descartado. Reemplazado por la
   paleta de marca real de LinkedIn de César: blanco / navy `#1D0847` /
   lavanda `#9486A9` / gris `#AFB4B3`.
+- **Fondo blanco liso en las 9 slides (tema A, ya recoloreado a la paleta
+  de marca)** — descartado 2026-09-17 por "muy básico". Se compararon 3
+  bases sobre el mismo contenido de `onboarding-contexto`: A (plano),
+  B (mismas clases `kb-*`, tono alternado por slide: morado fuerte / claro
+  / intermedio, no un solo color), C (arquitectura genérica + componentes
+  nuevos + fondo animado). B y C quedaron vigentes en paralelo; A se
+  descartó del todo.
+- **Fondo mesh-gradient (varios radiales superpuestos) para el tema C** —
+  probado y descartado el mismo día ("quedó horrible", palabras de
+  César). Se reemplazó por fondo plano sólido + el efecto canvas
+  `constellation` (puntos + líneas finas conectándose), portado del deck
+  de referencia externo (`agentic-qa-boilerplate/decks/shift-left-testing/how-it-works.es.html`,
+  tema `tokyo-night` del mismo skill `html-ppt`) y recoloreado a la
+  paleta propia. Primera versión del efecto solo en la portada; se
+  extendió a las 9 slides con color/opacidad adaptados al tono de cada
+  una (puntos blancos fuerte en morado, puntos morado oscuro discretos en
+  claro/intermedio) después de que la primera pasada quedara casi
+  invisible sobre fondo claro.
+- **Un solo tono de color parejo por deck (todo morado, o todo claro)**
+  para B y C — descartado. Both temas alternan tono por slide
+  (`.tone-dark/.tone-mid/.tone-light`) siguiendo el mismo ritmo: portada
+  oscura → claro → intermedio → claro → intermedio → oscura (núcleo) →
+  claro → intermedio → oscura (cierre, espejo de portada).
 - **Logo del kanji en negro + naranja** — descartado junto con el tema
   anterior. Recoloreado a navy + lavanda para hacer juego con el título.
 - **Logo como captura de pantalla con fondo oscuro propio** (chip con
@@ -30,6 +53,16 @@ sigue iterando) está documentada en `README.md`.
 - **Las 4 fases de `project-discovery` comprimidas a una línea de texto en
   la portada** — descartado. Vuelven como slide propia ("Las 4 fases"),
   con las cajas completas.
+
+## Organización de archivos
+
+- **Los 3 `.html` de `onboarding-contexto` (A/B/C) sueltos junto a
+  `project-discovery.html` en la raíz de `presentaciones/`** — reordenado
+  2026-09-17. Ahora cada presentación tiene su propia carpeta
+  (`onboarding-contexto/`, `project-discovery/`), con `assets/` compartido
+  un nivel arriba. Los bosquejos de comparación (`sketch-a/b/c-*.html`,
+  `comparativa-temas.html`) se borraron una vez cerrada la decisión — ya
+  cumplieron su función.
 
 ## Estructura y contenido
 

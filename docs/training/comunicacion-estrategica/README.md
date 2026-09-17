@@ -68,8 +68,24 @@ la UI real de la app, fuera del alcance de "nuestra" marca.
 Serie escalonada, no un deck por skill de una sola tirada. Sirven de fuente
 para recortar después contenido hacia GitHub, sitio personal y LinkedIn —
 no son el destino final. Guardados a nivel local (no publicados como
-Artifact), assets en `presentaciones/assets/` para que cada deck sea
-autocontenido.
+Artifact). `presentaciones/assets/` es compartido por todos los decks
+(fonts, temas, `runtime.js`, imágenes); cada deck vive en su propia carpeta
+dentro de `presentaciones/` y referencia los assets como `../assets/...`.
+
+### Bases visuales — 3 probadas, 2 vigentes
+
+Se compararon 3 temas sobre el mismo contenido (bosquejo panorámico,
+descartado tras la decisión — ver `CHANGELOG.md`):
+
+| Tema | Estado | Archivo CSS | Rasgo distintivo |
+|---|---|---|---|
+| A — original | **descartado** (muy plano) | `assets/knowledge-arch-blueprint.css` | fondo blanco liso, sin variación |
+| B — contraste | **vigente** | `assets/knowledge-arch-blueprint-contrast.css` | mismas clases `kb-*`; tono por slide (`.tone-dark/.tone-mid/.tone-light`) en vez de un solo color |
+| C — híbrido | **vigente** | `assets/bunkai-brand.css` | arquitectura genérica (`base.css`) + componentes nuevos (mapa de workflow, terminal, step-cards, `gradient-text`) + fondo animado de constelación (`fx-host[data-fx="constellation"]`), tono por slide igual que B |
+
+Las 2 vigentes (B y C) quedan como bases paralelas — no hay un ganador único
+todavía, se sigue iterando sobre ambas antes de fijar una sola para el
+resto de la serie.
 
 **Dos tipos de deck:**
 
@@ -84,10 +100,15 @@ autocontenido.
 
 | Deck | Archivo | Slides | Pilar destacado | Pilar 4 |
 |---|---|---|---|---|
-| Onboarding/contexto | `presentaciones/onboarding-contexto.html` | 9 | los 4, panorama | n/a — es el panorama |
-| `project-discovery` | `presentaciones/project-discovery.html` | 11 | Pilar 2 · Rol + IA asistida | sí — slide de reflexión |
+| Onboarding/contexto (tema A, descartado) | `presentaciones/onboarding-contexto/onboarding-contexto.html` | 9 | los 4, panorama | n/a — es el panorama |
+| Onboarding/contexto (tema B, contraste) | `presentaciones/onboarding-contexto/onboarding-contexto-b-contraste.html` | 9 | los 4, panorama | n/a — es el panorama |
+| Onboarding/contexto (tema C, híbrido) | `presentaciones/onboarding-contexto/onboarding-contexto-c-hibrido.html` | 9 | los 4, panorama | n/a — es el panorama |
+| `project-discovery` | `presentaciones/project-discovery/project-discovery.html` | 11 | Pilar 2 · Rol + IA asistida | sí — slide de reflexión |
 | `shift-left-testing` | — pendiente | — | Pilar 1 · Rol analista (candidato) | sí, cuando se arme |
 | `sprint-testing` | — pendiente | — | Pilar 3 · Agentes orquestados (candidato) | sí, cuando se arme |
+
+`project-discovery` todavía corre sobre el tema A (`knowledge-arch-blueprint.css`)
+— migrar a B o C queda pendiente de qué tema se fije como definitivo.
 
 **Regla de pilar por deck**: cada deck de skill destaca UN pilar entre 1-3
 (elección estratégica, no forzada) MÁS el pilar 4 siempre presente como
@@ -129,13 +150,16 @@ canal — no se decide a ciegas, se compara.
 
 ## Estado
 
-`en curso` — deck 1 (onboarding) y deck 2 (`project-discovery`) son la
-**base aprobada**: paleta de marca, estructura y reglas de arriba son el
-punto de partida para todo lo que sigue, no un borrador más. Nota abierta:
-la URL de las capturas de producto es de **staging** — confirmar antes de
-publicar afuera si conviene esperar una de producción.
+`en curso` — estructura, contenido y paleta de marca (tabla arriba) son la
+**base aprobada** para los 9/11 slides de contenido. A nivel visual, se
+cerró una ronda de exploración (2026-09-17): 3 temas comparados sobre el
+mismo contenido, **A descartado** (plano), **B y C vigentes** en paralelo
+(ver tabla "Bases visuales" arriba). Nota abierta: la URL de las capturas
+de producto es de **staging** — confirmar antes de publicar afuera si
+conviene esperar una de producción.
 
-Próximo paso: `shift-left-testing` (deck 3, Pilar 1 · Rol analista
-candidato) — aplicar esta base desde el arranque, no reabrir las
-decisiones ya cerradas (ver `CHANGELOG.md` si hace falta recordar por qué
-se descartó algo).
+Próximo paso: fijar B o C como tema único antes de construir
+`shift-left-testing` (deck 3, Pilar 1 · Rol analista candidato) — no vale
+la pena seguir escalando 2 temas en paralelo más allá de esta comparación.
+No reabrir las decisiones de contenido/estructura ya cerradas (ver
+`CHANGELOG.md` si hace falta recordar por qué se descartó algo).

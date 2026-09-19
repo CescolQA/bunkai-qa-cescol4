@@ -37,13 +37,24 @@ lista de skills no está cerrada a un número fijo):
 | `shift-left-testing` | Ojo funcional: refinar ACs, detectar ambigüedad antes de que exista bug | Práctica BK-509 (cerrada, comparación de 3 vías) |
 | `sprint-testing` | Ejecución QA real: diseño de casos, fixtures, hallazgos | Práctica BK-859 (cerrada, pasos 1-7, 2 defectos hallados) |
 
-## Canales destino (mensaje por canal, a definir)
+## Organización de los archivos
 
-| Canal | Estado | Nota |
+| Ruta | Qué define |
+|---|---|
+| `fundamento.md` | **la fuente**: qué se comunica y por qué. Todo deriva de acá |
+| `README.md` (este) | la forma: temas, paleta, reglas de deck |
+| `CHANGELOG.md` | decisiones descartadas, con su motivo |
+| `presentaciones/` | decks. Termómetro de tono y fuente para recortar |
+| `piezas/linkedin/` · `piezas/sitio/` | los textos que se publican afuera |
+
+## Canales destino
+
+Dos canales, decididos 2026-09-19. Mensaje por canal definido en `fundamento.md` §6.
+
+| Canal | Rol | Tema visual |
 |---|---|---|
-| Repo GitHub (README/perfil) | pendiente | probablemente el más técnico de los 3 |
-| Sitio personal `cescolqa.github.io` | pendiente | repo separado, prototipo en iteración |
-| LinkedIn (posts/mensajes) | pendiente | el más agnóstico, para reclutadores/contactos sin trasfondo QA |
+| LinkedIn | apertura: trae lectores, una idea por pieza | B — contraste |
+| Sitio personal `cescolqa.github.io` | profundidad: sostiene lo que el post afirma | C — híbrido |
 
 ## Paleta de marca (fija)
 
@@ -83,9 +94,15 @@ descartado tras la decisión — ver `CHANGELOG.md`):
 | B — contraste | **vigente** | `assets/knowledge-arch-blueprint-contrast.css` | mismas clases `kb-*`; tono por slide (`.tone-dark/.tone-mid/.tone-light`) en vez de un solo color |
 | C — híbrido | **vigente** | `assets/bunkai-brand.css` | arquitectura genérica (`base.css`) + componentes nuevos (mapa de workflow, terminal, step-cards, `gradient-text`) + fondo animado de constelación (`fx-host[data-fx="constellation"]`), tono por slide igual que B |
 
-Las 2 vigentes (B y C) quedan como bases paralelas — no hay un ganador único
-todavía, se sigue iterando sobre ambas antes de fijar una sola para el
-resto de la serie.
+Las 2 vigentes quedan asignadas por canal (decidido 2026-09-19), no compiten
+entre sí:
+
+| Tema | Canal | Por qué |
+|---|---|---|
+| B — contraste | LinkedIn | lectura rápida, alto contraste, funciona en carrusel y en miniatura |
+| C — híbrido | sitio personal (`cescolqa.github.io`) | más interactivo, soporta profundidad y recorrido |
+
+No hay un tema único para toda la serie: hay un tema por destino.
 
 **Dos tipos de deck:**
 
@@ -158,8 +175,11 @@ mismo contenido, **A descartado** (plano), **B y C vigentes** en paralelo
 de producto es de **staging** — confirmar antes de publicar afuera si
 conviene esperar una de producción.
 
-Próximo paso: fijar B o C como tema único antes de construir
-`shift-left-testing` (deck 3, Pilar 1 · Rol analista candidato) — no vale
-la pena seguir escalando 2 temas en paralelo más allá de esta comparación.
+El contenido de toda pieza deriva de `fundamento.md`. Este documento define
+únicamente la forma.
+
+Próximo paso: reescribir el deck `project-discovery` contra `fundamento.md`
+(regla de sujeto + balance del inventario) antes de construir
+`shift-left-testing` (deck 3, Pilar 1 · Rol analista candidato).
 No reabrir las decisiones de contenido/estructura ya cerradas (ver
 `CHANGELOG.md` si hace falta recordar por qué se descartó algo).

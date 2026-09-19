@@ -224,8 +224,8 @@ Si hay un cambio por tarea, lo refleja: `Dial: profundidad senior (solo esta tar
 | Qué es | Convertir los 4 pilares del entrenamiento (rol analista base / rol + IA asistida / ecosistema de agentes orquestados / experiencia y criterio propio) en una narrativa comunicable, con núcleo en el rol híbrido (analista funcional + QA) demostrado a través de `project-discovery`, `shift-left-testing` y `sprint-testing`. |
 | Para qué | Comunicar hacia afuera (GitHub, sitio personal, LinkedIn) de forma estratégica y agnóstica, entendible por reclutadores sin trasfondo QA. |
 | Dónde nació | Conversación del 2026-09-11, después de cerrar BK-859 y armar `niveles/`. |
-| Estado | `en curso` — deck 1 (onboarding, 9 slides) y deck 2 (`project-discovery`, 11 slides) son la **base aprobada**: 4 pilares, paleta de marca de LinkedIn fija (blanco/navy `#1D0847`/lavanda `#9486A9`/gris `#AFB4B3`), castellano neutro, 20 reglas generales de formato. Detalle completo en `comunicacion-estrategica/README.md`; decisiones descartadas en `comunicacion-estrategica/CHANGELOG.md`. |
-| Próximo paso | `shift-left-testing` (deck 3, candidato Pilar 1 · Rol analista) — aplicar la base ya cerrada desde el arranque, no reabrir decisiones ya tomadas. Converge con la comparación de niveles (I-7) como insumo de calibración. |
+| Estado | `en curso` — el 2026-09-19 se bajó a la capa que faltaba: **`comunicacion-estrategica/fundamento.md`** define qué se comunica y por qué (posicionamiento, audiencia, regla de sujeto, inventario de evidencia de doble eje, mensaje por canal, checklist). `README.md` queda solo con la forma. Canales cerrados en dos: LinkedIn (tema B) y sitio personal (tema C). Cada pieza es autónoma, sin anclaje a una serie. Deck `project-discovery` reconstruido: 9 slides, tema B. Decisiones descartadas en `CHANGELOG.md`. |
+| Próximo paso | Revisar el deck `onboarding-contexto` contra `fundamento.md` (se construyó antes que la base) y escribir las primeras piezas en `piezas/linkedin/` y `piezas/sitio/`. Después, `shift-left-testing` con los tres guiones desde el arranque. Converge con la comparación de niveles (I-7) como insumo de calibración. |
 
 ---
 

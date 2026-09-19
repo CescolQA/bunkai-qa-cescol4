@@ -179,6 +179,12 @@ Mismo fundamento, dos formatos distintos. No se copia y pega entre canales.
 La forma visual de cada canal (tema, paleta, plantilla) se define en `README.md`,
 no acá: tema B para LinkedIn, tema C para el sitio.
 
+**Cada pieza es autónoma.** Se entiende sin haber visto ninguna otra, no anuncia
+la siguiente y no ocupa un lugar fijo en una secuencia. Una misma skill puede
+dar lugar a varias piezas sobre recortes distintos. El orden de publicación, el
+hilo entre piezas y la invitación a seguir viven en el texto de publicación, que
+se escribe aparte y se puede cambiar sin tocar la pieza.
+
 ## 7. Checklist de una pieza publicable
 
 Se aplica antes de dar por terminada cualquier pieza.
@@ -209,5 +215,12 @@ como capa personal.
 
 ## Estado
 
-`base v1` — establecido 2026-09-19. Reemplaza el trabajo por intuición sobre los decks.
+`base v1` — establecido 2026-09-19. Reemplaza el trabajo por intuición sobre las piezas.
 Antes de tocar contenido de una pieza se revisa este documento, no al revés.
+
+Primera aplicación: el deck `project-discovery` se reconstruyó entero contra esta
+base el mismo día. Pasó de 11 slides a 9, de 7 slides con el producto como sujeto
+a 8 de 9 con el rol como sujeto, y perdió el cierre que lo ataba a una serie.
+
+Pendiente de pasar por acá: el deck `onboarding-contexto`, construido antes que
+este documento.

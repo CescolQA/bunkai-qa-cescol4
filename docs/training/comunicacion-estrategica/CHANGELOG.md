@@ -79,8 +79,9 @@ sigue iterando) está documentada en `README.md`.
   implicaba un orden/cantidad fija que no es real (la lista de skills
   puede crecer). Reemplazada por la etiqueta neutra "SKILL".
 - **Cierre "Sigamos la semana que viene" / "La base ya está documentada"**
-  — descartado (comprometía fecha, o no invitaba a nada). Reemplazado por
-  el CTA "Sigue la serie", igual en los dos decks.
+  — descartado (comprometía fecha, o no invitaba a nada). Se reemplazó por
+  el CTA "Sigue la serie". **Ese reemplazo quedó superado el 2026-09-19**:
+  ver la sección de esa fecha, más abajo.
 - **Frase "…a medida que avanzo por el pipeline manual"** — descartada,
   restaba peso al pilar de IA asistida. Reemplazada por "…entre el
   criterio humano y la asistencia de IA".
@@ -102,3 +103,67 @@ sigue iterando) está documentada en `README.md`.
   aprendizaje propio").
 - **Pilar 1 "Rol manual"** → renombrado **"Rol analista"** (el nombre
   original restaba peso al rol).
+
+## 2026-09-19 — la ronda de fundamentos
+
+Sesión que bajó a la capa de contenido. Lo descartado acá no es visual:
+es qué dice cada pieza y por qué.
+
+### Método de trabajo
+
+- **Iterar el HTML del deck directamente** — descartado. Dos sesiones
+  completas (17 y 18 de septiembre) se perdieron ajustando prosa sobre el
+  archivo final sin una definición de base. La causa era un hueco de
+  definición, no un problema de redacción. Ahora existe `fundamento.md` y
+  ningún deck se escribe sin guion previo.
+- **Reencuadrar una slide cambiando el verbo** ("Pude haber X, decidí Y"
+  como prefijo sobre el mismo dato técnico) — descartado. Cambia la voz, no
+  el sujeto: el dato seguía siendo del producto. Ese patrón fue justamente
+  lo que no se percibía como cambio.
+- **Dos guiones por deck** — ampliado a **tres** (A, B en tensión con A, y C
+  como mezcla deliberada). Con dos opciones la elección queda entre extremos;
+  la tercera existe para combinar.
+
+### Contenido del deck `project-discovery`
+
+- **Las slides del `openapi.json` y del candado de trazabilidad en la base
+  de datos** — sacadas. Eran hallazgos del producto: probaban que Bunkai TMS
+  está bien diseñado, no aportaban nada sobre el criterio propio.
+- **Guiones B (La garantía) y C (El recorrido con tesis)** — evaluados y no
+  elegidos. Quedan completos en `presentaciones/project-discovery/guion.md`.
+  De ellos se tomó el cierre, que era más potente que el de A.
+- **"Dos caminos, elegí el lento"** — descartado. Nadie compra lentitud y el
+  argumento no se sostiene ante un líder técnico. Reemplazado por "Elegí el
+  camino que deja rastro": se nombra lo que la decisión garantiza, no lo que
+  cuesta.
+- **"Cuando nadie te lo explica" / "sin nadie a quién preguntar"** —
+  descartados. Dos problemas: suenan a queja contra el equipo, y debilitan el
+  mérito, porque sin alternativa no hay criterio sino necesidad. Ahora el
+  contexto se cuenta con sus causas reales (traspaso corto, documento viejo,
+  equipo ocupado) y en una línea, no en un párrafo.
+- **Camino A de encuadre** (slide propia dedicada al marco, deck de 10
+  slides) — evaluado y no elegido, ver `encuadre-opciones.html`. Se eligió el
+  camino B: la portada y la slide 2 absorben el encuadre y el deck se mantiene
+  en 9.
+
+### Reglas que se cayeron
+
+- **"Pilar 4 no rota como titular de un deck"** — descartada el 2026-09-18.
+  Estaba escrita en `README.md` desde el commit `cfa62195` pero nunca había
+  sido una decisión discutida con César.
+- **Cierre con el CTA "Sigue la serie"** — descartado. Ataba cada pieza a un
+  orden de publicación y caducaba si ese orden cambiaba. Ahora cada pieza
+  cierra con su propia idea y el hilo vive en el texto de publicación. Única
+  excepción: el deck de onboarding, cuyo tema es el conjunto.
+- **Relación 1 deck por skill** — descartada. Una skill puede dar lugar a
+  varias piezas sobre recortes distintos, publicables en cualquier orden.
+- **Nombrar los pilares en pantalla** — descartado. Son organizador interno
+  para elegir qué contar y auditar el balance; el lector externo no conoce la
+  numeración y el contenido tiene que sostenerse sin ella.
+- **Tres canales destino** (GitHub, sitio, LinkedIn) — reducido a dos:
+  LinkedIn y el sitio personal. GitHub sale de la lista de canales de
+  comunicación.
+- **Elegir un tema visual único para toda la serie** — descartado. La
+  pregunta estaba mal planteada: no había que elegir entre B y C, había que
+  asignar cada uno a su canal.
+

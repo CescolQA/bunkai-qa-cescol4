@@ -6,8 +6,9 @@
 ## Objetivo
 
 Convertir lo entrenado en este repo en una narrativa comunicable hacia afuera
-(repos de GitHub, sitio personal, LinkedIn) sin perder rigor técnico ni
-inflar lo hecho.
+(LinkedIn y el sitio personal) sin perder rigor técnico ni inflar lo hecho.
+El qué y el porqué de cada pieza viven en `fundamento.md`; este documento
+define la forma.
 
 ## Los 4 pilares del entrenamiento
 
@@ -21,9 +22,9 @@ inflar lo hecho.
    responsabilidad del rol, no solo asistencia puntual.
 4. **Experiencia, criterio y aprendizaje propio** — la voz propia de César:
    qué le aportó de verdad cada skill, no como categoría de proceso sino
-   como testimonio. No rota como titular de un deck: va presente en TODOS
-   los decks de skill como capa personal, encima del pilar que ese deck
-   destaque.
+   como testimonio. Presente en toda pieza como capa personal. Puede ser el
+   pilar protagonista de una pieza: la regla anterior que se lo prohibía fue
+   descartada el 2026-09-18 (nunca había sido una decisión discutida).
 
 ## Núcleo elegido — rol híbrido a través de las skills
 
@@ -45,6 +46,8 @@ lista de skills no está cerrada a un número fijo):
 | `README.md` (este) | la forma: temas, paleta, reglas de deck |
 | `CHANGELOG.md` | decisiones descartadas, con su motivo |
 | `presentaciones/` | decks. Termómetro de tono y fuente para recortar |
+| `presentaciones/<deck>/guion.md` | bitácora de decisiones + los tres ángulos evaluados |
+| `presentaciones/<deck>/guion-definitivo.html` | el guion cerrado, con control contra el fundamento |
 | `piezas/linkedin/` · `piezas/sitio/` | los textos que se publican afuera |
 
 ## Canales destino
@@ -68,15 +71,17 @@ publique — decks, LinkedIn, GitHub:
 | Lavanda | `#9486A9` | acento — kickers, resaltados, bordes finos |
 | Gris | `#AFB4B3` | texto muted — footers, etiquetas, separadores. Nunca texto de lectura principal (no tiene contraste suficiente) |
 
-El archivo `presentaciones/assets/knowledge-arch-blueprint.css` mantiene el
-nombre por herencia técnica, pero el color ya es esta paleta, no la
-crema/rojo-ladrillo original. Las capturas reales del producto
+Los archivos de tema en `presentaciones/assets/` mantienen el nombre
+`knowledge-arch-blueprint` por herencia técnica, pero el color ya es esta
+paleta, no la crema/rojo-ladrillo original. Las capturas reales del producto
 (`bunkai-login-hero.png`, `bunkai-login-full.png`) no se recolorean — son
 la UI real de la app, fuera del alcance de "nuestra" marca.
 
 ## Decks (formato `html-ppt`, local)
 
-Serie escalonada, no un deck por skill de una sola tirada. Sirven de fuente
+Piezas independientes, publicadas de forma escalonada. **La relación con las
+skills no es 1 a 1**: una skill puede dar lugar a una pieza o a varias, cada una
+sobre un recorte distinto, y pueden publicarse en cualquier orden. Sirven de fuente
 para recortar después contenido hacia GitHub, sitio personal y LinkedIn —
 no son el destino final. Guardados a nivel local (no publicados como
 Artifact). `presentaciones/assets/` es compartido por todos los decks
@@ -106,31 +111,72 @@ No hay un tema único para toda la serie: hay un tema por destino.
 
 **Dos tipos de deck:**
 
-- **Onboarding/contexto** (uno solo, general, no específico de skill): la
-  idea, los 4 pilares, invitación a seguir la serie. Se publica primero.
-  Único deck con la imagen completa del producto como portada.
-- **Por skill** (`project-discovery`, `shift-left-testing`,
-  `sprint-testing`): se publican después, escalonados. Cada uno con
-  portada tipográfica propia (nombre de la skill) + el logo chico
-  (`bunkai-mark-flat.png`) como ancla de marca — nunca la imagen completa,
-  para que la serie no se vea repetida publicación tras publicación.
+- **Onboarding/contexto**: la idea general y los cuatro pilares. Es la única
+  pieza cuyo tema ES el conjunto, así que es la única que puede invitar a
+  seguir el resto. Único deck con la imagen completa del producto como
+  portada. Pendiente de revisión contra `fundamento.md`: se construyó antes
+  que la base y no pasó por la regla de sujeto.
+- **Por skill**: portada tipográfica propia (nombre de la skill) + el logo
+  chico (`bunkai-mark-flat.png`) como ancla de marca, nunca la imagen
+  completa, para que las publicaciones no se vean repetidas entre sí. Cada
+  una se sostiene sola y se publica en el orden que convenga.
 
 | Deck | Archivo | Slides | Pilar destacado | Pilar 4 |
 |---|---|---|---|---|
 | Onboarding/contexto (tema A, descartado) | `presentaciones/onboarding-contexto/onboarding-contexto.html` | 9 | los 4, panorama | n/a — es el panorama |
 | Onboarding/contexto (tema B, contraste) | `presentaciones/onboarding-contexto/onboarding-contexto-b-contraste.html` | 9 | los 4, panorama | n/a — es el panorama |
 | Onboarding/contexto (tema C, híbrido) | `presentaciones/onboarding-contexto/onboarding-contexto-c-hibrido.html` | 9 | los 4, panorama | n/a — es el panorama |
-| `project-discovery` | `presentaciones/project-discovery/project-discovery.html` | 11 | Pilar 2 · Rol + IA asistida | sí — slide de reflexión |
+| `project-discovery` | `presentaciones/project-discovery/project-discovery.html` | 9 | Pilar 2 (implícito) | sí, implícito |
 | `shift-left-testing` | — pendiente | — | Pilar 1 · Rol analista (candidato) | sí, cuando se arme |
 | `sprint-testing` | — pendiente | — | Pilar 3 · Agentes orquestados (candidato) | sí, cuando se arme |
 
-`project-discovery` todavía corre sobre el tema A (`knowledge-arch-blueprint.css`)
-— migrar a B o C queda pendiente de qué tema se fije como definitivo.
+`project-discovery` corre sobre el tema B (`knowledge-arch-blueprint-contrast.css`),
+que es el tema de LinkedIn. Reconstruido el 2026-09-19 desde `guion-definitivo.html`.
+
+**Una skill puede tener varias piezas.** La tabla de arriba lista lo construido,
+no un cupo. Un segundo deck sobre `project-discovery`, o tres piezas cortas sobre
+`shift-left-testing`, son igual de válidos: cada uno recorta un tema propio y se
+sostiene solo. El nombre del archivo lleva el recorte, no un ordinal
+(`project-discovery-evidencia.html`, no `project-discovery-2.html`).
 
 **Regla de pilar por deck**: cada deck de skill destaca UN pilar entre 1-3
 (elección estratégica, no forzada) MÁS el pilar 4 siempre presente como
 capa personal. El onboarding es el único que presenta los 4 juntos, como
 panorama.
+
+**Los pilares no se nombran en pantalla** (decidido 2026-09-19). Son un
+organizador interno: sirven para elegir qué contar y para auditar el balance
+de una pieza, no para etiquetar slides. Un lector externo no conoce la
+numeración y no la necesita: el contenido tiene que sostenerse sin ella. El
+guion declara qué pilar trabaja cada slide; la slide no lo dice.
+
+## Guion antes del HTML (obligatorio)
+
+Ningún deck se escribe directo en HTML. Primero se redactan **tres guiones** en
+`presentaciones/<deck>/guion.md`, los tres derivados de `fundamento.md`. Cada uno
+declara, slide por slide: qué dice, quién es el sujeto, qué eje del inventario
+usa y qué fila de `fundamento.md` §5 lo respalda.
+
+Los tres ángulos son fijos:
+
+| Guion | Ángulo |
+|---|---|
+| A | una idea estructurante (por ejemplo, el método de trabajo) |
+| B | una idea distinta y en tensión con A (por ejemplo, la garantía de resultado) |
+| C | la mezcla: toma de A y de B lo que mejor funciona de cada uno |
+
+C no es un promedio ni una tercera versión suave. Es una combinación deliberada,
+y declara en la tabla de diferencias qué tomó de cada lado.
+
+César elige uno. Recién entonces se construye el HTML.
+
+| Etapa | Entregable |
+|---|---|
+| 1 | tres guiones comparados en una tabla de diferencias |
+| 2 | elección |
+| 3 | HTML del guion elegido |
+
+Los guiones descartados quedan en el archivo como registro de los ángulos alternativos.
 
 ## Reglas generales de formato
 
@@ -138,15 +184,23 @@ Aplican a todo deck nuevo (checklist antes de dar por terminado un deck):
 
 - Paleta de marca fija (tabla arriba) — nunca crema/rojo-ladrillo.
 - Portada siempre visual/contundente: imagen hero en el deck de onboarding,
-  tipografía protagonista + logo chico en los decks de skill. Nunca
-  cargada de texto, nunca adelanta el próximo deck (eso va en el cierre).
+  tipografía protagonista + logo chico en los decks de skill. Nunca cargada
+  de texto, nunca adelanta otra pieza.
 - Nunca numeración de serie en pantalla ("deck 2 de la serie", "Deck 3 ·")
   — esa secuencia va en el texto de publicación, no en la slide. El puente
   al siguiente tema se hace por contenido, no por ordinal.
 - Sin promesas de canal prematuras (GitHub/Sitio/LinkedIn) hardcodeadas en
   el cierre — eso también va en el texto de publicación.
-- Cierre con llamado a la acción real ("Sigue la serie"), nunca una fecha
-  puntual ("la semana que viene") ni una frase pasiva.
+- **Cada pieza cierra con su propia idea**, nunca con el anuncio de la próxima
+  entrega. La secuencia, el "seguí la serie" y cualquier invitación viven en el
+  texto de publicación, que se escribe aparte y se puede cambiar sin tocar el
+  deck. Un cierre que promete la entrega siguiente ata la pieza a un orden y
+  caduca si ese orden cambia. Nunca una fecha puntual ni una frase pasiva.
+  Excepción única: el deck de onboarding, cuyo tema ES el conjunto.
+- **Cada pieza se entiende sola.** Ninguna depende de haber visto otra. Se puede
+  publicar en cualquier orden, repetir un tema, o mostrar una sola sin contexto
+  previo. Referenciar otra pieza es opcional y se hace por contenido, nunca
+  como requisito de lectura.
 - Tono profesional incluso en contenido personal/testimonial (Pilar 4) —
   sin frases casuales.
 - Castellano neutro, sin voseo ni modismos regionales de ningún país.
@@ -167,19 +221,22 @@ canal — no se decide a ciegas, se compara.
 
 ## Estado
 
-`en curso` — estructura, contenido y paleta de marca (tabla arriba) son la
-**base aprobada** para los 9/11 slides de contenido. A nivel visual, se
-cerró una ronda de exploración (2026-09-17): 3 temas comparados sobre el
-mismo contenido, **A descartado** (plano), **B y C vigentes** en paralelo
-(ver tabla "Bases visuales" arriba). Nota abierta: la URL de las capturas
-de producto es de **staging** — confirmar antes de publicar afuera si
-conviene esperar una de producción.
+`en curso`. Cerrado el 2026-09-19: la capa de contenido existe
+(`fundamento.md`), los canales son dos con un tema visual cada uno, las
+piezas son autónomas, y el deck `project-discovery` fue reconstruido contra
+esa base (9 slides, tema B).
 
-El contenido de toda pieza deriva de `fundamento.md`. Este documento define
-únicamente la forma.
+| Frente | Estado |
+|---|---|
+| Capa de contenido | `fundamento.md`, aprobado |
+| Canales y temas | LinkedIn con tema B, sitio con tema C |
+| Deck `project-discovery` | reconstruido desde su guion |
+| Deck `onboarding-contexto` | **abierto**: se construyó antes del fundamento, hay que revisarlo |
+| Piezas de canal | ninguna escrita todavía |
+| Deck `shift-left-testing` | pendiente, con los tres guiones desde el arranque |
 
-Próximo paso: reescribir el deck `project-discovery` contra `fundamento.md`
-(regla de sujeto + balance del inventario) antes de construir
-`shift-left-testing` (deck 3, Pilar 1 · Rol analista candidato).
-No reabrir las decisiones de contenido/estructura ya cerradas (ver
-`CHANGELOG.md` si hace falta recordar por qué se descartó algo).
+Nota abierta: la URL de las capturas de producto es de **staging**.
+Confirmar antes de publicar afuera si conviene esperar una de producción.
+
+No reabrir las decisiones ya cerradas sin leer antes `CHANGELOG.md`: cada
+entrada dice por qué se descartó algo.

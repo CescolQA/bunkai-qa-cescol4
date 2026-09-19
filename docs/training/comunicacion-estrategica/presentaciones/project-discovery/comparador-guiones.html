@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>project-discovery — comparador de guiones</title>
+    <style>
+      :root {
+        --navy: #1d0847;
+        --lav: #9486a9;
+        --gray: #afb4b3;
+        --paper: #ffffff;
+        --soft: #f4f2f7;
+        --line: #e3dfea;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          'Segoe UI',
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: var(--paper);
+        color: var(--navy);
+        line-height: 1.55;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: var(--navy);
+        color: #fff;
+        padding: 14px 28px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      header h1 {
+        font-size: 17px;
+        margin: 0;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+      header .hint {
+        font-size: 12px;
+        color: var(--gray);
+      }
+      .filters {
+        display: flex;
+        gap: 8px;
+      }
+      .filters button {
+        font: inherit;
+        font-size: 13px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--lav);
+        background: transparent;
+        color: #fff;
+        cursor: pointer;
+      }
+      .filters button.on {
+        background: var(--lav);
+        border-color: var(--lav);
+        color: var(--navy);
+        font-weight: 700;
+      }
+      main {
+        padding: 26px 28px;
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      h2 {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--lav);
+        margin: 34px 0 12px;
+      }
+      table.diff {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      table.diff th,
+      table.diff td {
+        border: 1px solid var(--line);
+        padding: 9px 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+      table.diff th {
+        background: var(--soft);
+        font-weight: 700;
+      }
+      table.diff td:first-child {
+        font-weight: 700;
+        width: 140px;
+        background: var(--soft);
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 54px repeat(3, 1fr);
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+      .num {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--lav);
+        border-right: 2px solid var(--line);
+      }
+      .cell {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: #fff;
+      }
+      .kicker {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--lav);
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .title {
+        font-size: 17px;
+        font-weight: 800;
+        margin: 0 0 8px;
+        line-height: 1.25;
+      }
+      .body {
+        font-size: 13.5px;
+        margin: 0;
+      }
+      .meta {
+        margin-top: 10px;
+        padding-top: 8px;
+        border-top: 1px dashed var(--line);
+        font-size: 11px;
+        color: var(--gray);
+      }
+      .meta b {
+        color: var(--lav);
+      }
+      .colhead {
+        display: grid;
+        grid-template-columns: 54px repeat(3, 1fr);
+        gap: 14px;
+        position: sticky;
+        top: 58px;
+        background: #fff;
+        padding: 10px 0;
+        z-index: 5;
+        border-bottom: 2px solid var(--navy);
+        margin-bottom: 14px;
+      }
+      .colhead div {
+        font-weight: 800;
+        font-size: 14px;
+      }
+      .colhead .sub {
+        font-weight: 400;
+        font-size: 11.5px;
+        color: var(--gray);
+        display: block;
+      }
+      body[data-focus='a'] .col-b,
+      body[data-focus='a'] .col-c,
+      body[data-focus='b'] .col-a,
+      body[data-focus='b'] .col-c,
+      body[data-focus='c'] .col-a,
+      body[data-focus='c'] .col-b {
+        display: none;
+      }
+      body[data-focus='a'] .row,
+      body[data-focus='b'] .row,
+      body[data-focus='c'] .row,
+      body[data-focus='a'] .colhead,
+      body[data-focus='b'] .colhead,
+      body[data-focus='c'] .colhead {
+        grid-template-columns: 54px 1fr;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        margin-top: 40px;
+        padding: 22px 28px 60px;
+        font-size: 13px;
+        max-width: 1600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      footer ul {
+        padding-left: 18px;
+      }
+      @media (max-width: 1100px) {
+        .row,
+        .colhead {
+          grid-template-columns: 1fr;
+        }
+        .num {
+          justify-content: flex-start;
+          border: none;
+          border-bottom: 2px solid var(--line);
+          padding-bottom: 4px;
+        }
+      }
+    </style>
+  </head>
+  <body data-focus="all">
+    <header>
+      <div>
+        <h1>project-discovery · comparador de guiones</h1>
+        <span class="hint"
+          >Lectura de contenido. Sin diseño de slide: solo qué dice cada versión.</span
+        >
+      </div>
+      <div class="filters">
+        <button data-f="all" class="on">Las tres</button>
+        <button data-f="a">Solo A</button>
+        <button data-f="b">Solo B</button>
+        <button data-f="c">Solo C</button>
+      </div>
+    </header>
+
+    <main>
+      <h2>En qué se diferencian</h2>
+      <table class="diff">
+        <tr>
+          <th></th>
+          <th>A · El método</th>
+          <th>B · La garantía</th>
+          <th>C · El recorrido con tesis</th>
+        </tr>
+        <tr>
+          <td>Orden</td>
+          <td>cronológico: cómo se hizo el trabajo</td>
+          <td>argumentativo: tesis primero, prueba después</td>
+          <td>enmarcado: tensión, recorrido, prueba</td>
+        </tr>
+        <tr>
+          <td>Abre con</td>
+          <td>entrar sin contexto a un proyecto</td>
+          <td>la pregunta que hoy se hacen las empresas sobre la IA</td>
+          <td>esa pregunta, en una sola slide corta</td>
+        </tr>
+        <tr>
+          <td>Pilar</td>
+          <td>2 · Rol + IA asistida</td>
+          <td>4 · Experiencia y criterio propio</td>
+          <td>2 y 4 en partes iguales</td>
+        </tr>
+        <tr>
+          <td>Lo que deja</td>
+          <td>"así trabaja esta persona"</td>
+          <td>"esta persona puede responder por el resultado"</td>
+          <td>"así trabaja, y por eso puede responder"</td>
+        </tr>
+        <tr>
+          <td>Gancho</td>
+          <td>medio. Se entiende mejor leído entero</td>
+          <td>alto. La primera slide ya planta la tensión</td>
+          <td>alto al abrir, sostenido por el recorrido</td>
+        </tr>
+        <tr>
+          <td>Densidad</td>
+          <td>baja, una idea por slide</td>
+          <td>media</td>
+          <td>alta. Dos slides fusionan dos ideas</td>
+        </tr>
+        <tr>
+          <td>Riesgo</td>
+          <td>puede leerse como relato de proceso</td>
+          <td>si la tesis no convence, el resto pierde fuerza</td>
+          <td>si se recorta mal, queda cargado</td>
+        </tr>
+      </table>
+
+      <h2>Slide por slide</h2>
+      <div class="colhead">
+        <div></div>
+        <div class="col-a">A · El método<span class="sub">cronológico</span></div>
+        <div class="col-b">B · La garantía<span class="sub">tesis primero</span></div>
+        <div class="col-c">C · El recorrido con tesis<span class="sub">mezcla</span></div>
+      </div>
+
+      <div class="row">
+        <div class="num">1</div>
+        <div class="cell col-a">
+          <div class="kicker">Rol híbrido · analista funcional y de QA</div>
+          <p class="title">project-discovery</p>
+          <p class="body">Cómo se lee un producto entero cuando nadie te lo explica.</p>
+          <div class="meta"><b>Sujeto:</b> ancla · Portada</div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">La IA ya produce. ¿Quién responde?</div>
+          <p class="title">project-discovery</p>
+          <p class="body">
+            Lo que hice para poder responder por cada afirmación sobre un producto que no conocía.
+          </p>
+          <div class="meta"><b>Sujeto:</b> ancla · Portada</div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">Rol híbrido · analista funcional y de QA</div>
+          <p class="title">project-discovery</p>
+          <p class="body">
+            Leer un producto entero desde cero, y poder responder por lo que se afirma sobre él.
+          </p>
+          <div class="meta"><b>Sujeto:</b> ancla · Portada</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">2</div>
+        <div class="cell col-a">
+          <div class="kicker">El punto de partida</div>
+          <p class="title">Lo que casi nunca te dan</p>
+          <p class="body">
+            Entrás a un proyecto nuevo con un onboarding breve. A las semanas llega una historia de
+            usuario. Tenés el presente y el futuro del producto. Del pasado, casi nada: qué se
+            decidió, qué se descartó, qué reglas ya están escritas en el código y nadie documentó.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> criterio previo</div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">La pregunta</div>
+          <p class="title">Producir ya no es el problema</p>
+          <p class="body">
+            La IA redacta análisis, casos de prueba y documentación en minutos. La pregunta que
+            quedó abierta en los equipos es otra: quién garantiza que eso esté bien. Esa pregunta no
+            la contesta la herramienta.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> posicionamiento</div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">La pregunta</div>
+          <p class="title">Producir ya no es el problema</p>
+          <p class="body">
+            La IA redacta análisis y documentación en minutos. Lo que quedó abierto es quién
+            responde por el resultado. Eso se decide antes de abrir la herramienta.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> posicionamiento</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">3</div>
+        <div class="cell col-a">
+          <div class="kicker">La decisión de método</div>
+          <p class="title">Dos caminos, elegí el lento</p>
+          <p class="body">
+            Sin README confiable y sin nadie a quién preguntar, podía asumir lo razonable y avanzar
+            rápido, o frenar cada vez que algo no tenía prueba. Elegí lo segundo. Es más lento, y es
+            lo único que sostiene decir "sin inventar nada".
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> dirigido a mano</div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">Mi respuesta</div>
+          <p class="title">Que todo se pueda auditar</p>
+          <p class="body">
+            Trabajar de modo que cualquier afirmación se pueda rastrear hasta su prueba. Eso obliga
+            a tener criterio antes de empezar, no después de leer la salida. Y obliga a frenar
+            cuando algo no tiene respaldo, aunque suene razonable.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> posicionamiento</div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">La decisión de método</div>
+          <p class="title">Dos caminos, elegí el lento</p>
+          <p class="body">
+            Sin README confiable y sin nadie a quién preguntar: asumir lo razonable y avanzar, o
+            frenar cada vez que algo no tenía prueba. Elegí lo segundo, para que después cada
+            afirmación se pudiera rastrear hasta su origen.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> dirigido a mano</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">4</div>
+        <div class="cell col-a">
+          <div class="kicker">Lo que produjo la skill</div>
+          <p class="title">Cuatro fases sobre un repositorio desconocido</p>
+          <p class="body">
+            Constitution, Architecture, Infrastructure, Specification. De ahí salieron el documento
+            de producto, la especificación de requisitos, el glosario de dominio y más de veinte
+            subdominios mapeados. Todo consultable para cada práctica posterior.
+          </p>
+          <div class="meta"><b>Sujeto:</b> skill · <b>Eje:</b> skill</div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">Prueba 1 · el freno</div>
+          <p class="title">Lo que no tenía prueba quedó en blanco</p>
+          <p class="body">
+            Corrí las cuatro fases sobre un producto que no conocía y salieron el documento de
+            producto, la especificación y más de veinte subdominios. Modelo de ingresos, costos y
+            competencia quedaron marcados como desconocidos. Sin evidencia no se escriben, aunque el
+            hueco incomode.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos + skill · <b>Eje:</b> skill</div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">Lo que produjo la skill, y el freno</div>
+          <p class="title">Veinte subdominios, y tres casillas vacías</p>
+          <p class="body">
+            Cuatro fases sobre un repositorio desconocido: documento de producto, especificación de
+            requisitos, glosario, más de veinte subdominios. Modelo de ingresos, costos y
+            competencia quedaron marcados como desconocidos, porque no había con qué sostenerlos.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos + skill · <b>Eje:</b> skill</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">5</div>
+        <div class="cell col-a">
+          <div class="kicker">Lo que decidí encima</div>
+          <p class="title">Donde era fácil cerrar, extendí</p>
+          <p class="body">
+            No había un solo flujo de integración continua en el repositorio. Lo cómodo era anotar
+            "ninguno" y seguir. Extendí la fase: documenté qué existe, qué no, y qué significa. Sin
+            pipeline, un cambio puede romper 135 pruebas y nadie se entera hasta producción.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> dirigido a mano</div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">Prueba 2 · la extensión</div>
+          <p class="title">Donde la skill cerraba, no cerré</p>
+          <p class="body">
+            Cero flujos de integración continua. La salida esperada era "ninguno". Eso es cierto y
+            es inútil: sin pipeline, un cambio puede romper 135 pruebas sin que nadie lo note hasta
+            producción. Un riesgo así merece una página, no una palabra.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> dirigido a mano</div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">Donde no cerré</div>
+          <p class="title">"Ninguno" era cierto, y era inútil</p>
+          <p class="body">
+            Cero flujos de integración continua en el repositorio. Extendí la fase en vez de
+            cerrarla: sin pipeline, un cambio puede romper 135 pruebas sin que nadie lo note hasta
+            producción. Un riesgo así merece una página, no una palabra.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> dirigido a mano</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">6</div>
+        <div class="cell col-a">
+          <div class="kicker">Lo que me armé aparte</div>
+          <p class="title">La skill produce, pero no te enseña a leerla</p>
+          <p class="body">
+            Para entender lo que tenía delante construí un mapa propio de capas e integraciones, con
+            glosario en lenguaje llano: qué hace cada capa, quién le habla a quién, dónde viven los
+            permisos. Ese mapa quedó como lente de lectura para todas las prácticas siguientes.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> dirigido a mano</div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">Prueba 3 · la lente propia</div>
+          <p class="title">Lo que faltaba me lo construí</p>
+          <p class="body">
+            Auditar una salida exige entenderla. Armé un mapa de capas e integraciones con glosario
+            llano: qué hace cada capa, quién le habla a quién, dónde se controlan los permisos. Sin
+            eso, revisar lo que produce la herramienta es mirar sin leer.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> dirigido a mano</div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">La lente que me armé</div>
+          <p class="title">Auditar exige entender</p>
+          <p class="body">
+            La skill produce, pero no te enseña a leerla. Construí un mapa propio de capas e
+            integraciones con glosario llano: qué hace cada capa, quién le habla a quién, dónde
+            viven los permisos. Quedó como lente para todo lo que vino después.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> dirigido a mano</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">7</div>
+        <div class="cell col-a">
+          <div class="kicker">Qué cambió después</div>
+          <p class="title">Empecé desde un piso más alto</p>
+          <p class="body">
+            Al encarar la primera historia ya tenía reglas de negocio, términos, historias
+            relacionadas e integraciones. No fue solo ganar velocidad: fue arrancar el análisis
+            desde un nivel al que solo, en los primeros días, no hubiera llegado.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> testimonio</div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">Lo que la herramienta no vio</div>
+          <p class="title">Un punto lo encontró solo el análisis a mano</p>
+          <p class="body">
+            En la práctica siguiente comparé tres fuentes sobre la misma historia: mi análisis sin
+            asistencia, el refinamiento asistido, y la resolución real del equipo meses antes. Un
+            hallazgo apareció en una sola: los criterios de aceptación mezclaban nivel técnico con
+            nivel funcional. Lo vio el análisis a mano.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> dirigido a mano</div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">Qué cambió después</div>
+          <p class="title">Empecé desde un piso más alto</p>
+          <p class="body">
+            Al encarar la primera historia ya tenía reglas de negocio, términos, historias
+            relacionadas e integraciones. No fue solo velocidad: fue arrancar el análisis desde un
+            nivel al que solo, en los primeros días, no hubiera llegado.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> testimonio</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">8</div>
+        <div class="cell col-a">
+          <div class="kicker">La tesis</div>
+          <p class="title">No es usar IA, es dirigirla</p>
+          <p class="body">
+            Lo entrenable no es apretar un botón. Es saber qué pedir, juzgar lo que vuelve, y
+            decidir cuándo profundizar. Eso no lo aporta la herramienta: lo aporta el oficio de
+            analista que ya venía de antes.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> posicionamiento</div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">La tesis</div>
+          <p class="title">El criterio no es decoración</p>
+          <p class="body">
+            Ni la IA ni el proceso real del equipo señalaron ese punto. Lo señaló alguien con
+            oficio, revisando a mano. Por eso el criterio propio no es un adorno sobre la
+            herramienta: es lo que permite responder por el resultado.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> posicionamiento</div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">Lo que la herramienta no vio</div>
+          <p class="title">Un punto lo encontró solo el análisis a mano</p>
+          <p class="body">
+            En la práctica siguiente comparé tres fuentes sobre la misma historia: mi análisis sin
+            asistencia, el refinamiento asistido, y la resolución real del equipo. Un hallazgo
+            apareció en una sola: los criterios mezclaban nivel técnico con funcional. Por eso el
+            criterio propio no es decoración.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> dirigido a mano + posicionamiento</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">9</div>
+        <div class="cell col-a">
+          <div class="kicker">La idea que queda</div>
+          <p class="title">Un producto entero se puede leer</p>
+          <p class="body">
+            Sin que nadie te lo explique, y sin inventar nada. La condición es una sola: decidir de
+            antemano que no vas a afirmar lo que no podés probar.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · Cierre propio</div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">La idea que queda</div>
+          <p class="title">Alguien tiene que poder responder</p>
+          <p class="body">
+            La herramienta produce. El criterio propio es lo que vuelve auditable lo que produce.
+            Esa combinación es el perfil, no una de las dos partes por separado.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · Cierre propio</div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">La idea que queda</div>
+          <p class="title">Alguien tiene que poder responder</p>
+          <p class="body">
+            La herramienta produce. El criterio propio es lo que vuelve auditable lo que produce.
+            Esa combinación es el perfil, no una de las dos partes por separado.
+          </p>
+          <div class="meta"><b>Sujeto:</b> vos · Cierre propio</div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <strong>Para elegir, preguntate esto:</strong>
+      <ul>
+        <li>Si alguien ve solo la slide 2, ¿sigue leyendo?</li>
+        <li>Al terminar, ¿qué frase se lleva quien evalúa perfiles?</li>
+        <li>¿Alguna slide habla más del producto ajeno que de tu criterio?</li>
+        <li>¿Cuál resistiría mejor una pregunta incómoda de un líder de QA?</li>
+      </ul>
+      Se puede elegir una versión entera, o armar una mezcla por slide: la numeración está para eso.
+    </footer>
+
+    <script>
+      document.querySelectorAll('.filters button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          document.querySelectorAll('.filters button').forEach(function (x) {
+            x.classList.remove('on');
+          });
+          b.classList.add('on');
+          document.body.dataset.focus = b.dataset.f;
+        });
+      });
+    </script>
+  </body>
+</html>

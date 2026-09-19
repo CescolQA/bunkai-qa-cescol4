@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>project-discovery — dónde entra el encuadre</title>
+    <style>
+      :root {
+        --navy: #1d0847;
+        --lav: #9486a9;
+        --gray: #afb4b3;
+        --soft: #f4f2f7;
+        --line: #e3dfea;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          'Segoe UI',
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: #fff;
+        color: var(--navy);
+        line-height: 1.55;
+      }
+      header {
+        background: var(--navy);
+        color: #fff;
+        padding: 20px 28px;
+      }
+      header h1 {
+        font-size: 19px;
+        margin: 0 0 4px;
+        letter-spacing: 0.02em;
+      }
+      header p {
+        margin: 0;
+        font-size: 12.5px;
+        color: var(--gray);
+      }
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 26px 28px;
+      }
+      .note {
+        background: var(--soft);
+        border-left: 4px solid var(--lav);
+        padding: 14px 18px;
+        font-size: 13px;
+        margin-bottom: 24px;
+        border-radius: 0 8px 8px 0;
+      }
+      .note strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+      .note ul {
+        margin: 6px 0 0;
+        padding-left: 18px;
+      }
+      .colhead {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        position: sticky;
+        top: 0;
+        background: #fff;
+        padding: 12px 0;
+        z-index: 5;
+        border-bottom: 2px solid var(--navy);
+        margin-bottom: 18px;
+      }
+      .colhead div {
+        font-weight: 800;
+        font-size: 15px;
+      }
+      .colhead .sub {
+        display: block;
+        font-weight: 400;
+        font-size: 11.5px;
+        color: var(--gray);
+        margin-top: 2px;
+      }
+      .cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        align-items: start;
+      }
+      .slide {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 18px 20px;
+        margin-bottom: 14px;
+        position: relative;
+        background: #fff;
+      }
+      .slide.new {
+        border-color: var(--lav);
+        border-width: 2px;
+      }
+      .slide.ghost {
+        background: var(--soft);
+        border-style: dashed;
+        color: var(--gray);
+      }
+      .slide .n {
+        position: absolute;
+        top: -11px;
+        left: 16px;
+        background: var(--navy);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 3px 10px;
+        border-radius: 999px;
+        letter-spacing: 0.08em;
+      }
+      .slide.new .n {
+        background: var(--lav);
+      }
+      .tag {
+        position: absolute;
+        top: -11px;
+        right: 16px;
+        background: var(--lav);
+        color: #fff;
+        font-size: 10px;
+        font-weight: 800;
+        padding: 3px 10px;
+        border-radius: 999px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .kicker {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--lav);
+        font-weight: 700;
+        margin: 4px 0 6px;
+      }
+      .title {
+        font-size: 19px;
+        font-weight: 800;
+        margin: 0 0 9px;
+        line-height: 1.2;
+      }
+      .body {
+        font-size: 13.5px;
+        margin: 0;
+      }
+      .ideas {
+        margin-top: 11px;
+        padding-top: 8px;
+        border-top: 1px dashed var(--line);
+        font-size: 11px;
+        color: var(--gray);
+      }
+      .ideas b {
+        color: var(--lav);
+      }
+      .verdict {
+        margin-top: 30px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .verdict table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      .verdict td,
+      .verdict th {
+        border: 1px solid var(--line);
+        padding: 9px 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+      .verdict th {
+        background: var(--soft);
+      }
+      .verdict td:first-child {
+        font-weight: 700;
+        width: 170px;
+        background: var(--soft);
+      }
+      footer {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 22px 28px 60px;
+        font-size: 13px;
+      }
+      @media (max-width: 950px) {
+        .cols,
+        .colhead {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>project-discovery · dónde entra el encuadre</h1>
+      <p>Solo el arranque del deck. De la slide 5 en adelante los dos caminos son idénticos.</p>
+    </header>
+
+    <main>
+      <div class="note">
+        <strong>Qué estás comparando</strong>
+        <ul>
+          <li>
+            El problema: el deck entra al recorrido sin decir de qué va. Que esto contrasta el rol
+            manual contra el mismo rol con IA dirigida recién se entiende al final.
+          </li>
+          <li>
+            <b>Camino A</b>: entra una slide nueva dedicada al encuadre. El deck pasa a 10 slides.
+          </li>
+          <li>
+            <b>Camino B</b>: la portada y la slide 2 absorben el encuadre. El deck sigue en 9.
+          </li>
+          <li>
+            Las slides del punto de partida y de la decisión de método ya están
+            <b>calibradas a mitad</b>: el contexto humano quedó en una línea, no en un párrafo.
+          </li>
+        </ul>
+      </div>
+
+      <div class="colhead">
+        <div>
+          Camino A · slide de encuadre propia<span class="sub">10 slides · una idea por slide</span>
+        </div>
+        <div>
+          Camino B · encuadre repartido<span class="sub">9 slides · arranque más cargado</span>
+        </div>
+      </div>
+
+      <div class="cols">
+        <!-- ===================== CAMINO A ===================== -->
+        <div>
+          <div class="slide">
+            <span class="n">01</span>
+            <div class="kicker">Rol híbrido · analista funcional y de QA</div>
+            <p class="title">project-discovery</p>
+            <p class="body">
+              Cómo se lee un producto entero cuando lo que te cuentan alcanza para empezar, no para
+              entender.
+            </p>
+            <div class="ideas"><b>Ideas en pantalla:</b> 1 · la promesa del recorrido</div>
+          </div>
+
+          <div class="slide new">
+            <span class="n">02</span>
+            <span class="tag">nueva</span>
+            <div class="kicker">De qué va esto</div>
+            <p class="title">El mismo trabajo, dirigido de otra forma</p>
+            <p class="body">
+              Vengo del análisis funcional y de QA manual. Lo que estoy entrenando es ese mismo rol
+              con IA agéntica al lado: no la herramienta sola, sino la herramienta dirigida. Acá se
+              ve una de esas skills, y qué decidí yo en cada tramo donde ella hubiera seguido de
+              largo.
+            </p>
+            <div class="ideas"><b>Ideas en pantalla:</b> 1 · el encuadre completo</div>
+          </div>
+
+          <div class="slide">
+            <span class="n">03</span>
+            <div class="kicker">El punto de partida</div>
+            <p class="title">Lo que te cuentan alcanza para empezar</p>
+            <p class="body">
+              Un traspaso corto, un documento desactualizado, un equipo con su propio sprint encima.
+              Te dan el presente y el futuro del producto. Del pasado, lo que alguien recuerde: qué
+              se decidió, qué se descartó, qué reglas ya viven en el código.
+            </p>
+            <div class="ideas"><b>Ideas en pantalla:</b> 1 · el vacío de contexto</div>
+          </div>
+
+          <div class="slide">
+            <span class="n">04</span>
+            <div class="kicker">La decisión de método</div>
+            <p class="title">Elegí el camino que deja rastro</p>
+            <p class="body">
+              Había a quién preguntar, pero cada respuesta dependía del tiempo y la memoria de
+              alguien ocupado. Podía apoyarme en eso y avanzar, o dejar cada afirmación anclada a la
+              línea que la respalda. Elegí lo segundo: cuesta más al principio, y es lo único que se
+              sostiene cuando alguien lo cuestiona.
+            </p>
+            <div class="ideas"><b>Ideas en pantalla:</b> 1 · la decisión propia</div>
+          </div>
+
+          <div class="slide ghost">
+            <span class="n">05 a 10</span>
+            <p class="title">Sin cambios</p>
+            <p class="body">
+              Lo que produjo la skill · Donde era fácil cerrar, extendí · La lente que me armé ·
+              Empecé desde un piso más alto · No es usar IA, es dirigirla · Alguien tiene que poder
+              responder.
+            </p>
+          </div>
+        </div>
+
+        <!-- ===================== CAMINO B ===================== -->
+        <div>
+          <div class="slide new">
+            <span class="n">01</span>
+            <span class="tag">cargada</span>
+            <div class="kicker">Rol híbrido · analista funcional y de QA</div>
+            <p class="title">project-discovery</p>
+            <p class="body">
+              El mismo rol de siempre, ahora con IA agéntica al lado. Este es el primer tramo: leer
+              un producto entero desde cero, y decidir qué no dar por bueno.
+            </p>
+            <div class="ideas"><b>Ideas en pantalla:</b> 2 · la promesa + el encuadre del rol</div>
+          </div>
+
+          <div class="slide new">
+            <span class="n">02</span>
+            <span class="tag">cargada</span>
+            <div class="kicker">De qué va esto</div>
+            <p class="title">Lo que te cuentan alcanza para empezar</p>
+            <p class="body">
+              Un traspaso corto, un documento desactualizado, un equipo con su propio sprint encima.
+              Antes esto se resolvía a pulso y con semanas de por medio. Lo que entreno ahora es el
+              mismo trabajo con una skill al lado, dirigida: lo que sigue es qué hizo ella, y qué
+              decidí yo.
+            </p>
+            <div class="ideas">
+              <b>Ideas en pantalla:</b> 2 · el vacío de contexto + el encuadre del método
+            </div>
+          </div>
+
+          <div class="slide">
+            <span class="n">03</span>
+            <div class="kicker">La decisión de método</div>
+            <p class="title">Elegí el camino que deja rastro</p>
+            <p class="body">
+              Había a quién preguntar, pero cada respuesta dependía del tiempo y la memoria de
+              alguien ocupado. Podía apoyarme en eso y avanzar, o dejar cada afirmación anclada a la
+              línea que la respalda. Elegí lo segundo: cuesta más al principio, y es lo único que se
+              sostiene cuando alguien lo cuestiona.
+            </p>
+            <div class="ideas"><b>Ideas en pantalla:</b> 1 · la decisión propia</div>
+          </div>
+
+          <div class="slide ghost">
+            <span class="n">04 a 09</span>
+            <p class="title">Sin cambios</p>
+            <p class="body">
+              Lo que produjo la skill · Donde era fácil cerrar, extendí · La lente que me armé ·
+              Empecé desde un piso más alto · No es usar IA, es dirigirla · Alguien tiene que poder
+              responder.
+            </p>
+          </div>
+
+          <div class="slide ghost" style="visibility: hidden">
+            <p class="title">espaciador</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="verdict">
+        <table>
+          <tr>
+            <th></th>
+            <th>Camino A</th>
+            <th>Camino B</th>
+          </tr>
+          <tr>
+            <td>Slides</td>
+            <td>10</td>
+            <td>9</td>
+          </tr>
+          <tr>
+            <td>Ideas en las 3 primeras</td>
+            <td>3, una por slide</td>
+            <td>5, repartidas en 3</td>
+          </tr>
+          <tr>
+            <td>Cuándo se entiende de qué va</td>
+            <td>slide 2, sin ambigüedad</td>
+            <td>slide 1 a medias, completo en la 2</td>
+          </tr>
+          <tr>
+            <td>Ritmo del arranque</td>
+            <td>parejo</td>
+            <td>denso arriba, se alivia después</td>
+          </tr>
+          <tr>
+            <td>Portada</td>
+            <td>una frase, respira</td>
+            <td>dos frases, compite consigo misma</td>
+          </tr>
+          <tr>
+            <td>Riesgo</td>
+            <td>una slide más que puede leerse como preámbulo</td>
+            <td>la 2 mezcla el problema con el marco y puede difuminar los dos</td>
+          </tr>
+          <tr>
+            <td>Si se recorta para LinkedIn</td>
+            <td>la slide 2 funciona sola como pieza corta</td>
+            <td>no hay una slide que se sostenga sola como encuadre</td>
+          </tr>
+        </table>
+      </div>
+    </main>
+
+    <footer>
+      <strong>Para decidir:</strong> leé solo las tres primeras de cada columna, de corrido, como lo
+      haría alguien que no sabe nada de vos. Si al terminar la tercera podés decir en una frase qué
+      te están por mostrar, ese camino funciona.
+    </footer>
+  </body>
+</html>

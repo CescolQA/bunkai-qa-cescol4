@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>project-discovery — guion definitivo</title>
+    <style>
+      :root {
+        --navy: #1d0847;
+        --lav: #9486a9;
+        --gray: #afb4b3;
+        --soft: #f4f2f7;
+        --line: #e3dfea;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          'Segoe UI',
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: #fff;
+        color: var(--navy);
+        line-height: 1.55;
+      }
+      header {
+        background: var(--navy);
+        color: #fff;
+        padding: 20px 28px;
+      }
+      header h1 {
+        font-size: 19px;
+        margin: 0 0 4px;
+        letter-spacing: 0.02em;
+      }
+      header p {
+        margin: 0;
+        font-size: 12.5px;
+        color: var(--gray);
+      }
+      main {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 28px;
+      }
+      .note {
+        background: var(--soft);
+        border-left: 4px solid var(--lav);
+        padding: 14px 18px;
+        font-size: 13px;
+        margin-bottom: 26px;
+        border-radius: 0 8px 8px 0;
+      }
+      .note strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+      .note ul {
+        margin: 6px 0 0;
+        padding-left: 18px;
+      }
+      .slide {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 20px 22px;
+        margin-bottom: 16px;
+        position: relative;
+      }
+      .slide .n {
+        position: absolute;
+        top: -11px;
+        left: 18px;
+        background: var(--navy);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 3px 10px;
+        border-radius: 999px;
+        letter-spacing: 0.08em;
+      }
+      .kicker {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--lav);
+        font-weight: 700;
+        margin: 4px 0 6px;
+      }
+      .title {
+        font-size: 22px;
+        font-weight: 800;
+        margin: 0 0 10px;
+        line-height: 1.2;
+      }
+      .body {
+        font-size: 14.5px;
+        margin: 0;
+      }
+      .meta {
+        margin-top: 12px;
+        padding-top: 9px;
+        border-top: 1px dashed var(--line);
+        font-size: 11px;
+        color: var(--gray);
+      }
+      .meta b {
+        color: var(--lav);
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 20px 28px 60px;
+        max-width: 880px;
+        margin: 24px auto 0;
+        font-size: 13px;
+      }
+      footer table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12.5px;
+        margin-top: 10px;
+      }
+      footer td,
+      footer th {
+        border: 1px solid var(--line);
+        padding: 7px 10px;
+        text-align: left;
+      }
+      footer th {
+        background: var(--soft);
+      }
+      .open {
+        background: #fffaf0;
+        border-left: 3px solid #c9a227;
+        padding: 10px 14px;
+        font-size: 12.5px;
+        margin-top: 18px;
+        border-radius: 0 6px 6px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>project-discovery · guion definitivo</h1>
+      <p>Guion A (El método) · encuadre por camino B · 9 slides · cerrado para construir</p>
+    </header>
+
+    <main>
+      <div class="note">
+        <strong>Decisiones que llegaron hasta acá</strong>
+        <ul>
+          <li>Guion <b>A · El método</b>, elegido sobre B y C.</li>
+          <li>Slide 3: sale "elegí el lento". La decisión se cuenta como trazabilidad.</li>
+          <li>Slide 9: entra el cierre de B y C, más potente.</li>
+          <li>Contexto humano dosificado a mitad: queda como una línea, no como párrafo.</li>
+          <li>
+            Encuadre por <b>camino B</b>: lo absorben la portada y la slide 2, sin slide nueva. El
+            deck se mantiene en 9.
+          </li>
+        </ul>
+      </div>
+
+      <div class="slide">
+        <span class="n">01</span>
+        <div class="kicker">Rol híbrido · analista funcional y de QA</div>
+        <p class="title">project-discovery</p>
+        <p class="body">
+          El mismo rol de siempre, ahora con IA agéntica al lado. Este es el primer tramo: leer un
+          producto entero desde cero, y decidir qué no dar por bueno.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> ancla · Portada tipográfica + logo chico · <b>Carga:</b> promesa + encuadre
+          del rol
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">02</span>
+        <div class="kicker">De qué va esto</div>
+        <p class="title">Lo que te cuentan alcanza para empezar</p>
+        <p class="body">
+          Un traspaso corto, un documento desactualizado, un equipo con su propio sprint encima.
+          Antes esto se resolvía a pulso y con semanas de por medio. Lo que entreno ahora es el
+          mismo trabajo con una skill al lado, dirigida: lo que sigue es qué hizo ella, y qué decidí
+          yo.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> vos · <b>Eje:</b> criterio previo · <b>Carga:</b> vacío de contexto +
+          encuadre del método
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">03</span>
+        <div class="kicker">La decisión de método</div>
+        <p class="title">Elegí el camino que deja rastro</p>
+        <p class="body">
+          Había a quién preguntar, pero cada respuesta dependía del tiempo y la memoria de alguien
+          ocupado. Podía apoyarme en eso y avanzar, o dejar cada afirmación anclada a la línea que
+          la respalda. Elegí lo segundo: cuesta más al principio, y es lo único que se sostiene
+          cuando alguien lo cuestiona.
+        </p>
+        <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> dirigido a mano</div>
+      </div>
+
+      <div class="slide">
+        <span class="n">04</span>
+        <div class="kicker">Lo que produjo la skill</div>
+        <p class="title">Cuatro fases sobre un repositorio desconocido</p>
+        <p class="body">
+          Constitution, Architecture, Infrastructure, Specification. De ahí salieron el documento de
+          producto, la especificación de requisitos, el glosario de dominio y más de veinte
+          subdominios mapeados. Todo consultable para cada práctica posterior.
+        </p>
+        <div class="meta"><b>Sujeto:</b> skill · <b>Eje:</b> skill</div>
+      </div>
+
+      <div class="slide">
+        <span class="n">05</span>
+        <div class="kicker">Lo que decidí encima</div>
+        <p class="title">Donde era fácil cerrar, extendí</p>
+        <p class="body">
+          No había un solo flujo de integración continua en el repositorio. Lo cómodo era anotar
+          "ninguno" y seguir. Extendí la fase: documenté qué existe, qué no, y qué significa. Sin
+          pipeline, un cambio puede romper 135 pruebas y nadie se entera hasta producción.
+        </p>
+        <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> dirigido a mano</div>
+      </div>
+
+      <div class="slide">
+        <span class="n">06</span>
+        <div class="kicker">Lo que me armé aparte</div>
+        <p class="title">La skill produce, pero no te enseña a leerla</p>
+        <p class="body">
+          Para entender lo que tenía delante construí un mapa propio de capas e integraciones, con
+          glosario en lenguaje llano: qué hace cada capa, quién le habla a quién, dónde viven los
+          permisos. Ese mapa quedó como lente de lectura para todas las prácticas siguientes.
+        </p>
+        <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> dirigido a mano</div>
+      </div>
+
+      <div class="slide">
+        <span class="n">07</span>
+        <div class="kicker">Qué cambió después</div>
+        <p class="title">Empecé desde un piso más alto</p>
+        <p class="body">
+          Al encarar la primera historia ya tenía reglas de negocio, términos, historias
+          relacionadas e integraciones. No fue solo ganar velocidad: fue arrancar el análisis desde
+          un nivel al que solo, en los primeros días, no hubiera llegado.
+        </p>
+        <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> testimonio</div>
+      </div>
+
+      <div class="slide">
+        <span class="n">08</span>
+        <div class="kicker">La tesis</div>
+        <p class="title">No es usar IA, es dirigirla</p>
+        <p class="body">
+          Lo entrenable no es apretar un botón. Es saber qué pedir, juzgar lo que vuelve, y decidir
+          cuándo profundizar. Eso no lo aporta la herramienta: lo aporta el oficio de analista que
+          ya venía de antes.
+        </p>
+        <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> posicionamiento</div>
+      </div>
+
+      <div class="slide">
+        <span class="n">09</span>
+        <div class="kicker">La idea que queda</div>
+        <p class="title">Alguien tiene que poder responder</p>
+        <p class="body">
+          La herramienta produce. Que lo producido resista una revisión depende de quién la dirige.
+          Esa combinación es el perfil, no una de las dos partes por separado.
+        </p>
+        <div class="meta"><b>Sujeto:</b> vos · <b>Eje:</b> posicionamiento</div>
+      </div>
+
+      <div class="open">
+        <b>Pilares:</b> decididos implícitos. No se nombran en pantalla. Quedan como organizador
+        interno del guion (slide 8 trabaja el pilar 2, slide 7 el pilar 4) y como criterio de
+        auditoría, no como etiqueta para el lector.
+      </div>
+    </main>
+
+    <footer>
+      <strong>Control contra el fundamento</strong>
+      <table>
+        <tr>
+          <th>Regla</th>
+          <th>Estado</th>
+        </tr>
+        <tr>
+          <td>Proporción de sujeto, mínimo 2 de cada 3</td>
+          <td>8 de 9 slides sobre el rol</td>
+        </tr>
+        <tr>
+          <td>Cada slide con fila en el inventario §5</td>
+          <td>sí: §5.2 y §5.4</td>
+        </tr>
+        <tr>
+          <td>Ninguna capacidad no iniciada afirmada</td>
+          <td>sí</td>
+        </tr>
+        <tr>
+          <td>Búsqueda laboral implícita</td>
+          <td>sí, ninguna slide la menciona</td>
+        </tr>
+        <tr>
+          <td>Pieza autónoma, sin anuncio de la siguiente</td>
+          <td>sí, cierra con idea propia</td>
+        </tr>
+        <tr>
+          <td>Se entiende de qué va sin contexto externo</td>
+          <td>sí, resuelto en slides 1 y 2</td>
+        </tr>
+        <tr>
+          <td>Tono profesional, sin sonar en contra de nadie</td>
+          <td>sí</td>
+        </tr>
+        <tr>
+          <td>Una idea por slide</td>
+          <td>
+            de la 3 en adelante. Las slides 1 y 2 cargan dos cada una, por decisión de encuadre
+          </td>
+        </tr>
+      </table>
+    </footer>
+  </body>
+</html>

@@ -29,6 +29,11 @@ Ideas de práctica sin empezar. Una línea cada una: qué historia o tema, qué 
 
 > El backlog ancho de iniciativas e ideas de método vive en [`BACKLOG.md`](./BACKLOG.md). Esta tabla es solo para próximas prácticas por historia.
 
+> **Trabajo en curso:** la iniciativa I-8 (comunicación estratégica) tiene un
+> **Punto de retome** al final de su ficha en [`BACKLOG.md`](./BACKLOG.md): por
+> dónde seguir, qué decisiones quedaron abiertas y en qué estado quedó cada
+> pieza. Se lee antes de abrir la sesión.
+
 ## Referencias transversales
 
 Documentos que no pertenecen a una historia puntual, sino al método — se leen antes de arrancar el shift-left de cualquier historia futura.

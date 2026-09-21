@@ -245,6 +245,42 @@ Si hay un cambio por tarea, lo refleja: `Dial: profundidad senior (solo esta tar
 - **Herramientas por función, no por marca:** el lector primario no conoce los nombres de los conectores.
 - **Inventario ampliable:** cuando una pieza necesita evidencia que §5 no tiene, se amplía el inventario antes de escribir el deck, no después.
 
+### Punto de retome de I-8 (2026-09-21)
+
+Se lee antes de abrir la sesión siguiente. Cada decisión pendiente está formulada
+para responderse con un sí o un no, sin tener que reconstruir el contexto.
+
+**Por dónde empezar, en orden de menor fricción:**
+
+1. `onboarding-tecnico.html`. El guion está cerrado y ya pasó el control contra el fundamento, así que es trabajo de HTML y no de contenido. Tema B (`knowledge-arch-blueprint-contrast.css`), portada tipográfica + logo chico, 9 slides, copy literal de `guion-definitivo.html`.
+2. Documento de ajustes de `onboarding-contexto`, después su HTML.
+3. Piezas cortas en `piezas/linkedin/`, que es donde vive el goteo semanal.
+
+**Decisiones abiertas del deck técnico** (César dijo que le gustó el guion C y que iba a evaluar qué tomar):
+
+| # | Qué tomar de C | Efecto si entra |
+|---|---|---|
+| 1 | El kicker de portada de C, "La herramienta también falla", en lugar de "Antes de la primera práctica" | abre con tensión en vez de con ubicación temporal. Más gancho, menos encuadre |
+| 2 | La slide 2 de C, que plantea la creencia de que la herramienta viene armada, en lugar de "Lo que nadie entrega andando" | mueve el deck de recorrido a argumento desde el arranque. Es el cambio más de fondo de los dos |
+
+Si no entra ninguno, el guion queda tal como está cerrado hoy.
+
+**Ajustes acordados del deck de contexto** (guion A elegido, falta aplicarlos):
+
+| Slide | Qué cambia |
+|---|---|
+| nueva, entre la 3 y la 4 | el montaje del entorno, contado desde el criterio y no como catálogo. Una sola slide: el desarrollo completo vive en el deck técnico |
+| 4, la de producto | se rehace. Bunkai TMS pasa a definirse en una línea dentro de la slide donde se cuenta qué se eligió entrenar |
+| 8, el inventario de faltantes | sale. El rumbo se dice en una línea del cierre, en presente. Motivo: en una pieza de 9, una slide dedicada a lo que falta le da a la carencia el mismo peso que a un logro |
+| 7 y 9, los anuncios | ya resueltos en el guion: cierran con idea propia |
+
+Queda una decisión sin tomar: **el nombre del archivo nuevo**, que por convención
+lleva el recorte y no un ordinal. Candidatos según lo que termine protagonizando:
+`onboarding-rol-hibrido.html`, `onboarding-recorrido.html`.
+
+**Estado del repositorio al cerrar:** tres commits en `main` (`29b2350`,
+`836025f`, `6573c6c`), sin push. Nada a medio escribir, ningún archivo roto.
+
 ---
 
 ## Ideas / hilos sueltos

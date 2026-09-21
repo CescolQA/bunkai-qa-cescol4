@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>onboarding-tecnico — guion definitivo</title>
+    <style>
+      :root {
+        --navy: #1d0847;
+        --lav: #9486a9;
+        --gray: #afb4b3;
+        --soft: #f4f2f7;
+        --line: #e3dfea;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          'Segoe UI',
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: #fff;
+        color: var(--navy);
+        line-height: 1.55;
+      }
+      header {
+        background: var(--navy);
+        color: #fff;
+        padding: 20px 28px;
+      }
+      header h1 {
+        font-size: 19px;
+        margin: 0 0 4px;
+        letter-spacing: 0.02em;
+      }
+      header p {
+        margin: 0;
+        font-size: 12.5px;
+        color: var(--gray);
+      }
+      main {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 28px;
+      }
+      .note {
+        background: var(--soft);
+        border-left: 4px solid var(--lav);
+        padding: 14px 18px;
+        font-size: 13px;
+        margin-bottom: 26px;
+        border-radius: 0 8px 8px 0;
+      }
+      .note strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+      .note ul {
+        margin: 6px 0 0;
+        padding-left: 18px;
+      }
+      .slide {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 20px 22px;
+        margin-bottom: 16px;
+        position: relative;
+      }
+      .slide .n {
+        position: absolute;
+        top: -11px;
+        left: 18px;
+        background: var(--navy);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 3px 10px;
+        border-radius: 999px;
+        letter-spacing: 0.08em;
+      }
+      .slide .tag {
+        position: absolute;
+        top: -11px;
+        right: 18px;
+        background: var(--lav);
+        color: #fff;
+        font-size: 10px;
+        font-weight: 800;
+        padding: 3px 10px;
+        border-radius: 999px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .kicker {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--lav);
+        font-weight: 700;
+        margin: 4px 0 6px;
+      }
+      .title {
+        font-size: 22px;
+        font-weight: 800;
+        margin: 0 0 10px;
+        line-height: 1.2;
+      }
+      .body {
+        font-size: 14.5px;
+        margin: 0;
+      }
+      .meta {
+        margin-top: 12px;
+        padding-top: 9px;
+        border-top: 1px dashed var(--line);
+        font-size: 11px;
+        color: var(--gray);
+      }
+      .meta b {
+        color: var(--lav);
+      }
+      .meta code {
+        background: var(--soft);
+        padding: 1px 5px;
+        border-radius: 3px;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 20px 28px 60px;
+        max-width: 880px;
+        margin: 24px auto 0;
+        font-size: 13px;
+      }
+      footer table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12.5px;
+        margin-top: 10px;
+      }
+      footer td,
+      footer th {
+        border: 1px solid var(--line);
+        padding: 7px 10px;
+        text-align: left;
+      }
+      footer th {
+        background: var(--soft);
+      }
+      .open {
+        background: #fffaf0;
+        border-left: 3px solid #c9a227;
+        padding: 10px 14px;
+        font-size: 12.5px;
+        margin-top: 18px;
+        border-radius: 0 6px 6px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>onboarding-tecnico · guion definitivo</h1>
+      <p>Guion A (El montaje) con dos ajustes · 9 slides · cerrado para construir</p>
+    </header>
+
+    <main>
+      <div class="note">
+        <strong>Decisiones que llegaron hasta acá</strong>
+        <ul>
+          <li>
+            <b>Guion B descartado.</b> El recorrido argumentativo quedó afuera, y con él la palabra
+            "instrumental", que no representa la forma de hablar de esta serie. En todo el deck se
+            dice herramientas o entorno.
+          </li>
+          <li>
+            <b>Sale la slide de los tres clientes.</b> El repositorio admite tres clientes de IA,
+            pero el trabajo real se hace desde uno. Presentarlo como capacidad propia sería inflar
+            lo hecho, y eso lo prohíbe <code>fundamento.md</code> §4. El arreglo de configuración
+            que salió de ahí sigue contado, pero como corrección, no como forma de trabajo.
+          </li>
+          <li>
+            <b>Entra la slide 5, sobre el contexto del modelo.</b> Es el tema que faltaba: cómo un
+            repositorio preparado le dice al modelo dónde está parado. Contada como lo que hubo que
+            entender, no como descripción del framework, y apoyada en un documento propio.
+          </li>
+          <li>
+            <b>El boilerplate se declara de equipo</b> en la slide 3. Lo propio es la adaptación, la
+            conexión de las herramientas, las correcciones y lo agregado.
+          </li>
+          <li>
+            <b>Ningún cierre anuncia otra pieza.</b> La invitación a seguir vive en el texto de
+            publicación.
+          </li>
+        </ul>
+      </div>
+
+      <div class="slide">
+        <span class="n">01</span>
+        <div class="kicker">Antes de la primera práctica</div>
+        <p class="title">Onboarding técnico</p>
+        <p class="body">Lo que hubo que montar, entender y reparar para poder trabajar así.</p>
+        <div class="meta">
+          <b>Sujeto:</b> ancla · Portada tipográfica + logo chico · <b>Carga:</b> promesa del
+          recorte
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">02</span>
+        <div class="kicker">El punto de partida</div>
+        <p class="title">Lo que nadie entrega andando</p>
+        <p class="body">
+          Para trabajar de esta manera no alcanza con saber QA. Antes hay que dejar un entorno
+          funcionando: terminal, modelo, repositorio, conexiones a los sistemas del proyecto. Ese
+          entorno no viene armado, y sostenerlo es parte del trabajo.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> criterio previo · <b>Carga:</b> el vacío que la pieza
+          viene a llenar
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">03</span>
+        <div class="kicker">Qué había que dejar listo</div>
+        <p class="title">El punto de partida, con nombre propio</p>
+        <p class="body">
+          Terminal, un modelo con plan propio para sostener sesiones largas, repositorio versionado,
+          y un boilerplate agéntico de equipo como base. El boilerplate no es mío. La adaptación al
+          proyecto, la configuración y todo lo que vino después, sí.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>c854bf2</code> <code>ce834ba</code>
+          <code>3577c43</code> · §5.7
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">04</span>
+        <span class="tag">ajustada</span>
+        <div class="kicker">Conectar las herramientas</div>
+        <p class="title">Seis conectores, uno por uno</p>
+        <p class="body">
+          Documentación oficial, búsqueda web, navegador, base de datos, esquema de API y
+          colecciones de API. Cada uno se declara, se autentica y se verifica. Además, los catálogos
+          reales de la instancia de incidencias: los campos y los flujos de trabajo del proyecto, no
+          los de ejemplo.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>.mcp.json</code> + catálogos · §5.7 ·
+          <b>Ajuste:</b> sale la palabra "instrumental" del kicker
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">05</span>
+        <span class="tag">nueva</span>
+        <div class="kicker">Cómo se le da contexto al modelo</div>
+        <p class="title">El repositorio le explica al modelo dónde está parado</p>
+        <p class="body">
+          Este proyecto no se opera a fuerza de prompts. Las instrucciones, las convenciones y los
+          flujos de trabajo viven en archivos que el modelo lee al abrir cada sesión. Entender ese
+          modelo de trabajo fue condición para poder pedir algo con sentido, así que me armé una
+          guía propia de cómo el repositorio despacha agentes y subagentes.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> a mano ·
+          <code>docs/training/subagent-architecture-guide.md</code> · §5.7 · <b>Reemplaza:</b> la
+          slide de los tres clientes
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">06</span>
+        <span class="tag">ajustada</span>
+        <div class="kicker">Lo primero que se rompió</div>
+        <p class="title">Valores de ejemplo todavía vivos</p>
+        <p class="body">
+          Una dirección de API de staging seguía apuntando al valor de plantilla, y varios nombres
+          de conectores no coincidían con la configuración real. El mismo conector, además, estaba
+          declarado distinto en cada uno de los tres clientes que el repositorio admite. Los
+          encontré y los corregí antes de que contaminaran una prueba. Un error así no falla:
+          devuelve un resultado que parece válido.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>7d058ff</code> <code>8b41ceb</code>
+          <code>b782662</code> · §5.7 · <b>Ajuste:</b> absorbe el arreglo entre clientes, sin
+          afirmar que se trabaje en los tres
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">07</span>
+        <div class="kicker">El bug de verdad</div>
+        <p class="title">Un nombre se traduce, un identificador no</p>
+        <p class="body">
+          El sincronizador de incidencias fallaba en esta instancia porque devolvía los tipos
+          traducidos: "Historia" donde el código esperaba "Story". Lo resolví cambiando el criterio
+          de búsqueda al identificador. Encontrar eso exige leer el código de la herramienta, no
+          solo usarla.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>afb37e8</code> · §5.7 ·
+          <b>Carga:</b> punto alto del deck
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">08</span>
+        <div class="kicker">Mudanza de instancia</div>
+        <p class="title">Migrar el proyecto entero a otra instancia</p>
+        <p class="body">
+          Repuntar la dirección, adoptar los catálogos nuevos y verificar pieza por pieza que todo
+          siguiera respondiendo. Una migración de este tipo rompe por los costados: credenciales,
+          nombres de campo, flujos de trabajo.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>2ad69e8</code> <code>86d44c0</code>
+          <code>143dce9</code> · §5.7
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">09</span>
+        <div class="kicker">La idea que queda</div>
+        <p class="title">Recién acá empieza el trabajo del rol</p>
+        <p class="body">
+          Todo esto es previo a la primera historia analizada. Quien no monta su propio entorno
+          depende de que alguien se lo mantenga, y no está en condiciones de juzgar lo que ese
+          entorno le devuelve.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> posicionamiento · §1 · Cierre propio, sin anuncio
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <strong>Control contra el fundamento</strong>
+      <table>
+        <tr>
+          <th>Criterio</th>
+          <th>Resultado</th>
+        </tr>
+        <tr>
+          <td>Slides con el rol como sujeto</td>
+          <td>9 de 9</td>
+        </tr>
+        <tr>
+          <td>Slides con commit o archivo verificable</td>
+          <td>3, 4, 5, 6, 7, 8</td>
+        </tr>
+        <tr>
+          <td>Boilerplate presentado como obra propia</td>
+          <td>no. Declarado de equipo en la slide 3</td>
+        </tr>
+        <tr>
+          <td>Capacidad afirmada sin respaldo</td>
+          <td>ninguna. La slide de los tres clientes salió por eso</td>
+        </tr>
+        <tr>
+          <td>Herramientas nombradas por marca</td>
+          <td>no. Se nombran por lo que resuelven</td>
+        </tr>
+        <tr>
+          <td>Cierre que anuncia otra pieza</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>Búsqueda laboral</td>
+          <td>implícita</td>
+        </tr>
+        <tr>
+          <td>Castellano neutro, sin voseo</td>
+          <td>sí</td>
+        </tr>
+      </table>
+
+      <div class="open">
+        <b>Queda abierto:</b> los toques del guion C que César dijo que iba a evaluar. Hasta que los
+        indique, este guion es el cerrado. El tema visual es el B (contraste), el de LinkedIn, y el
+        archivo del deck será <code>onboarding-tecnico.html</code>.
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>onboarding-tecnico — comparador de guiones</title>
+    <style>
+      :root {
+        --navy: #1d0847;
+        --lav: #9486a9;
+        --gray: #afb4b3;
+        --paper: #ffffff;
+        --soft: #f4f2f7;
+        --line: #e3dfea;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          'Segoe UI',
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: var(--paper);
+        color: var(--navy);
+        line-height: 1.55;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: var(--navy);
+        color: #fff;
+        padding: 14px 28px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      header h1 {
+        font-size: 17px;
+        margin: 0;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+      header .hint {
+        font-size: 12px;
+        color: var(--gray);
+      }
+      .filters {
+        display: flex;
+        gap: 8px;
+      }
+      .filters button {
+        font: inherit;
+        font-size: 13px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--lav);
+        background: transparent;
+        color: #fff;
+        cursor: pointer;
+      }
+      .filters button.on {
+        background: var(--lav);
+        border-color: var(--lav);
+        color: var(--navy);
+        font-weight: 700;
+      }
+      main {
+        padding: 26px 28px;
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      h2 {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--lav);
+        margin: 34px 0 12px;
+      }
+      .intro {
+        font-size: 13.5px;
+        background: var(--soft);
+        border-left: 3px solid var(--lav);
+        padding: 12px 16px;
+        margin: 0 0 8px;
+      }
+      table.diff {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      table.diff th,
+      table.diff td {
+        border: 1px solid var(--line);
+        padding: 9px 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+      table.diff th {
+        background: var(--soft);
+        font-weight: 700;
+      }
+      table.diff td:first-child {
+        font-weight: 700;
+        width: 170px;
+        background: var(--soft);
+      }
+      table.diff code {
+        background: var(--soft);
+        padding: 1px 5px;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 54px repeat(3, 1fr);
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+      .num {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--lav);
+        border-right: 2px solid var(--line);
+      }
+      .cell {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: #fff;
+      }
+      .kicker {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--lav);
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .title {
+        font-size: 17px;
+        font-weight: 800;
+        margin: 0 0 8px;
+        line-height: 1.25;
+      }
+      .body {
+        font-size: 13.5px;
+        margin: 0;
+      }
+      .meta {
+        margin-top: 10px;
+        padding-top: 8px;
+        border-top: 1px dashed var(--line);
+        font-size: 11px;
+        color: var(--gray);
+      }
+      .meta b {
+        color: var(--lav);
+      }
+      .colhead {
+        display: grid;
+        grid-template-columns: 54px repeat(3, 1fr);
+        gap: 14px;
+        position: sticky;
+        top: 58px;
+        background: #fff;
+        padding: 10px 0;
+        z-index: 5;
+        border-bottom: 2px solid var(--navy);
+        margin-bottom: 14px;
+      }
+      .colhead div {
+        font-weight: 800;
+        font-size: 14px;
+      }
+      .colhead .sub {
+        font-weight: 400;
+        font-size: 11.5px;
+        color: var(--gray);
+        display: block;
+      }
+      body[data-focus='a'] .col-b,
+      body[data-focus='a'] .col-c,
+      body[data-focus='b'] .col-a,
+      body[data-focus='b'] .col-c,
+      body[data-focus='c'] .col-a,
+      body[data-focus='c'] .col-b {
+        display: none;
+      }
+      body[data-focus='a'] .row,
+      body[data-focus='b'] .row,
+      body[data-focus='c'] .row,
+      body[data-focus='a'] .colhead,
+      body[data-focus='b'] .colhead,
+      body[data-focus='c'] .colhead {
+        grid-template-columns: 54px 1fr;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        margin-top: 40px;
+        padding: 22px 28px 60px;
+        font-size: 13px;
+        max-width: 1600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      footer ul {
+        padding-left: 18px;
+      }
+      @media (max-width: 1100px) {
+        .row,
+        .colhead {
+          grid-template-columns: 1fr;
+        }
+        .num {
+          justify-content: flex-start;
+          border: none;
+          border-bottom: 2px solid var(--line);
+          padding-bottom: 4px;
+        }
+      }
+    </style>
+  </head>
+  <body data-focus="all">
+    <header>
+      <div>
+        <h1>onboarding-tecnico · comparador de guiones</h1>
+        <span class="hint"
+          >Lectura de contenido. Sin diseño de slide: solo qué dice cada versión.</span
+        >
+      </div>
+      <div class="filters">
+        <button data-f="all" class="on">Las tres</button>
+        <button data-f="a">Solo A</button>
+        <button data-f="b">Solo B</button>
+        <button data-f="c">Solo C</button>
+      </div>
+    </header>
+
+    <main>
+      <p class="intro">
+        Pieza nueva y autónoma. Recorte: <b>el entorno que hubo que montar, entender y reparar</b>
+        antes de poder practicar el rol. No anuncia ninguna otra pieza y no depende de ninguna. Cada
+        slide de contenido se apoya en un commit o un archivo verificable del repositorio. El
+        boilerplate de equipo aparece siempre como punto de partida, nunca como obra propia.
+      </p>
+
+      <h2>En qué se diferencian</h2>
+      <table class="diff">
+        <tr>
+          <th></th>
+          <th>A · El montaje</th>
+          <th>B · El instrumental</th>
+          <th>C · El montaje con tesis</th>
+        </tr>
+        <tr>
+          <td>Orden</td>
+          <td>cronológico: de la instalación a la primera práctica</td>
+          <td>argumentativo: una tensión, tres fallas, una conclusión</td>
+          <td>enmarcado: tensión primero, montaje después</td>
+        </tr>
+        <tr>
+          <td>Abre con</td>
+          <td>lo que nadie entrega andando</td>
+          <td>la creencia de que la herramienta viene armada</td>
+          <td>esa creencia, en una slide corta</td>
+        </tr>
+        <tr>
+          <td>Eje del relato</td>
+          <td>qué hubo que dejar funcionando</td>
+          <td>qué falló y quién lo arregló</td>
+          <td>ambas, en ese orden</td>
+        </tr>
+        <tr>
+          <td>Lo que deja</td>
+          <td>"esta persona se monta su propio entorno"</td>
+          <td>"esta persona responde por la herramienta, no solo la usa"</td>
+          <td>"se lo montó, y además lo repara"</td>
+        </tr>
+        <tr>
+          <td>Gancho</td>
+          <td>medio. Crece hacia el bug de la slide 7</td>
+          <td>alto desde la slide 2</td>
+          <td>alto al abrir, sostenido</td>
+        </tr>
+        <tr>
+          <td>Densidad</td>
+          <td>baja, una idea por slide</td>
+          <td>media</td>
+          <td>alta. Dos slides fusionan dos ideas</td>
+        </tr>
+        <tr>
+          <td>Riesgo</td>
+          <td>puede leerse como bitácora de instalación</td>
+          <td>deja menos visible el alcance del montaje</td>
+          <td>si se recorta mal, queda cargado</td>
+        </tr>
+        <tr>
+          <td>Lector que mejor lo recibe</td>
+          <td>líder de proyecto, reclutador técnico</td>
+          <td>líder de QA, perfil de ingeniería</td>
+          <td>ambos</td>
+        </tr>
+      </table>
+
+      <h2>Slide por slide</h2>
+      <div class="colhead">
+        <div></div>
+        <div class="col-a">A · El montaje<span class="sub">cronológico</span></div>
+        <div class="col-b">B · El instrumental<span class="sub">tesis primero</span></div>
+        <div class="col-c">C · El montaje con tesis<span class="sub">mezcla</span></div>
+      </div>
+
+      <div class="row">
+        <div class="num">1</div>
+        <div class="cell col-a">
+          <div class="kicker">Antes de la primera práctica</div>
+          <p class="title">Onboarding técnico</p>
+          <p class="body">Lo que hubo que montar, entender y reparar para poder trabajar así.</p>
+          <div class="meta"><b>Sujeto:</b> ancla · Portada tipográfica + logo chico</div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">La herramienta también falla</div>
+          <p class="title">Onboarding técnico</p>
+          <p class="body">
+            Montar el instrumental, encontrar sus errores y corregirlos antes de confiar en lo que
+            produce.
+          </p>
+          <div class="meta"><b>Sujeto:</b> ancla · Portada tipográfica + logo chico</div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">La herramienta también falla</div>
+          <p class="title">Onboarding técnico</p>
+          <p class="body">
+            Lo que hubo que montar, entender y reparar antes de la primera práctica del rol.
+          </p>
+          <div class="meta"><b>Sujeto:</b> ancla · Portada tipográfica + logo chico</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">2</div>
+        <div class="cell col-a">
+          <div class="kicker">El punto de partida</div>
+          <p class="title">Lo que nadie entrega andando</p>
+          <p class="body">
+            Para trabajar de esta manera no alcanza con saber QA. Antes hay que dejar un entorno
+            funcionando: terminal, modelo, repositorio, conectores. Ese entorno no viene armado, y
+            sostenerlo es parte del trabajo.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · <b>Eje:</b> criterio previo</div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">La creencia cómoda</div>
+          <p class="title">La herramienta no viene armada</p>
+          <p class="body">
+            Se habla de usar IA como si el instrumental llegara solo, configurado y sin errores. En
+            la práctica hay que montarlo, conectarlo y repararlo cuando falla. Esa parte no aparece
+            en ninguna demostración.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol, tesis · <b>Eje:</b> posicionamiento</div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">La creencia cómoda</div>
+          <p class="title">La herramienta no viene armada</p>
+          <p class="body">
+            Se habla de usar IA como si el instrumental llegara solo y sin errores. Hay que
+            montarlo, conectarlo y repararlo. Esa parte no aparece en ninguna demostración.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol, tesis · <b>Eje:</b> posicionamiento</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">3</div>
+        <div class="cell col-a">
+          <div class="kicker">Qué había que dejar listo</div>
+          <p class="title">El punto de partida, con nombre propio</p>
+          <p class="body">
+            Terminal, un modelo con plan propio para sostener sesiones largas, repositorio
+            versionado, y un boilerplate agéntico de equipo como base. El boilerplate no es mío. La
+            adaptación al proyecto, la configuración y todo lo que vino después, sí.
+          </p>
+          <div class="meta">
+            <b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>c854bf2</code> <code>ce834ba</code>
+            <code>3577c43</code>
+          </div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">Mi posición</div>
+          <p class="title">No delego criterio en algo que no entiendo</p>
+          <p class="body">
+            Si no sé cómo está armado el instrumental, no puedo juzgar lo que me devuelve. Por eso
+            lo primero fue montarlo, no recibirlo hecho.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · <b>Eje:</b> posicionamiento · §1</div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">Lo que nadie entrega andando</div>
+          <p class="title">El punto de partida, con nombre propio</p>
+          <p class="body">
+            Para trabajar así no alcanza con saber QA: terminal, un modelo con plan propio,
+            repositorio versionado y un boilerplate agéntico de equipo como base. El boilerplate no
+            es mío. La adaptación y todo lo que vino después, sí.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · <b>Eje:</b> a mano · fusiona A2 y A3</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">4</div>
+        <div class="cell col-a">
+          <div class="kicker">Conectar el instrumental</div>
+          <p class="title">Seis conectores, uno por uno</p>
+          <p class="body">
+            Documentación oficial, búsqueda web, navegador, base de datos, esquema de API y
+            colecciones de API. Cada uno se declara, se autentica y se verifica. Además, los
+            catálogos reales de la instancia de incidencias: los campos y los flujos de trabajo del
+            proyecto, no los de ejemplo.
+          </p>
+          <div class="meta">
+            <b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>.mcp.json</code> + catálogos
+          </div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">Lo que monté</div>
+          <p class="title">El entorno completo, desde cero</p>
+          <p class="body">
+            Terminal, modelo con plan propio, repositorio versionado, un boilerplate agéntico de
+            equipo adaptado al proyecto, seis conectores externos autenticados y los catálogos
+            reales de la instancia de incidencias.
+          </p>
+          <div class="meta">
+            <b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>c854bf2</code> +
+            <code>.mcp.json</code>
+          </div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">Conectar el instrumental</div>
+          <p class="title">Seis conectores y tres formas de operarlo</p>
+          <p class="body">
+            Seis conectores externos autenticados uno por uno, los catálogos reales de la instancia
+            de incidencias en vez de los de ejemplo, y tres clientes de IA distintos operando el
+            mismo repositorio contra una sola fuente de instrucciones.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · <b>Eje:</b> a mano · fusiona A4 y A5</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">5</div>
+        <div class="cell col-a">
+          <div class="kicker">Tres clientes, una fuente</div>
+          <p class="title">El mismo repositorio, tres formas de operarlo</p>
+          <p class="body">
+            El proyecto se opera desde tres clientes de IA distintos, con las instrucciones en un
+            solo archivo que los tres leen. Si se desalinean no aparece un error: aparece un
+            comportamiento distinto según desde dónde se trabaje.
+          </p>
+          <div class="meta">
+            <b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>.claude/</code> <code>.opencode/</code>
+            <code>.codex/</code>
+          </div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">Falla 1 · configuración</div>
+          <p class="title">Valores de plantilla que quedaron vivos</p>
+          <p class="body">
+            Una dirección de API apuntando todavía al ejemplo, nombres de conectores que no
+            coincidían con la configuración real. Ninguno de los dos da error. Una prueba corre
+            contra el lugar equivocado y el resultado parece correcto.
+          </p>
+          <div class="meta">
+            <b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>7d058ff</code> <code>8b41ceb</code>
+            <code>3e43af9</code>
+          </div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">Lo primero que se rompió</div>
+          <p class="title">Errores que no dan error</p>
+          <p class="body">
+            Una dirección de API apuntando al valor de plantilla, y el mismo conector definido
+            distinto en cada uno de los tres clientes. Ninguno falla de frente: devuelven resultados
+            equivocados que parecen válidos, o comportamientos distintos según desde dónde se
+            trabaje.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · <b>Eje:</b> a mano · fusiona A6 y B6</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">6</div>
+        <div class="cell col-a">
+          <div class="kicker">Lo primero que se rompió</div>
+          <p class="title">Valores de ejemplo todavía vivos</p>
+          <p class="body">
+            Una dirección de API de staging seguía apuntando al valor de plantilla, y varios nombres
+            de conectores no coincidían con la configuración real. Los encontré y los corregí antes
+            de que contaminaran una prueba. Un error así no falla: devuelve un resultado que parece
+            válido.
+          </p>
+          <div class="meta">
+            <b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>7d058ff</code> <code>8b41ceb</code>
+            <code>b782662</code>
+          </div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">Falla 2 · desalineación</div>
+          <p class="title">El mismo conector, definido distinto en cada cliente</p>
+          <p class="body">
+            Tres clientes de IA operan este repositorio. La misma pieza estaba declarada de tres
+            formas. No falla: da comportamientos distintos según desde dónde se trabaje. Es el tipo
+            de error que se descubre tarde y mal.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>b782662</code></div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">El bug de verdad</div>
+          <p class="title">Un nombre se traduce, un identificador no</p>
+          <p class="body">
+            El sincronizador de incidencias fallaba en esta instancia porque devolvía los tipos
+            traducidos, "Historia" donde el código esperaba "Story". Lo corregí cambiando el
+            criterio de búsqueda al identificador. Encontrar eso exige leer el código de la
+            herramienta, no solo usarla.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>afb37e8</code></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">7</div>
+        <div class="cell col-a">
+          <div class="kicker">El bug de verdad</div>
+          <p class="title">Un nombre se traduce, un identificador no</p>
+          <p class="body">
+            El sincronizador de incidencias fallaba en esta instancia porque devolvía los tipos
+            traducidos: "Historia" donde el código esperaba "Story". Lo resolví cambiando el
+            criterio de búsqueda al identificador. Encontrar eso exige leer el código de la
+            herramienta, no solo usarla.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>afb37e8</code></div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">Falla 3 · un bug de código</div>
+          <p class="title">Un nombre se traduce, un identificador no</p>
+          <p class="body">
+            El sincronizador de incidencias fallaba porque la instancia devolvía los tipos
+            traducidos. Lo corregí cambiando el criterio de búsqueda al identificador. Para llegar
+            ahí hay que leer el código de la herramienta, no solo usarla.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>afb37e8</code></div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">Mudanza de instancia</div>
+          <p class="title">Migrar el proyecto entero a otra instancia</p>
+          <p class="body">
+            Repuntar la dirección, adoptar los catálogos nuevos y verificar pieza por pieza que todo
+            siguiera respondiendo. Una migración así rompe por los costados: credenciales, nombres
+            de campo, flujos de trabajo.
+          </p>
+          <div class="meta">
+            <b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>2ad69e8</code> <code>86d44c0</code>
+            <code>143dce9</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">8</div>
+        <div class="cell col-a">
+          <div class="kicker">Mudanza de instancia</div>
+          <p class="title">Migrar el proyecto entero a otra instancia</p>
+          <p class="body">
+            Repuntar la dirección, adoptar los catálogos nuevos y verificar pieza por pieza que todo
+            siguiera respondiendo. Una migración de este tipo rompe por los costados: credenciales,
+            nombres de campo, flujos de trabajo.
+          </p>
+          <div class="meta">
+            <b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>2ad69e8</code> <code>86d44c0</code>
+            <code>143dce9</code>
+          </div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">Lo que le agregué</div>
+          <p class="title">Un comando que no existía</p>
+          <p class="body">
+            Compila el estado real del proyecto en el momento en que se lo pide, sin caché:
+            variables, conectores, credenciales y estado del repositorio. Lo agregué porque revisar
+            todo eso a mano cada vez era la forma más fácil de equivocarse.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>1d69608</code></div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">Lo que le agregué</div>
+          <p class="title">Un comando que no existía</p>
+          <p class="body">
+            Compila el estado real del proyecto en el momento, sin caché: variables, conectores,
+            credenciales y estado del repositorio. Revisar todo eso a mano cada vez era la forma más
+            fácil de equivocarse.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · <b>Eje:</b> a mano · <code>1d69608</code></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="num">9</div>
+        <div class="cell col-a">
+          <div class="kicker">La idea que queda</div>
+          <p class="title">Recién acá empieza el trabajo del rol</p>
+          <p class="body">
+            Todo esto es previo a la primera historia analizada. Quien no monta su propio entorno
+            depende de que alguien se lo mantenga, y no está en condiciones de juzgar lo que ese
+            entorno le devuelve.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · Cierre propio, sin anuncio</div>
+        </div>
+        <div class="cell col-b">
+          <div class="kicker">La idea que queda</div>
+          <p class="title">Reparar es la condición para confiar</p>
+          <p class="body">
+            Quien puede arreglar el instrumental es quien puede responder por lo que el instrumental
+            produce. Usarlo sin entenderlo es delegar el criterio.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · Cierre propio, sin anuncio</div>
+        </div>
+        <div class="cell col-c">
+          <div class="kicker">La idea que queda</div>
+          <p class="title">Reparar es la condición para confiar</p>
+          <p class="body">
+            Quien puede arreglar el instrumental es quien puede responder por lo que produce. Por
+            eso el montaje vino antes que la primera práctica, y no al revés.
+          </p>
+          <div class="meta"><b>Sujeto:</b> rol · Cierre propio, sin anuncio</div>
+        </div>
+      </div>
+
+      <h2>Control contra el fundamento</h2>
+      <table class="diff">
+        <tr>
+          <th></th>
+          <th>A</th>
+          <th>B</th>
+          <th>C</th>
+        </tr>
+        <tr>
+          <td>Slides con el rol como sujeto</td>
+          <td>9 de 9</td>
+          <td>9 de 9</td>
+          <td>9 de 9</td>
+        </tr>
+        <tr>
+          <td>Boilerplate como obra propia</td>
+          <td>no. Declarado de equipo en la 3</td>
+          <td>no. Declarado de equipo en la 4</td>
+          <td>no. Declarado de equipo en la 3</td>
+        </tr>
+        <tr>
+          <td>Catálogo de herramientas sin decisión</td>
+          <td>no</td>
+          <td>no</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>Slides con commit verificable</td>
+          <td>3, 6, 7, 8</td>
+          <td>4, 5, 6, 7, 8</td>
+          <td>3, 5, 6, 7, 8</td>
+        </tr>
+        <tr>
+          <td>Cierre que anuncia otra pieza</td>
+          <td>no</td>
+          <td>no</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>Búsqueda laboral</td>
+          <td>implícita</td>
+          <td>implícita</td>
+          <td>implícita</td>
+        </tr>
+      </table>
+    </main>
+
+    <footer>
+      <strong>Para elegir, tres preguntas:</strong>
+      <ul>
+        <li>Si alguien ve solo la slide 2, ¿sigue leyendo?</li>
+        <li>¿El bug del sincronizador cae donde más pesa, o queda enterrado en el medio?</li>
+        <li>¿Se entiende el alcance de lo montado, o solo se ven los errores corregidos?</li>
+      </ul>
+      Se puede elegir una versión entera, o armar una mezcla por slide: la numeración está para eso.
+      La evidencia de esta pieza ya está incorporada al inventario en
+      <code>fundamento.md</code> §5.7.
+    </footer>
+
+    <script>
+      document.querySelectorAll('.filters button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          document.querySelectorAll('.filters button').forEach(function (x) {
+            x.classList.remove('on');
+          });
+          b.classList.add('on');
+          document.body.dataset.focus = b.dataset.f;
+        });
+      });
+    </script>
+  </body>
+</html>

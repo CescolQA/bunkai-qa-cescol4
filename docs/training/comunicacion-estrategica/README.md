@@ -185,9 +185,16 @@ César elige uno. Recién entonces se construye el HTML.
 |---|---|
 | 1 | tres guiones comparados en una tabla de diferencias |
 | 2 | elección |
-| 3 | HTML del guion elegido |
+| 3 | `guion-definitivo.html`: el guion elegido, slide por slide, con badges de ajuste, notas de decisión y tabla de control contra `fundamento.md` |
+| 4 | HTML del deck, construido desde ese guion |
 
 Los guiones descartados quedan en el archivo como registro de los ángulos alternativos.
+
+**Toda corrección entra por el guion, nunca directo sobre el deck.** El
+`guion-definitivo.html` es el documento de trabajo mientras la pieza se ajusta:
+ahí van los cambios de copy, el motivo de cada uno y las decisiones cerradas. El
+deck se reconstruye cuando el guion se da por bueno. Escribir la corrección en el
+HTML pierde el porqué, y el porqué es lo que evita repetir el camino.
 
 ## Reglas generales de formato
 
@@ -222,6 +229,17 @@ Aplican a todo deck nuevo (checklist antes de dar por terminado un deck):
   scroll, contenido apilado puede pisar el footer si no se controla el alto.
 - Sacar slides que sirven a la estrategia de publicación de César, no al
   valor para quien lee.
+- **Largo no fijo.** Ocho o nueve slides es el rango real; nueve nunca fue
+  regla. Ante la duda entre sumar un episodio o fundir dos, se funde
+  (`fundamento.md` §9.6).
+- **Encuadre verificado, no estimado.** Antes de dar un deck por terminado se
+  mide cada slide en el navegador a 1440x810 y se comprueba que el contenido
+  no toque el borde ni el pie. El formato es pantalla fija sin scroll.
+- **El nombre del archivo lleva el recorte, no un ordinal.**
+  `onboarding-tecnico.html`, no `deck-02.html`.
+- Copy sujeto a las reglas de redacción de `fundamento.md` §9: títulos
+  descriptivos, sin carencia absoluta, vocabulario controlado, sin anunciar
+  cantidades, y una tesis distinta por pieza.
 
 ## Relación con la comparación de niveles (`niveles/` en cada práctica)
 
@@ -232,17 +250,18 @@ canal — no se decide a ciegas, se compara.
 
 ## Estado
 
-`en curso`. Cerrado el 2026-09-19: la capa de contenido existe
-(`fundamento.md`), los canales son dos con un tema visual cada uno, las
-piezas son autónomas, y el deck `project-discovery` fue reconstruido contra
-esa base (9 slides, tema B).
+`en curso`. Al 2026-09-21 el método está cerrado y probado de punta a punta:
+fundamento, tres guiones, guion definitivo, deck, y corrección que siempre
+vuelve al guion. Tres decks construidos contra esa base.
 
 | Frente | Estado |
 |---|---|
-| Capa de contenido | `fundamento.md`, aprobado |
+| Capa de contenido | `fundamento.md` base v2, con §5.7 y §9 |
 | Canales y temas | LinkedIn con tema B, sitio con tema C |
-| Deck `project-discovery` | reconstruido desde su guion |
-| Deck `onboarding-contexto` | **abierto**: se construyó antes del fundamento, hay que revisarlo |
+| Deck `project-discovery` | reconstruido desde su guion, 9 slides |
+| Deck `onboarding-tecnico` | construido, 8 slides, dos rondas de ajuste sobre el guion |
+| Deck `onboarding-contexto` | reescrito como `onboarding-recorrido.html`, 8 slides. El viejo se conserva como registro |
+| Nombre definitivo del deck de contexto | **abierto**: `onboarding-recorrido` es provisional |
 | Piezas de canal | ninguna escrita todavía |
 | Deck `shift-left-testing` | pendiente, con los tres guiones desde el arranque |
 

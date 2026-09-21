@@ -258,6 +258,70 @@ Los pilares (ver `README.md`) organizan el material; no son el mensaje.
 Cada pieza de skill destaca un pilar entre 1 y 3, con el pilar 4 siempre presente
 como capa personal.
 
+## 9. Reglas de redacción
+
+Salieron de la construcción de los decks `onboarding-tecnico` y
+`onboarding-contexto` (2026-09-21). Se aplican al copy de cualquier pieza, en
+cualquier canal, y se controlan antes de dar una pieza por cerrada.
+
+### 9.1 Títulos descriptivos, no sentencias
+
+Un título que afirma una creencia fuerte se refuta en la primera lectura, y una
+pieza no puede depender de que el lector comparta la premisa. Se enuncia lo
+verificable.
+
+| Título descartado | Por qué |
+|---|---|
+| "Recién acá empieza el trabajo del rol" | configurar, actualizar y adaptar ya es trabajo del rol. El perfil no arranca ahí |
+| "Lo que al repositorio le faltaba" | reprocha al equipo. Era una mejora detectada en el uso |
+| "La configuración no falla, miente" | registro informal |
+| "Lo que nadie entrega andando" | carencia absoluta, y falsa: sí hay repositorio, boilerplate y accesos |
+| "No es usar IA, es dirigirla" | premisa discutible, y ya es el cierre de otra pieza |
+
+### 9.2 Sin carencia absoluta ni reproche
+
+Lo que se recibe existe. El trabajo es actualizarlo, completarlo y verificarlo.
+Escribirlo como vacío suena a reproche al equipo o a quien entregó, y el registro
+de la serie es el de alguien con oficio que describe su trabajo, no el de alguien
+que se queja del punto de partida.
+
+### 9.3 Vocabulario
+
+| No se dice | Se dice |
+|---|---|
+| instrumental | herramientas, entorno |
+| montar | poner a punto, configurar, dejar operativo |
+| miente | desalineado, no devuelve ningún error |
+
+La lista crece cuando aparece un término que no corresponde al registro. No se
+borra ninguno: un término vedado que reaparece indica que la regla se perdió.
+
+### 9.4 Cobertura sin anunciar cantidad
+
+Una slide que enumera no se cierra en un número ("seis conectores", "tres
+capas"): el número envejece y empobrece. Se agrupa por lo que resuelve cada
+pieza y se nombra toda la superficie. Las categorías técnicas sí se nombran con
+su término propio (MCP, CLI, API, base de datos), porque son el tipo de pieza, no
+una marca, y son la señal que un lector técnico escanea de un vistazo.
+
+### 9.5 La tesis no se repite entre piezas
+
+Cada pieza cierra con una idea propia. Si dos piezas cierran con la misma tesis,
+las dos pierden fuerza y el conjunto se vuelve repetitivo. Cierres vigentes:
+
+| Pieza | Cierre |
+|---|---|
+| `onboarding-tecnico` | responder por el entorno, no solo por el producto |
+| `onboarding-contexto` | cada etapa deja algo que se puede revisar |
+| `project-discovery` | alguien tiene que poder responder |
+
+### 9.6 Largo de la pieza
+
+No hay largo fijo. Ocho o nueve slides es el rango que vienen dando las piezas;
+nueve nunca fue una regla. Una pieza de entrada prioriza que el lector la absorba
+de una pasada: ante la duda entre desarrollar un episodio más o fundir dos, se
+funde.
+
 ## Estado
 
 `base v1` — establecido 2026-09-19. Reemplaza el trabajo por intuición sobre las piezas.
@@ -267,11 +331,21 @@ Primera aplicación: el deck `project-discovery` se reconstruyó entero contra e
 base el mismo día. Pasó de 11 slides a 9, de 7 slides con el producto como sujeto
 a 8 de 9 con el rol como sujeto, y perdió el cierre que lo ataba a una serie.
 
-Segunda aplicación, en curso: el deck `onboarding-contexto`, construido antes que
-este documento, fue auditado contra esta base el 2026-09-21 y está en reescritura.
+Segunda aplicación: el deck `onboarding-contexto`, construido antes que este
+documento, fue auditado contra esta base el 2026-09-21 y reescrito el mismo día.
 Los tres guiones propuestos viven en
-`presentaciones/onboarding-contexto/guion.md`; el deck anterior se conserva sin
-cambios como registro.
+`presentaciones/onboarding-contexto/guion.md`, el guion elegido y ajustado en
+`guion-definitivo.html`, y el deck nuevo en `onboarding-recorrido.html` (nombre
+provisional). El deck anterior se conserva sin cambios como registro.
+
+Tercera aplicación: la pieza nueva `onboarding-tecnico`, primera construida con
+guion antes que HTML de punta a punta, y primera en pasar por dos rondas de
+ajuste sobre el guion sin tocar el deck. De esas rondas salió §9.
+
+**base v2** — 2026-09-21. Incorpora §5.7 (montaje y reparación del entorno) y §9
+(reglas de redacción). El método queda así: el fundamento define qué se dice, el
+guion lo fija slide por slide, el deck lo construye, y toda corrección entra por
+el guion, nunca directo sobre el HTML.
 
 Tercera pieza, nueva: `onboarding-tecnico`, sobre el montaje y la reparación del
 entorno. Nació ya derivada de esta base, con sus tres guiones en

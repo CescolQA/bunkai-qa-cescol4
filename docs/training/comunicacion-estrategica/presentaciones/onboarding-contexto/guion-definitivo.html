@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>onboarding-contexto — guion definitivo</title>
+    <style>
+      :root {
+        --navy: #1d0847;
+        --lav: #9486a9;
+        --gray: #afb4b3;
+        --soft: #f4f2f7;
+        --line: #e3dfea;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          'Segoe UI',
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: #fff;
+        color: var(--navy);
+        line-height: 1.55;
+      }
+      header {
+        background: var(--navy);
+        color: #fff;
+        padding: 20px 28px;
+      }
+      header h1 {
+        font-size: 19px;
+        margin: 0 0 4px;
+        letter-spacing: 0.02em;
+      }
+      header p {
+        margin: 0;
+        font-size: 12.5px;
+        color: var(--gray);
+      }
+      main {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 28px;
+      }
+      .note {
+        background: var(--soft);
+        border-left: 4px solid var(--lav);
+        padding: 14px 18px;
+        font-size: 13px;
+        margin-bottom: 26px;
+        border-radius: 0 8px 8px 0;
+      }
+      .note strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+      .note ul {
+        margin: 6px 0 0;
+        padding-left: 18px;
+      }
+      .slide {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 20px 22px;
+        margin-bottom: 16px;
+        position: relative;
+      }
+      .slide .n {
+        position: absolute;
+        top: -11px;
+        left: 18px;
+        background: var(--navy);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 3px 10px;
+        border-radius: 999px;
+        letter-spacing: 0.08em;
+      }
+      .slide .tag {
+        position: absolute;
+        top: -11px;
+        right: 18px;
+        background: var(--lav);
+        color: #fff;
+        font-size: 10px;
+        font-weight: 800;
+        padding: 3px 10px;
+        border-radius: 999px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .kicker {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--lav);
+        font-weight: 700;
+        margin: 4px 0 6px;
+      }
+      .title {
+        font-size: 22px;
+        font-weight: 800;
+        margin: 0 0 10px;
+        line-height: 1.2;
+      }
+      .body {
+        font-size: 14.5px;
+        margin: 0;
+      }
+      .meta {
+        margin-top: 12px;
+        padding-top: 9px;
+        border-top: 1px dashed var(--line);
+        font-size: 11px;
+        color: var(--gray);
+      }
+      .meta b {
+        color: var(--lav);
+      }
+      .meta code {
+        background: var(--soft);
+        padding: 1px 5px;
+        border-radius: 3px;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 20px 28px 60px;
+        max-width: 880px;
+        margin: 24px auto 0;
+        font-size: 13px;
+      }
+      footer table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12.5px;
+        margin-top: 10px;
+      }
+      footer td,
+      footer th {
+        border: 1px solid var(--line);
+        padding: 7px 10px;
+        text-align: left;
+      }
+      footer th {
+        background: var(--soft);
+      }
+      .open {
+        background: #fffaf0;
+        border-left: 3px solid #c9a227;
+        padding: 10px 14px;
+        font-size: 12.5px;
+        margin-top: 18px;
+        border-radius: 0 6px 6px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>onboarding-contexto · guion definitivo</h1>
+      <p>
+        Guion A (El recorrido) reescrito con las reglas del deck técnico · 8 slides · en revisión
+      </p>
+    </header>
+
+    <main>
+      <div class="note">
+        <strong>Qué se trae del deck técnico</strong>
+        <ul>
+          <li>
+            <b>Títulos descriptivos, no sentencias.</b> Cae "No es usar IA, es dirigirla": además de
+            ser una premisa discutible, ya es el cierre de la pieza de
+            <code>project-discovery</code>, y repetir la misma tesis en dos piezas le quita fuerza a
+            las dos.
+          </li>
+          <li>
+            <b>Nada de carencia absoluta ni reproche.</b> El oficio de analista ya estaba, la
+            asistencia agéntica es lo nuevo. No se escribe como si antes faltara algo.
+          </li>
+          <li>
+            <b>Vocabulario vedado.</b> No se dice instrumental, montar ni miente. Se dice
+            herramientas, entorno, poner a punto.
+          </li>
+          <li>
+            <b>Pilares implícitos.</b> Sale la slide que los enumera. Organizan el material, no son
+            el mensaje, y nombrarlos en pantalla obliga al lector a aprender un esquema interno
+            antes de entender la idea.
+          </li>
+          <li>
+            <b>Ninguna pieza anuncia otra.</b> Salen las dos slides de "próxima entrega" y "seguí la
+            serie". El hilo entre piezas vive en el texto de publicación.
+          </li>
+          <li>
+            <b>Ocho slides.</b> Mismo largo que el deck técnico. Nueve no era una regla, era cómo
+            venían saliendo.
+          </li>
+        </ul>
+      </div>
+
+      <div class="note">
+        <strong>Qué cambia respecto del deck viejo</strong>
+        <ul>
+          <li>
+            <b>El producto entra en una línea, no en una slide.</b> Bunkai TMS se define dentro de
+            la slide donde se cuenta qué se eligió entrenar. El sujeto es el rol, no el producto.
+          </li>
+          <li>
+            <b>Entra una slide sobre el entorno</b>, contada desde el criterio y sin desarrollo: el
+            trabajo de dejarlo a punto existe y es parte del oficio. El detalle no entra acá.
+          </li>
+          <li>
+            <b>Entra una slide de método</b>, que antes vivía suelta en una leyenda: comprender la
+            skill, aplicarla a una historia real, correrla y comparar contra el método manual.
+          </li>
+          <li>
+            <b>Entra una slide sobre los dos ejes</b> que se miden por separado, lo que corre la
+            skill y lo que se dirige a mano. Es el diferencial del perfil y en el deck viejo no
+            estaba.
+          </li>
+          <li>
+            <b>Tema visual B (contraste)</b>, igual que las otras dos piezas. El deck viejo usaba la
+            plantilla plana.
+          </li>
+        </ul>
+      </div>
+
+      <div class="slide">
+        <span class="n">01</span>
+        <div class="kicker">Serie de entrenamiento</div>
+        <p class="title">El recorrido que estoy entrenando</p>
+        <p class="body">
+          Analista funcional y de QA, practicando un pipeline de QA completo con asistencia
+          agéntica, sobre un producto real.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> ancla · Portada tipográfica + logo chico · <b>Carga:</b> promesa del
+          recorte
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">02</span>
+        <div class="kicker">De qué va esto</div>
+        <p class="title">El mismo oficio, con una herramienta nueva al lado</p>
+        <p class="body">
+          El análisis funcional y el criterio de QA ya venían de antes. Lo nuevo es trabajar con
+          asistencia agéntica y tener que decidir qué pedirle, qué revisarle y cuándo hacer una
+          parte a mano para poder contrastar. Eso es lo que estoy practicando, etapa por etapa.
+        </p>
+        <div class="meta"><b>Sujeto:</b> rol · <b>Eje:</b> posicionamiento · §1 · §5.1</div>
+      </div>
+
+      <div class="slide">
+        <span class="n">03</span>
+        <div class="kicker">Qué elegí entrenar</div>
+        <p class="title">Un pipeline de QA completo, sobre un producto en uso</p>
+        <p class="body">
+          Elegí practicar sobre Bunkai TMS, un sistema de gestión de pruebas con varios clientes en
+          la misma instancia, desplegado y operativo. Un producto real impone lo que un ejercicio de
+          laboratorio no: reglas de negocio que no inventé, datos que ya existen y decisiones
+          tomadas antes de que yo llegara.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> a mano · §5.2 · <b>Cambio:</b> el producto pasa de tener
+          slide propia a definirse en una línea
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">04</span>
+        <span class="tag">nueva</span>
+        <div class="kicker">Antes de la primera historia</div>
+        <p class="title">El entorno se deja a punto y se verifica</p>
+        <p class="body">
+          Terminal, modelo, repositorio y boilerplate de equipo adaptado al proyecto. Conectores
+          autenticados y catálogos reales de la instancia de incidencias. Nada de eso llega
+          calibrado, y sostenerlo también es trabajo del rol. El detalle de ese tramo no entra acá.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> a mano · §5.7 · <b>Carga:</b> una sola slide, sin
+          desarrollo y sin remitir a otra pieza
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">05</span>
+        <span class="tag">nueva</span>
+        <div class="kicker">Cómo trabajo cada etapa</div>
+        <p class="title">Cuatro pasos que se repiten en cada skill</p>
+        <p class="body">
+          Comprender qué hace la skill y qué decide por mí. Aplicarla a una historia real del
+          backlog. Correrla y leer lo que produce. Comparar contra el mismo trabajo hecho a mano,
+          para saber qué aportó y qué no. La comparación es la parte que no se puede delegar.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> método propio · §5.5 · <b>Cambio:</b> antes vivía suelto
+          en una leyenda de la slide del recorrido
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">06</span>
+        <div class="kicker">Las etapas del recorrido</div>
+        <p class="title">De leer el producto a probar una historia</p>
+        <p class="body">
+          Leer un producto entero desde cero y dejar el mapa con el que después se trabaja. Refinar
+          los criterios de aceptación antes de que la historia entre al sprint. Probar esa historia
+          durante el sprint, con evidencia y defectos reportados. Cada etapa se practicó sobre el
+          mismo producto y dejó artefactos que se pueden revisar.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> skill + a mano · §5.2 · §5.3 · §5.4 · <b>Nota:</b> las
+          skills se nombran por lo que hacen, sin anunciar publicaciones
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">07</span>
+        <span class="tag">nueva</span>
+        <div class="kicker">Qué se mide por separado</div>
+        <p class="title">Lo que produce la herramienta y lo que decido yo</p>
+        <p class="body">
+          En cada práctica quedan dos registros distintos: lo que corrió la skill y lo que dirigí,
+          sellé o hice a mano porque el proceso lo necesitaba. Separarlos es lo que permite decir
+          qué aportó la herramienta sin atribuirle criterio que no tuvo, y hacerse cargo del
+          resultado ante el equipo.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> posicionamiento · §5.1 · <b>Carga:</b> el diferencial del
+          perfil, ausente en el deck viejo
+        </div>
+      </div>
+
+      <div class="slide">
+        <span class="n">08</span>
+        <div class="kicker">La idea que queda</div>
+        <p class="title">Cada etapa deja algo que se puede revisar</p>
+        <p class="body">
+          El recorrido no se sostiene por lo que digo que hice, sino por los artefactos que quedaron
+          de cada práctica: mapas, criterios refinados, casos, evidencia y defectos. Eso es lo que
+          se puede abrir, discutir y cuestionar.
+        </p>
+        <div class="meta">
+          <b>Sujeto:</b> rol · <b>Eje:</b> posicionamiento · §1 · Cierre propio, sin anuncio ·
+          <b>Cambio:</b> cae "No es usar IA, es dirigirla", que además es el cierre de otra pieza
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <strong>Control contra el fundamento</strong>
+      <table>
+        <tr>
+          <th>Criterio</th>
+          <th>Resultado</th>
+        </tr>
+        <tr>
+          <td>Slides con el rol como sujeto</td>
+          <td>8 de 8</td>
+        </tr>
+        <tr>
+          <td>Producto como sujeto de una slide</td>
+          <td>no. Entra en una línea de la slide 3</td>
+        </tr>
+        <tr>
+          <td>Pilares nombrados en pantalla</td>
+          <td>no. Quedan implícitos</td>
+        </tr>
+        <tr>
+          <td>Slides que anuncian otra pieza</td>
+          <td>ninguna. Salieron las dos del deck viejo</td>
+        </tr>
+        <tr>
+          <td>Títulos que afirman una creencia refutable</td>
+          <td>ninguno</td>
+        </tr>
+        <tr>
+          <td>Carencia escrita como absoluta</td>
+          <td>ninguna</td>
+        </tr>
+        <tr>
+          <td>Vocabulario vedado (instrumental, montar, miente)</td>
+          <td>ausente</td>
+        </tr>
+        <tr>
+          <td>Tesis repetida entre piezas</td>
+          <td>no. El cierre es propio de esta pieza</td>
+        </tr>
+        <tr>
+          <td>Búsqueda laboral</td>
+          <td>implícita</td>
+        </tr>
+        <tr>
+          <td>Castellano neutro, sin voseo</td>
+          <td>sí</td>
+        </tr>
+      </table>
+
+      <div class="open">
+        <b>Queda abierto:</b> el nombre definitivo del archivo, que por convención lleva el recorte
+        y no un ordinal. El deck nuevo se construyó como <code>onboarding-recorrido.html</code> a
+        modo provisional, junto al viejo <code>onboarding-contexto.html</code>, que queda intacto
+        como referencia hasta que se confirme el reemplazo. Tema visual B (contraste), el de
+        LinkedIn.
+      </div>
+    </footer>
+  </body>
+</html>

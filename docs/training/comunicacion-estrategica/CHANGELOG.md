@@ -167,3 +167,43 @@ es qué dice cada pieza y por qué.
   pregunta estaba mal planteada: no había que elegir entre B y C, había que
   asignar cada uno a su canal.
 
+## Copy y títulos (2026-09-21)
+
+- **Kicker de portada "La herramienta también falla"** (guion C de
+  `onboarding-tecnico`) — descartado. Abre una serie con tensión en lugar de
+  ubicación, y la serie recién arranca. Queda "Antes de la primera práctica".
+- **Slide 2 del guion C, la creencia cómoda de que la herramienta viene
+  armada** — descartada por el mismo motivo que la versión propia que decía
+  "Lo que nadie entrega andando": afirma una carencia que no es real y suena a
+  reproche al equipo.
+- **"Recién acá empieza el trabajo del rol"** — descartado como cierre del deck
+  técnico. Configurar y adaptar ya es trabajo del rol; el título se refuta solo.
+- **"Lo que al repositorio le faltaba"** — descartado. Reprocha al equipo cuando
+  lo que hubo fue una mejora detectada en el uso y aportada.
+- **"La configuración no falla, miente"** — descartado por registro informal,
+  misma categoría que "montar".
+- **"Seis conectores, uno por uno"** y su reemplazo **"Tres capas de
+  conexión"** — los dos descartados. El primero empobrecía la superficie real
+  del repositorio, el segundo la cerraba en un número. Quedó el agrupamiento por
+  tipo de pieza, con las categorías nombradas (MCP, CLI, API, base de datos).
+- **"No es usar IA, es dirigirla"** como cierre de `onboarding-contexto` —
+  descartado: es una premisa discutible y además ya cierra la pieza de
+  `project-discovery`.
+
+## Estructura de deck (2026-09-21)
+
+- **Tres slides seguidas de episodios técnicos** en `onboarding-tecnico` (valores
+  de plantilla, bug del sincronizador, migración de instancia) — descartado.
+  Convertía una pieza de entrada en bitácora. Quedaron dos: una que reúne las
+  reparaciones en una línea cada una, y otra sobre lo que se le agregó al
+  repositorio.
+- **Slide de criterio propio como novena** — propuesta y descartada por César:
+  el pedido era reestructurar las tres existentes, no sumar una nueva.
+- **Nueve slides como largo fijo** — descartado. Era la coincidencia de las dos
+  primeras piezas, no una regla. El deck técnico y el de contexto quedaron en 8.
+- **Slide propia para el producto** en `onboarding-contexto` — descartada. El
+  sujeto es el rol; Bunkai TMS se define en una línea dentro de la slide donde
+  se cuenta qué se eligió entrenar.
+- **Slide que enumera los 4 pilares** — descartada. Organizan el material, no
+  son el mensaje, y obligaban al lector a aprender un esquema interno antes de
+  entender la idea.

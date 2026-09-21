@@ -224,62 +224,60 @@ Si hay un cambio por tarea, lo refleja: `Dial: profundidad senior (solo esta tar
 | Qué es | Convertir los 4 pilares del entrenamiento (rol analista base / rol + IA asistida / ecosistema de agentes orquestados / experiencia y criterio propio) en una narrativa comunicable, con núcleo en el rol híbrido (analista funcional + QA) demostrado a través de `project-discovery`, `shift-left-testing` y `sprint-testing`. |
 | Para qué | Comunicar hacia afuera (GitHub, sitio personal, LinkedIn) de forma estratégica y agnóstica, entendible por reclutadores sin trasfondo QA. |
 | Dónde nació | Conversación del 2026-09-11, después de cerrar BK-859 y armar `niveles/`. |
-| Estado | `en curso` — el 2026-09-19 se bajó a la capa que faltaba: **`comunicacion-estrategica/fundamento.md`** define qué se comunica y por qué (posicionamiento, audiencia, regla de sujeto, inventario de evidencia de doble eje, mensaje por canal, checklist). `README.md` queda solo con la forma. Canales cerrados en dos: LinkedIn (tema B) y sitio personal (tema C). Cada pieza es autónoma, sin anclaje a una serie. Deck `project-discovery` reconstruido: 9 slides, tema B. Decisiones descartadas en `CHANGELOG.md`. **2026-09-21**: auditado el deck `onboarding-contexto` contra la base (6 de 9 con el rol como sujeto, 3 fallas duras) y abierta su reescritura; creada la pieza nueva `onboarding-tecnico` con guion cerrado; ampliado el inventario con §5.7 (montaje y reparación del entorno). Detalle por pieza en la tabla de abajo. |
-| Próximo paso | Construir el HTML de `onboarding-tecnico` (guion cerrado, tema B) y el documento de ajustes de `onboarding-contexto`. Después, las primeras piezas en `piezas/linkedin/` y `piezas/sitio/`, y `shift-left-testing` con los tres guiones desde el arranque. Converge con la comparación de niveles (I-7) como insumo de calibración. |
+| Estado | `en curso` — el 2026-09-19 se bajó a la capa que faltaba: **`comunicacion-estrategica/fundamento.md`** define qué se comunica y por qué. `README.md` queda solo con la forma. Canales cerrados en dos: LinkedIn (tema B) y sitio personal (tema C). Cada pieza es autónoma. Deck `project-discovery` reconstruido: 9 slides, tema B. **2026-09-21**: se cerró el método completo y se probó de punta a punta. `fundamento.md` pasa a **base v2** con §5.7 (montaje y reparación del entorno) y §9 (reglas de redacción: títulos descriptivos, sin carencia absoluta, vocabulario controlado, sin anunciar cantidades, una tesis por pieza, largo no fijo). Pieza nueva `onboarding-tecnico` construida y ajustada en dos rondas sobre el guion: 8 slides. Deck `onboarding-contexto` reescrito contra la misma base como `onboarding-recorrido.html`: 8 slides, tema B, sin slide de producto, sin pilares en pantalla, sin anuncios de otra pieza. Decisiones descartadas en `CHANGELOG.md`. |
+| Próximo paso | Confirmar el nombre definitivo del deck de contexto y si reemplaza al viejo. Después, las primeras piezas en `piezas/linkedin/` y `piezas/sitio/`, y `shift-left-testing` con los tres guiones desde el arranque. Converge con la comparación de niveles (I-7) como insumo de calibración. |
 
-**Estado por pieza** (al 2026-09-21):
+**Estado por pieza** (al 2026-09-21, cierre de la segunda sesión):
 
 | Pieza | Guion | HTML | Qué falta |
 |---|---|---|---|
 | `project-discovery` | A, cerrado | hecho, 9 slides, tema B | nada. Pieza terminada |
-| `onboarding-tecnico` | **A, cerrado** con 2 ajustes (`guion-definitivo.html`) | pendiente | construir el HTML sobre tema B. Abierto: los toques del guion C que César va a evaluar |
-| `onboarding-contexto` | A elegido, **con ajustes sin aplicar** | el viejo sigue en pie, sin tocar | documento nuevo de ajustes: entra 1 slide sobre el montaje, sale la slide 8 (inventario de faltantes), se rehace la slide de producto. Después, HTML nuevo con nombre por recorte |
+| `onboarding-tecnico` | A, cerrado tras dos rondas de ajuste (`guion-definitivo.html`) | hecho, 8 slides, tema B | nada pendiente. Ajuste opcional: aligerar las slides 4 y 6 si se decide recortar para LinkedIn |
+| `onboarding-contexto` | A, reescrito contra la base (`guion-definitivo.html`) | hecho como `onboarding-recorrido.html`, 8 slides, tema B | confirmar el nombre definitivo y si reemplaza al deck viejo, que sigue en su lugar |
 | `shift-left-testing` | sin empezar | sin empezar | tres guiones desde el arranque |
 | `sprint-testing` | sin empezar | sin empezar | tres guiones desde el arranque |
 
-**Reglas nuevas que dejó esta vuelta** (ya escritas en `fundamento.md` y en los guiones):
+**Reglas vigentes** (todas escritas en `fundamento.md` y en `README.md`, no solo acá):
 
-- **Vocabulario:** no se dice "instrumental". Se dice herramientas o entorno.
-- **Boilerplate:** es de equipo, nunca se presenta como obra propia. Lo propio es la adaptación, la conexión de las herramientas, las correcciones y lo agregado.
-- **Nada sin respaldo propio:** se descartó una slide entera (los tres clientes de IA) porque el repositorio los admite pero el trabajo real se hace desde uno.
-- **Herramientas por función, no por marca:** el lector primario no conoce los nombres de los conectores.
-- **Inventario ampliable:** cuando una pieza necesita evidencia que §5 no tiene, se amplía el inventario antes de escribir el deck, no después.
+- **Método:** fundamento define qué se dice, tres guiones abren los ángulos, el `guion-definitivo.html` fija la pieza slide por slide, el deck la construye. **Toda corrección entra por el guion, nunca directo sobre el HTML.**
+- **Vocabulario vedado:** instrumental, montar, miente. La lista crece y no se borra.
+- **Títulos descriptivos, no sentencias:** un título con premisa discutible se refuta en la primera lectura.
+- **Sin carencia absoluta ni reproche:** lo que se recibe existe; el trabajo es actualizarlo, completarlo y verificarlo.
+- **Boilerplate:** es de equipo, nunca obra propia. Lo propio es la adaptación, la conexión, las correcciones y lo agregado.
+- **Nada sin respaldo propio:** se descartó una slide entera (los tres clientes de IA) por eso.
+- **Cobertura sin anunciar cantidad:** ni "seis conectores" ni "tres capas". Las categorías técnicas sí se nombran (MCP, CLI, API, base de datos).
+- **Una tesis por pieza:** dos piezas no cierran con la misma idea.
+- **Largo no fijo:** 8 o 9 slides. Ante la duda, se funde.
+- **Encuadre verificado en el navegador** a 1440x810 antes de dar un deck por terminado.
+- **Inventario ampliable:** si una pieza necesita evidencia que §5 no tiene, se amplía el inventario antes de escribir el deck.
 
-### Punto de retome de I-8 (2026-09-21)
+### Punto de retome de I-8 (2026-09-21, segunda sesión)
 
 Se lee antes de abrir la sesión siguiente. Cada decisión pendiente está formulada
 para responderse con un sí o un no, sin tener que reconstruir el contexto.
 
-**Por dónde empezar, en orden de menor fricción:**
+**Lo que quedó cerrado en esta sesión:**
 
-1. `onboarding-tecnico.html`. El guion está cerrado y ya pasó el control contra el fundamento, así que es trabajo de HTML y no de contenido. Tema B (`knowledge-arch-blueprint-contrast.css`), portada tipográfica + logo chico, 9 slides, copy literal de `guion-definitivo.html`.
-2. Documento de ajustes de `onboarding-contexto`, después su HTML.
-3. Piezas cortas en `piezas/linkedin/`, que es donde vive el goteo semanal.
+- los dos toques del guion C sobre el deck técnico: descartados los dos
+- el deck técnico: construido, 8 slides, aprobado por César
+- el deck de contexto: reescrito y construido, 8 slides, leído y aprobado como base
+- el método y las reglas de redacción: escritos en `fundamento.md` §9 y en `README.md`
 
-**Decisiones abiertas del deck técnico** (César dijo que le gustó el guion C y que iba a evaluar qué tomar):
+**Decisiones abiertas:**
 
-| # | Qué tomar de C | Efecto si entra |
+| # | Pregunta | Contexto |
 |---|---|---|
-| 1 | El kicker de portada de C, "La herramienta también falla", en lugar de "Antes de la primera práctica" | abre con tensión en vez de con ubicación temporal. Más gancho, menos encuadre |
-| 2 | La slide 2 de C, que plantea la creencia de que la herramienta viene armada, en lugar de "Lo que nadie entrega andando" | mueve el deck de recorrido a argumento desde el arranque. Es el cambio más de fondo de los dos |
+| 1 | ¿El deck de contexto se llama `onboarding-recorrido.html`? | el nombre lleva el recorte, no un ordinal. Alternativa registrada: `onboarding-rol-hibrido.html` |
+| 2 | ¿Se borra el deck viejo `onboarding-contexto.html`? | hoy convive con el nuevo, intacto, como registro |
+| 3 | ¿Se aligeran las slides 4 y 6 del deck técnico para publicar en LinkedIn? | son las dos más densas. El ajuste es sacar la tarjeta de verificación de la grilla y bajar la 6 de cuatro casos a tres |
 
-Si no entra ninguno, el guion queda tal como está cerrado hoy.
+**Por dónde seguir, en orden de menor fricción:**
 
-**Ajustes acordados del deck de contexto** (guion A elegido, falta aplicarlos):
+1. Las tres decisiones de arriba, que son de un minuto cada una.
+2. Primera pieza corta en `piezas/linkedin/`, que es donde vive el goteo semanal.
+3. Deck de `shift-left-testing`, con los tres guiones desde el arranque.
 
-| Slide | Qué cambia |
-|---|---|
-| nueva, entre la 3 y la 4 | el montaje del entorno, contado desde el criterio y no como catálogo. Una sola slide: el desarrollo completo vive en el deck técnico |
-| 4, la de producto | se rehace. Bunkai TMS pasa a definirse en una línea dentro de la slide donde se cuenta qué se eligió entrenar |
-| 8, el inventario de faltantes | sale. El rumbo se dice en una línea del cierre, en presente. Motivo: en una pieza de 9, una slide dedicada a lo que falta le da a la carencia el mismo peso que a un logro |
-| 7 y 9, los anuncios | ya resueltos en el guion: cierran con idea propia |
-
-Queda una decisión sin tomar: **el nombre del archivo nuevo**, que por convención
-lleva el recorte y no un ordinal. Candidatos según lo que termine protagonizando:
-`onboarding-rol-hibrido.html`, `onboarding-recorrido.html`.
-
-**Estado del repositorio al cerrar:** tres commits en `main` (`29b2350`,
-`836025f`, `6573c6c`), sin push. Nada a medio escribir, ningún archivo roto.
+**Estado del repositorio al cerrar:** ver el commit de esta sesión sobre `main`.
 
 ---
 

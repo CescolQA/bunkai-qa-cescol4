@@ -224,8 +224,26 @@ Si hay un cambio por tarea, lo refleja: `Dial: profundidad senior (solo esta tar
 | Qué es | Convertir los 4 pilares del entrenamiento (rol analista base / rol + IA asistida / ecosistema de agentes orquestados / experiencia y criterio propio) en una narrativa comunicable, con núcleo en el rol híbrido (analista funcional + QA) demostrado a través de `project-discovery`, `shift-left-testing` y `sprint-testing`. |
 | Para qué | Comunicar hacia afuera (GitHub, sitio personal, LinkedIn) de forma estratégica y agnóstica, entendible por reclutadores sin trasfondo QA. |
 | Dónde nació | Conversación del 2026-09-11, después de cerrar BK-859 y armar `niveles/`. |
-| Estado | `en curso` — el 2026-09-19 se bajó a la capa que faltaba: **`comunicacion-estrategica/fundamento.md`** define qué se comunica y por qué (posicionamiento, audiencia, regla de sujeto, inventario de evidencia de doble eje, mensaje por canal, checklist). `README.md` queda solo con la forma. Canales cerrados en dos: LinkedIn (tema B) y sitio personal (tema C). Cada pieza es autónoma, sin anclaje a una serie. Deck `project-discovery` reconstruido: 9 slides, tema B. Decisiones descartadas en `CHANGELOG.md`. |
-| Próximo paso | Revisar el deck `onboarding-contexto` contra `fundamento.md` (se construyó antes que la base) y escribir las primeras piezas en `piezas/linkedin/` y `piezas/sitio/`. Después, `shift-left-testing` con los tres guiones desde el arranque. Converge con la comparación de niveles (I-7) como insumo de calibración. |
+| Estado | `en curso` — el 2026-09-19 se bajó a la capa que faltaba: **`comunicacion-estrategica/fundamento.md`** define qué se comunica y por qué (posicionamiento, audiencia, regla de sujeto, inventario de evidencia de doble eje, mensaje por canal, checklist). `README.md` queda solo con la forma. Canales cerrados en dos: LinkedIn (tema B) y sitio personal (tema C). Cada pieza es autónoma, sin anclaje a una serie. Deck `project-discovery` reconstruido: 9 slides, tema B. Decisiones descartadas en `CHANGELOG.md`. **2026-09-21**: auditado el deck `onboarding-contexto` contra la base (6 de 9 con el rol como sujeto, 3 fallas duras) y abierta su reescritura; creada la pieza nueva `onboarding-tecnico` con guion cerrado; ampliado el inventario con §5.7 (montaje y reparación del entorno). Detalle por pieza en la tabla de abajo. |
+| Próximo paso | Construir el HTML de `onboarding-tecnico` (guion cerrado, tema B) y el documento de ajustes de `onboarding-contexto`. Después, las primeras piezas en `piezas/linkedin/` y `piezas/sitio/`, y `shift-left-testing` con los tres guiones desde el arranque. Converge con la comparación de niveles (I-7) como insumo de calibración. |
+
+**Estado por pieza** (al 2026-09-21):
+
+| Pieza | Guion | HTML | Qué falta |
+|---|---|---|---|
+| `project-discovery` | A, cerrado | hecho, 9 slides, tema B | nada. Pieza terminada |
+| `onboarding-tecnico` | **A, cerrado** con 2 ajustes (`guion-definitivo.html`) | pendiente | construir el HTML sobre tema B. Abierto: los toques del guion C que César va a evaluar |
+| `onboarding-contexto` | A elegido, **con ajustes sin aplicar** | el viejo sigue en pie, sin tocar | documento nuevo de ajustes: entra 1 slide sobre el montaje, sale la slide 8 (inventario de faltantes), se rehace la slide de producto. Después, HTML nuevo con nombre por recorte |
+| `shift-left-testing` | sin empezar | sin empezar | tres guiones desde el arranque |
+| `sprint-testing` | sin empezar | sin empezar | tres guiones desde el arranque |
+
+**Reglas nuevas que dejó esta vuelta** (ya escritas en `fundamento.md` y en los guiones):
+
+- **Vocabulario:** no se dice "instrumental". Se dice herramientas o entorno.
+- **Boilerplate:** es de equipo, nunca se presenta como obra propia. Lo propio es la adaptación, la conexión de las herramientas, las correcciones y lo agregado.
+- **Nada sin respaldo propio:** se descartó una slide entera (los tres clientes de IA) porque el repositorio los admite pero el trabajo real se hace desde uno.
+- **Herramientas por función, no por marca:** el lector primario no conoce los nombres de los conectores.
+- **Inventario ampliable:** cuando una pieza necesita evidencia que §5 no tiene, se amplía el inventario antes de escribir el deck, no después.
 
 ---
 

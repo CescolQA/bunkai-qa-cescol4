@@ -60,8 +60,13 @@ Un hallazgo técnico sobre el producto solo entra si la pieza explica qué decis
 propia lo produjo y qué cambió a partir de él.
 
 Contraejemplo registrado: el primer deck de `project-discovery` tenía 7 de 11 slides
-con el producto como sujeto. El deck de onboarding, aprobado, tenía 8 de 9 con el
+con el producto como sujeto. El deck de onboarding, que sí gustó, tenía 6 de 9 con el
 rol como sujeto. La diferencia entre "gustó" y "no gustó" fue exactamente esa.
+
+Corrección del 2026-09-21: la cifra del deck de onboarding figuraba acá como 8 de 9.
+El recuento slide por slide da 6 de 9, apenas por encima del mínimo, y tres slides
+fallan de lleno (una ficha de producto y dos anuncios de la pieza siguiente). La regla
+se sostiene igual; el dato que la ilustraba estaba inflado.
 
 ## 4. Qué se comunica y qué no
 
@@ -80,6 +85,11 @@ a contratar, sin tono de candidatura.
 ## 5. Inventario de evidencia
 
 La fuente de la que se recorta. Nada se publica sin fila acá.
+
+> **Orden de lectura.** Las subsecciones están numeradas por antigüedad de
+> registro, no por cronología del trabajo. La primera etapa real es §5.7, el
+> montaje del entorno: es anterior a todo lo demás. Se agregó al final para no
+> renumerar y romper las citas de los guiones ya cerrados.
 
 ### 5.1 Regla de balance
 
@@ -163,6 +173,41 @@ Se nombran como próximo paso, nunca como capacidad demostrada.
 | `test-automation` | no iniciada |
 | `regression-testing` | no iniciada |
 
+### 5.7 Montaje y reparación del entorno
+
+Cronológicamente es lo primero: todo esto es anterior a la primera historia
+analizada. Es evidencia de una competencia distinta a la de las demás
+subsecciones, y se evalúa por separado: no "qué sabe hacer con un producto",
+sino "puede operar y reparar el instrumental con el que lo hace".
+
+**Límite declarado**: el punto de partida es un boilerplate agéntico de equipo.
+Nunca se presenta como obra propia. Lo propio es la adaptación al proyecto, la
+conexión del instrumental, las correcciones y lo que se le agregó.
+
+| Eje | Qué hubo | Prueba |
+|---|---|---|
+| Dirigido a mano | entorno montado desde el boilerplate agéntico: repositorio propio, adaptación inicial y faltantes de instalación resueltos | `c854bf2`, `ce834ba`, `3577c43` |
+| Dirigido a mano | seis conectores externos declarados y autenticados: documentación oficial, búsqueda web, navegador, base de datos, esquema de API, colecciones de API | `.mcp.json` |
+| Dirigido a mano | catálogos de la instancia de incidencias cargados: campos y flujos de trabajo reales del proyecto, no valores de ejemplo | `.agents/jira-fields.json`, `.agents/jira-workflows.json` |
+| Dirigido a mano | tres clientes de IA distintos operando el mismo repositorio contra una sola fuente de instrucciones | `.claude/`, `.opencode/`, `.codex/` |
+| Dirigido a mano | corrección de configuración: dirección de API de staging con el valor de ejemplo todavía vivo | `7d058ff` |
+| Dirigido a mano | corrección de configuración: nombres de conectores que no coincidían con la configuración real | `8b41ceb`, `3e43af9` |
+| Dirigido a mano | corrección de configuración: el mismo conector definido distinto en cada uno de los tres clientes | `b782662` |
+| Dirigido a mano | **corrección de código**: el sincronizador de incidencias fallaba cuando la instancia devolvía los tipos traducidos ("Historia" en vez de "Story"). Resuelto matcheando por identificador en lugar de por nombre | `afb37e8` |
+| Dirigido a mano | herramienta propia agregada al repositorio: un comando que compila el estado real del proyecto en el momento, sin caché | `1d69608` |
+| Dirigido a mano | migración completa de instancia de incidencias: repuntar la dirección, adoptar los catálogos nuevos, verificar que cada pieza siguiera respondiendo | `2ad69e8`, `86d44c0`, `143dce9` |
+| Dirigido a mano | estudio propio de cómo el repositorio despacha agentes y subagentes | `docs/training/subagent-architecture-guide.md` |
+
+**Hallazgo destacable**: el bug del sincronizador (`afb37e8`) es la única fila
+del inventario entero donde el trabajo fue encontrar y corregir un defecto en la
+herramienta antes de poder usarla. Para llegar ahí hay que leer el código del
+instrumental, no solo operarlo. Es el tipo de evidencia que no se puede
+reclamar sin commit.
+
+**Las herramientas se nombran por lo que resuelven, no por su marca.** El lector
+primario no conoce los nombres de los conectores, y una enumeración de marcas sin
+decisión detrás incumple §4.
+
 ## 6. Mensaje por canal
 
 Mismo fundamento, dos formatos distintos. No se copia y pega entre canales.
@@ -222,5 +267,13 @@ Primera aplicación: el deck `project-discovery` se reconstruyó entero contra e
 base el mismo día. Pasó de 11 slides a 9, de 7 slides con el producto como sujeto
 a 8 de 9 con el rol como sujeto, y perdió el cierre que lo ataba a una serie.
 
-Pendiente de pasar por acá: el deck `onboarding-contexto`, construido antes que
-este documento.
+Segunda aplicación, en curso: el deck `onboarding-contexto`, construido antes que
+este documento, fue auditado contra esta base el 2026-09-21 y está en reescritura.
+Los tres guiones propuestos viven en
+`presentaciones/onboarding-contexto/guion.md`; el deck anterior se conserva sin
+cambios como registro.
+
+Tercera pieza, nueva: `onboarding-tecnico`, sobre el montaje y la reparación del
+entorno. Nació ya derivada de esta base, con sus tres guiones en
+`presentaciones/onboarding-tecnico/guion.md` y su evidencia en §5.7. Es la
+primera pieza que obligó a ampliar el inventario en vez de recortar de él.

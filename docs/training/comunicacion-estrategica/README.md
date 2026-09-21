@@ -47,6 +47,7 @@ lista de skills no está cerrada a un número fijo):
 | `CHANGELOG.md` | decisiones descartadas, con su motivo |
 | `presentaciones/` | decks. Termómetro de tono y fuente para recortar |
 | `presentaciones/<deck>/guion.md` | bitácora de decisiones + los tres ángulos evaluados |
+| `presentaciones/<deck>/comparador-guiones.html` | los tres guiones alineados slide por slide, con el copy real. Es el documento que se lee para elegir |
 | `presentaciones/<deck>/guion-definitivo.html` | el guion cerrado, con control contra el fundamento |
 | `piezas/linkedin/` · `piezas/sitio/` | los textos que se publican afuera |
 
@@ -109,29 +110,39 @@ entre sí:
 
 No hay un tema único para toda la serie: hay un tema por destino.
 
-**Dos tipos de deck:**
+**Tres tipos de deck:**
 
-- **Onboarding/contexto**: la idea general y los cuatro pilares. Es la única
-  pieza cuyo tema ES el conjunto, así que es la única que puede invitar a
-  seguir el resto. Único deck con la imagen completa del producto como
-  portada. Pendiente de revisión contra `fundamento.md`: se construyó antes
-  que la base y no pasó por la regla de sujeto.
+- **Onboarding/contexto**: la idea general y el recorrido completo. Es la única
+  pieza cuyo tema ES el conjunto. Único deck con la imagen completa del producto
+  como portada. **En reescritura** (2026-09-21): el deck vigente se construyó
+  antes de `fundamento.md` y no pasó por la regla de sujeto. Guion A elegido,
+  ajustes sin aplicar. El deck viejo se conserva sin cambios como registro.
+- **Onboarding/técnico**: el entorno que hubo que montar, entender y reparar
+  antes de poder practicar el rol. Pieza aparte porque le habla a otro lector:
+  no "qué sabe hacer con un producto", sino "puede operar y reparar las
+  herramientas con las que lo hace". Portada tipográfica + logo chico, como los
+  decks de skill.
 - **Por skill**: portada tipográfica propia (nombre de la skill) + el logo
   chico (`bunkai-mark-flat.png`) como ancla de marca, nunca la imagen
   completa, para que las publicaciones no se vean repetidas entre sí. Cada
   una se sostiene sola y se publica en el orden que convenga.
 
-| Deck | Archivo | Slides | Pilar destacado | Pilar 4 |
-|---|---|---|---|---|
-| Onboarding/contexto (tema A, descartado) | `presentaciones/onboarding-contexto/onboarding-contexto.html` | 9 | los 4, panorama | n/a — es el panorama |
-| Onboarding/contexto (tema B, contraste) | `presentaciones/onboarding-contexto/onboarding-contexto-b-contraste.html` | 9 | los 4, panorama | n/a — es el panorama |
-| Onboarding/contexto (tema C, híbrido) | `presentaciones/onboarding-contexto/onboarding-contexto-c-hibrido.html` | 9 | los 4, panorama | n/a — es el panorama |
-| `project-discovery` | `presentaciones/project-discovery/project-discovery.html` | 9 | Pilar 2 (implícito) | sí, implícito |
-| `shift-left-testing` | — pendiente | — | Pilar 1 · Rol analista (candidato) | sí, cuando se arme |
-| `sprint-testing` | — pendiente | — | Pilar 3 · Agentes orquestados (candidato) | sí, cuando se arme |
+| Deck | Archivo | Slides | Estado |
+|---|---|---|---|
+| `project-discovery` | `presentaciones/project-discovery/project-discovery.html` | 9 | terminado (2026-09-19), tema B |
+| Onboarding/técnico | — pendiente | 9 | guion A cerrado en `presentaciones/onboarding-tecnico/guion-definitivo.html`. Falta el HTML, tema B |
+| Onboarding/contexto (versión anterior, tema A) | `presentaciones/onboarding-contexto/onboarding-contexto.html` | 9 | registro. Anterior al fundamento, no se toca |
+| Onboarding/contexto (versión anterior, tema B) | `presentaciones/onboarding-contexto/onboarding-contexto-b-contraste.html` | 9 | registro |
+| Onboarding/contexto (versión anterior, tema C) | `presentaciones/onboarding-contexto/onboarding-contexto-c-hibrido.html` | 9 | registro |
+| Onboarding/contexto (reescritura) | — pendiente | 9 | guion A elegido, ajustes sin aplicar. Nombre por recorte, no ordinal |
+| `shift-left-testing` | — pendiente | — | tres guiones desde el arranque |
+| `sprint-testing` | — pendiente | — | tres guiones desde el arranque |
 
 `project-discovery` corre sobre el tema B (`knowledge-arch-blueprint-contrast.css`),
 que es el tema de LinkedIn. Reconstruido el 2026-09-19 desde `guion-definitivo.html`.
+
+La columna de pilares salió de esta tabla: se declaran en el guion de cada deck,
+no acá (ver la regla más abajo).
 
 **Una skill puede tener varias piezas.** La tabla de arriba lista lo construido,
 no un cupo. Un segundo deck sobre `project-discovery`, o tres piezas cortas sobre

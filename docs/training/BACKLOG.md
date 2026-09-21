@@ -225,7 +225,7 @@ Si hay un cambio por tarea, lo refleja: `Dial: profundidad senior (solo esta tar
 | Para qué | Comunicar hacia afuera (GitHub, sitio personal, LinkedIn) de forma estratégica y agnóstica, entendible por reclutadores sin trasfondo QA. |
 | Dónde nació | Conversación del 2026-09-11, después de cerrar BK-859 y armar `niveles/`. |
 | Estado | `en curso` — el 2026-09-19 se bajó a la capa que faltaba: **`comunicacion-estrategica/fundamento.md`** define qué se comunica y por qué. `README.md` queda solo con la forma. Canales cerrados en dos: LinkedIn (tema B) y sitio personal (tema C). Cada pieza es autónoma. Deck `project-discovery` reconstruido: 9 slides, tema B. **2026-09-21**: se cerró el método completo y se probó de punta a punta. `fundamento.md` pasa a **base v2** con §5.7 (montaje y reparación del entorno) y §9 (reglas de redacción: títulos descriptivos, sin carencia absoluta, vocabulario controlado, sin anunciar cantidades, una tesis por pieza, largo no fijo). Pieza nueva `onboarding-tecnico` construida y ajustada en dos rondas sobre el guion: 8 slides. Deck `onboarding-contexto` reescrito contra la misma base como `onboarding-recorrido.html`: 8 slides, tema B, sin slide de producto, sin pilares en pantalla, sin anuncios de otra pieza. Decisiones descartadas en `CHANGELOG.md`. |
-| Próximo paso | Confirmar el nombre definitivo del deck de contexto y si reemplaza al viejo. Después, las primeras piezas en `piezas/linkedin/` y `piezas/sitio/`, y `shift-left-testing` con los tres guiones desde el arranque. Converge con la comparación de niveles (I-7) como insumo de calibración. |
+| Próximo paso | Cerrar las tres decisiones chicas pendientes y correr el **primer paquete de publicación completo** sobre `onboarding-tecnico`: selección de slides para el carrusel, post de LinkedIn, página del sitio y presencia en GitHub, resueltos en una misma pasada. Definición del paquete en `comunicacion-estrategica/piezas/README.md`. Después, el mismo molde sobre el deck de contexto, y `shift-left-testing` con los tres guiones desde el arranque. Converge con la comparación de niveles (I-7) como insumo de calibración. |
 
 **Estado por pieza** (al 2026-09-21, cierre de la segunda sesión):
 
@@ -250,6 +250,7 @@ Si hay un cambio por tarea, lo refleja: `Dial: profundidad senior (solo esta tar
 - **Largo no fijo:** 8 o 9 slides. Ante la duda, se funde.
 - **Encuadre verificado en el navegador** a 1440x810 antes de dar un deck por terminado.
 - **Inventario ampliable:** si una pieza necesita evidencia que §5 no tiene, se amplía el inventario antes de escribir el deck.
+- **El deck no es el entregable:** una pieza cierra con su paquete de publicación (carrusel elegido, post de LinkedIn, página del sitio, presencia en GitHub), resuelto en una sola pasada para que las tres salidas no repitan ni se contradigan.
 
 ### Punto de retome de I-8 (2026-09-21, segunda sesión)
 
@@ -271,11 +272,33 @@ para responderse con un sí o un no, sin tener que reconstruir el contexto.
 | 2 | ¿Se borra el deck viejo `onboarding-contexto.html`? | hoy convive con el nuevo, intacto, como registro |
 | 3 | ¿Se aligeran las slides 4 y 6 del deck técnico para publicar en LinkedIn? | son las dos más densas. El ajuste es sacar la tarjeta de verificación de la grilla y bajar la 6 de cuatro casos a tres |
 
+**Idea anotada el 2026-09-21, para la sesión que viene o la siguiente.** Con el
+pipeline ya montado (fundamento, guiones, guion definitivo, deck), lo que falta
+correr es el último tramo: el **paquete de publicación**. La propuesta de César
+es hacer el primer cierre completo sobre **`onboarding-tecnico`**, resolviendo en
+una misma pasada las cuatro salidas:
+
+| Salida | Qué hay que decidir |
+|---|---|
+| Carrusel de LinkedIn | qué slides entran, en qué orden, cuántas. Pueden ser las del deck o una selección |
+| Post de LinkedIn | el texto que acompaña, con su mensaje propio |
+| Sitio personal | la versión de profundidad de la misma pieza |
+| GitHub | qué se muestra desde el repositorio y qué queda enlazado |
+
+La triangulación entre los tres canales es el punto: que el post traiga, el sitio
+sostenga y el repositorio pruebe, sin repetir la misma frase en los tres. La
+definición completa, con sus controles, quedó en
+`comunicacion-estrategica/piezas/README.md`.
+
+Cada publicación va a pedir igual su pasada de revisión y afinado. El pipeline
+ahorra empezar de cero, no reemplaza el pulso semanal.
+
 **Por dónde seguir, en orden de menor fricción:**
 
 1. Las tres decisiones de arriba, que son de un minuto cada una.
-2. Primera pieza corta en `piezas/linkedin/`, que es donde vive el goteo semanal.
-3. Deck de `shift-left-testing`, con los tres guiones desde el arranque.
+2. El primer paquete de publicación completo sobre `onboarding-tecnico`.
+3. El mismo molde sobre el deck de contexto.
+4. Deck de `shift-left-testing`, con los tres guiones desde el arranque.
 
 **Estado del repositorio al cerrar:** ver el commit de esta sesión sobre `main`.
 

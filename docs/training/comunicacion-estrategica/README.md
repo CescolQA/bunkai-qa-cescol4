@@ -50,6 +50,7 @@ lista de skills no está cerrada a un número fijo):
 | `presentaciones/<deck>/comparador-guiones.html` | los tres guiones alineados slide por slide, con el copy real. Es el documento que se lee para elegir |
 | `presentaciones/<deck>/guion-definitivo.html` | el guion cerrado, con control contra el fundamento |
 | `piezas/linkedin/` · `piezas/sitio/` | los textos que se publican afuera |
+| `piezas/README.md` | el **paquete de publicación**: qué salidas de canal cierran una pieza y cómo se controlan entre sí |
 
 ## Canales destino
 
@@ -254,6 +255,20 @@ canal — no se decide a ciegas, se compara.
 fundamento, tres guiones, guion definitivo, deck, y corrección que siempre
 vuelve al guion. Tres decks construidos contra esa base.
 
+El pipeline completo, de la idea a lo publicado:
+
+```
+fundamento.md
+  -> tres guiones (A / B / C)
+  -> guion-definitivo.html        <- toda corrección entra acá
+  -> deck HTML (tema del canal)
+  -> paquete de publicación       <- post de LinkedIn + selección de slides
+                                     + página del sitio + presencia en GitHub
+```
+
+El último tramo todavía no se corrió sobre ninguna pieza: está definido en
+`piezas/README.md` y arranca con `onboarding-tecnico`.
+
 | Frente | Estado |
 |---|---|
 | Capa de contenido | `fundamento.md` base v2, con §5.7 y §9 |
@@ -263,6 +278,7 @@ vuelve al guion. Tres decks construidos contra esa base.
 | Deck `onboarding-contexto` | reescrito como `onboarding-recorrido.html`, 8 slides. El viejo se conserva como registro |
 | Nombre definitivo del deck de contexto | **abierto**: `onboarding-recorrido` es provisional |
 | Piezas de canal | ninguna escrita todavía |
+| Paquete de publicación | definido en `piezas/README.md`, sin correr. Primer candidato: `onboarding-tecnico` |
 | Deck `shift-left-testing` | pendiente, con los tres guiones desde el arranque |
 
 Nota abierta: la URL de las capturas de producto es de **staging**.

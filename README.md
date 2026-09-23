@@ -5,18 +5,18 @@ y valido cada resultado de la IA con criterio propio, contra un análisis indepe
 
 | Capa | Qué es | Local | Remoto |
 |---|---|---|---|
-| Análisis QA | refinamiento de criterios de aceptación antes del sprint, diseño de casos con técnicas formales (particiones, valores límite, transición de estados) y ejecución sobre historias reales, con defectos detectados | prácticas en [`docs/training/`](docs/training/README.md) | Jira + Xray como fuente de verdad |
-| Orquestación con IA | agentes (Claude Code, OpenCode, Codex) con skills, conectados mediante MCP y CLI a documentación, navegador, base de datos, API y Jira. Cada práctica parte de un análisis independiente previo, contra el que se valida el resultado de la IA | una sola fuente de instrucciones para los tres clientes | versionado en GitHub |
-| Análisis funcional | especificación relevada mediante ingeniería inversa del código: requerimientos, reglas de negocio, glosario de dominio | artefactos en [`.context/`](.context/) | historias en Jira |
-| Producto bajo prueba | Bunkai TMS, gestor de pruebas del equipo [UPEX Galaxy](https://github.com/upex-galaxy), construido con agentes de IA a partir de especificaciones: PRD, SRS y plan de implementación (Next.js + Supabase) | código fuente analizado como repositorio vecino | desplegado en Vercel ([staging](https://staging-upexbunkai.vercel.app)) |
-| Ejecución automática | Playwright + TypeScript con arquitectura KATA | base configurada | GitHub Actions preparado, en pausa hasta la etapa de automatización |
+| Análisis QA | Refinamiento de criterios de aceptación antes del sprint, diseño de casos con técnicas formales (particiones, valores límite, transición de estados) y ejecución sobre historias reales, con defectos detectados | Prácticas en [`docs/training/`](docs/training/README.md) | Jira + Xray como fuente de verdad |
+| Orquestación con IA | Agentes de Claude Code con skills, conectados mediante MCP y CLI a documentación, navegador, base de datos, API y Jira. Cada práctica parte de un análisis independiente previo, contra el que se valida el resultado de la IA | Instrucciones y skills del proyecto versionados en el repositorio | Versionado en GitHub |
+| Análisis funcional | Especificación relevada mediante ingeniería inversa del código: requerimientos, reglas de negocio, glosario de dominio | Artefactos en [`.context/`](.context/) | Historias en Jira |
+| Producto bajo prueba | Bunkai TMS, gestor de pruebas del equipo [UPEX Galaxy](https://github.com/upex-galaxy), construido con agentes de IA a partir de especificaciones: PRD, SRS y plan de implementación (Next.js + Supabase) | Código fuente analizado como repositorio vecino | Desplegado en Vercel ([staging](https://staging-upexbunkai.vercel.app)) |
+| Ejecución automática | Playwright + TypeScript con arquitectura KATA | Base configurada | GitHub Actions preparado, en pausa hasta la etapa de automatización |
 
 | Etapa | Estado |
 |---|---|
-| Relevamiento funcional mediante ingeniería inversa (PRD, SRS, mapas de negocio) | completada |
-| Shift-left sobre una historia real | completada |
-| Testing en sprint, con defectos detectados | completada |
-| Documentación de casos, automatización, regresión | próximas etapas |
+| Relevamiento funcional mediante ingeniería inversa (PRD, SRS, mapas de negocio) | Completada |
+| Shift-left sobre una historia real | Completada |
+| Testing en sprint, con defectos detectados | Completada |
+| Documentación de casos, automatización, regresión | Próximas etapas |
 
 Base: [agentic-qa-boilerplate](https://github.com/upex-galaxy/agentic-qa-boilerplate) de UPEX Galaxy. Aporte propio: adaptación
 y configuración del entorno, correcciones, prácticas y método de trabajo. A partir de aquí sigue el README original del boilerplate.

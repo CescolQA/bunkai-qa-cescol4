@@ -302,6 +302,27 @@ ahorra empezar de cero, no reemplaza el pulso semanal.
 
 **Estado del repositorio al cerrar:** ver el commit de esta sesión sobre `main`.
 
+### Avance de I-8 (2026-09-23)
+
+Primera salida publicada de la serie: la **ficha de proyecto de LinkedIn** (sección
+Proyectos), enlazada al repositorio. Las tres decisiones abiertas de arriba y el
+paquete de `onboarding-tecnico` siguen pendientes, sin cambios.
+
+**Lo que quedó cerrado:**
+
+- descripción aprobada en `comunicacion-estrategica/piezas/linkedin/00-ficha-de-proyecto.md`,
+  con apertura en espejo: el producto se construyó con agentes, y se prueba con agentes
+- portada en castellano arriba del `README.md` del repo, con las capas (QA, orquestación
+  con IA, funcional, producto, ejecución automática) en local y en remoto, más el estado por etapa
+- peso del enfoque vigente: **QA 40 % · IA 40 % · funcional 20 %**
+- `fundamento.md` §9.3: seis términos nuevos de registro profesional (validar, relevar,
+  criterio propio, análisis independiente previo, adaptado y configurado, analista QA)
+- CI: el cron de smoke y regression queda en pausa hasta la etapa de automatización
+- README: se corrigió una línea en UTF-16 que desde el 13/08 hacía que GitHub lo mostrara sin formato
+
+**Pendiente del lado de César, en LinkedIn:** corregir "Managment" en el título del
+proyecto, pegar la descripción y agregar el enlace y las aptitudes.
+
 ---
 
 ## Ideas / hilos sueltos
@@ -311,6 +332,8 @@ Surgieron durante la práctica. Todavía no son iniciativa.
 - **Elegir próximas historias a practicar:** el backlog de prácticas por historia (README) está vacío después de BK-859. Definir 2-3 candidatas para `test-documentation` y `test-automation`.
 - **Guía nueva a incorporar:** hay una guía que se quiere guardar y listar acá. Pendiente de recibir el contenido.
 - **Sitio personal `cescolqa.github.io`:** repo separado, prototipo de diseño a iterar. Fuera del alcance de este repo; ahora es uno de los canales destino de **I-8**.
+- **Repo público de evidencia (idea del 2026-09-23):** un repositorio aparte, paralelo a este y distinto del sitio, con el detalle y la evidencia de cada práctica o pieza: documentos, extractos, imágenes y material extraído de Jira. Acompaña las publicaciones de **I-8** y ocupa la fila "Presencia en GitHub" del paquete de publicación. Antes de arrancar: confirmar qué contenido de la instancia de Jira de UPEX se puede publicar, y ocultar nombres, correos y datos de staging.
+- **Renombrar este repo (idea del 2026-09-23):** carpeta local + GitHub, para ordenarlo. El procedimiento está verificado y guardado en memoria. Hay tres cosas que migrar a mano, porque si no se cortan sin avisar: la memoria de Claude Code (atada a la ruta), Engram (atado al remote) y `~/.claude.json`. Conviene definir el nombre junto con el del repo de evidencia.
 
 DEF-1 / DEF-2 de BK-859: cerrados como hallazgos de ejercicio. Quedan comentados en
 la historia, sin filear como defects formales. No se avanza más.

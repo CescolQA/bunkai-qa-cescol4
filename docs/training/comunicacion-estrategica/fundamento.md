@@ -292,6 +292,16 @@ que se queja del punto de partida.
 | instrumental | herramientas, entorno |
 | montar | poner a punto, configurar, dejar operativo |
 | miente | desalineado, no devuelve ningún error |
+| manual, a mano (para el análisis propio) | criterio propio, análisis independiente previo |
+| sin ella, sin IA (como cierre de frase) | independiente, previo |
+| contrasto | valido |
+| lo reconstruí yo, desde el código | relevé mediante ingeniería inversa del código |
+| puesto a punto por mí | adaptado y configurado |
+| tester | analista QA |
+
+Agregado el 2026-09-23 en la ficha de proyecto de LinkedIn: el registro de una pieza
+pública usa verbos de oficio (validar, relevar, configurar) y evita la primera persona
+enfática y los giros coloquiales.
 
 La lista crece cuando aparece un término que no corresponde al registro. No se
 borra ninguno: un término vedado que reaparece indica que la regla se perdió.

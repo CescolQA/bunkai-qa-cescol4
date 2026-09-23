@@ -19,4 +19,6 @@ Rutas de archivos, nombres de clases, detalle de implementación, tono de anunci
 
 ## Piezas
 
-Todavía ninguna.
+| Archivo | Qué es | Estado |
+|---|---|---|
+| `00-ficha-de-proyecto.md` | ficha fija de la sección Proyectos del perfil, enlazada al repositorio. No es un post de la serie | aprobada |

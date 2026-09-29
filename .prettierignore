@@ -112,3 +112,6 @@ docs/mcp/
 
 # ----- 2026-09-03 (sync) -----
 .backups*/
+
+# I-8 strategy workspace: local only, not checked
+docs/training/comunicacion-estrategica/

@@ -180,3 +180,6 @@ dbhub.local.toml
 
 # ----- 2026-09-17 (sync) -----
 .template/last-apply.json
+
+# I-8 strategy workspace: kept local, not published
+docs/training/comunicacion-estrategica/

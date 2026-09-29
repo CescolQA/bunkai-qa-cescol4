@@ -29,11 +29,6 @@ Ideas de práctica sin empezar. Una línea cada una: qué historia o tema, qué 
 
 > El backlog ancho de iniciativas e ideas de método vive en [`BACKLOG.md`](./BACKLOG.md). Esta tabla es solo para próximas prácticas por historia.
 
-> **Trabajo en curso:** la iniciativa I-8 (comunicación estratégica) tiene un
-> **Punto de retome** al final de su ficha en [`BACKLOG.md`](./BACKLOG.md): por
-> dónde seguir, qué decisiones quedaron abiertas y en qué estado quedó cada
-> pieza. Se lee antes de abrir la sesión.
-
 ## Referencias transversales
 
 Documentos que no pertenecen a una historia puntual, sino al método — se leen antes de arrancar el shift-left de cualquier historia futura.
@@ -43,7 +38,7 @@ Documentos que no pertenecen a una historia puntual, sino al método — se leen
 | [`shift-left-readiness-checklist.md`](./shift-left-readiness-checklist.md) | Diagnóstico de madurez del sistema (evolutivo vs. desde cero) y qué pedirle al equipo / al proyecto / al producto en cada caso. Nace de la práctica sobre BK-509, aplica a cualquier historia. |
 | [`subagent-architecture-guide.md`](./subagent-architecture-guide.md) | Cómo maneja este repo agentes y subagentes: orquestador vs. roles lógicos por skill, contrato de 7 componentes, 4 patrones de despacho. |
 | [`bunkai-capas-e-integraciones-para-qa.md`](./bunkai-capas-e-integraciones-para-qa.md) | Mapa de capas del sistema (UI / API / RPC / DB / RLS / agéntica) + glosario en lenguaje llano. Lente de lectura compartida entre prácticas. |
-| [`comunicacion-estrategica/`](./comunicacion-estrategica/) | Iniciativa I-8. `fundamento.md` define qué se comunica hacia afuera y por qué; `README.md` define la forma. De ahí derivan los decks y las piezas de LinkedIn y del sitio personal. |
+| `comunicacion-estrategica/` | Iniciativa I-8. Carpeta local, fuera del repositorio público. |
 
 ## Ideas / hilos pendientes del método
 

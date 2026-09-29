@@ -94,7 +94,7 @@ próximo paso concreto.
 | Estado | Iniciativas |
 |---|---|
 | Activa (convención) | **I-7** dial de profundidad y registro |
-| En curso | **I-1** dominar skills en contexto · **I-2** registro por audiencia · **I-8** comunicación estratégica del entrenamiento |
+| En curso | **I-1** dominar skills en contexto · **I-2** registro por audiencia · **I-8** comunicación del entrenamiento |
 | Pendiente | **I-3** trío de onboarding · **I-4** método de pasada a mano · **I-5** brief como herramienta de equipo |
 | Bloqueado | **I-6** skill relevamiento funcional inverso (espera input de diseño) |
 
@@ -217,111 +217,9 @@ Si hay un cambio por tarea, lo refleja: `Dial: profundidad senior (solo esta tar
 
 ---
 
-**I-8 · Comunicación estratégica del entrenamiento** &nbsp;`método`
+**I-8 · Comunicación del entrenamiento** &nbsp;`método`
 
-| | |
-|---|---|
-| Qué es | Convertir los 4 pilares del entrenamiento (rol analista base / rol + IA asistida / ecosistema de agentes orquestados / experiencia y criterio propio) en una narrativa comunicable, con núcleo en el rol híbrido (analista funcional + QA) demostrado a través de `project-discovery`, `shift-left-testing` y `sprint-testing`. |
-| Para qué | Comunicar hacia afuera (GitHub, sitio personal, LinkedIn) de forma estratégica y agnóstica, entendible por reclutadores sin trasfondo QA. |
-| Dónde nació | Conversación del 2026-09-11, después de cerrar BK-859 y armar `niveles/`. |
-| Estado | `en curso` — el 2026-09-19 se bajó a la capa que faltaba: **`comunicacion-estrategica/fundamento.md`** define qué se comunica y por qué. `README.md` queda solo con la forma. Canales cerrados en dos: LinkedIn (tema B) y sitio personal (tema C). Cada pieza es autónoma. Deck `project-discovery` reconstruido: 9 slides, tema B. **2026-09-21**: se cerró el método completo y se probó de punta a punta. `fundamento.md` pasa a **base v2** con §5.7 (montaje y reparación del entorno) y §9 (reglas de redacción: títulos descriptivos, sin carencia absoluta, vocabulario controlado, sin anunciar cantidades, una tesis por pieza, largo no fijo). Pieza nueva `onboarding-tecnico` construida y ajustada en dos rondas sobre el guion: 8 slides. Deck `onboarding-contexto` reescrito contra la misma base como `onboarding-recorrido.html`: 8 slides, tema B, sin slide de producto, sin pilares en pantalla, sin anuncios de otra pieza. Decisiones descartadas en `CHANGELOG.md`. |
-| Próximo paso | Cerrar las tres decisiones chicas pendientes y correr el **primer paquete de publicación completo** sobre `onboarding-tecnico`: selección de slides para el carrusel, post de LinkedIn, página del sitio y presencia en GitHub, resueltos en una misma pasada. Definición del paquete en `comunicacion-estrategica/piezas/README.md`. Después, el mismo molde sobre el deck de contexto, y `shift-left-testing` con los tres guiones desde el arranque. Converge con la comparación de niveles (I-7) como insumo de calibración. |
-
-**Estado por pieza** (al 2026-09-21, cierre de la segunda sesión):
-
-| Pieza | Guion | HTML | Qué falta |
-|---|---|---|---|
-| `project-discovery` | A, cerrado | hecho, 9 slides, tema B | nada. Pieza terminada |
-| `onboarding-tecnico` | A, cerrado tras dos rondas de ajuste (`guion-definitivo.html`) | hecho, 8 slides, tema B | nada pendiente. Ajuste opcional: aligerar las slides 4 y 6 si se decide recortar para LinkedIn |
-| `onboarding-contexto` | A, reescrito contra la base (`guion-definitivo.html`) | hecho como `onboarding-recorrido.html`, 8 slides, tema B | confirmar el nombre definitivo y si reemplaza al deck viejo, que sigue en su lugar |
-| `shift-left-testing` | sin empezar | sin empezar | tres guiones desde el arranque |
-| `sprint-testing` | sin empezar | sin empezar | tres guiones desde el arranque |
-
-**Reglas vigentes** (todas escritas en `fundamento.md` y en `README.md`, no solo acá):
-
-- **Método:** fundamento define qué se dice, tres guiones abren los ángulos, el `guion-definitivo.html` fija la pieza slide por slide, el deck la construye. **Toda corrección entra por el guion, nunca directo sobre el HTML.**
-- **Vocabulario vedado:** instrumental, montar, miente. La lista crece y no se borra.
-- **Títulos descriptivos, no sentencias:** un título con premisa discutible se refuta en la primera lectura.
-- **Sin carencia absoluta ni reproche:** lo que se recibe existe; el trabajo es actualizarlo, completarlo y verificarlo.
-- **Boilerplate:** es de equipo, nunca obra propia. Lo propio es la adaptación, la conexión, las correcciones y lo agregado.
-- **Nada sin respaldo propio:** se descartó una slide entera (los tres clientes de IA) por eso.
-- **Cobertura sin anunciar cantidad:** ni "seis conectores" ni "tres capas". Las categorías técnicas sí se nombran (MCP, CLI, API, base de datos).
-- **Una tesis por pieza:** dos piezas no cierran con la misma idea.
-- **Largo no fijo:** 8 o 9 slides. Ante la duda, se funde.
-- **Encuadre verificado en el navegador** a 1440x810 antes de dar un deck por terminado.
-- **Inventario ampliable:** si una pieza necesita evidencia que §5 no tiene, se amplía el inventario antes de escribir el deck.
-- **El deck no es el entregable:** una pieza cierra con su paquete de publicación (carrusel elegido, post de LinkedIn, página del sitio, presencia en GitHub), resuelto en una sola pasada para que las tres salidas no repitan ni se contradigan.
-
-### Punto de retome de I-8 (2026-09-21, segunda sesión)
-
-Se lee antes de abrir la sesión siguiente. Cada decisión pendiente está formulada
-para responderse con un sí o un no, sin tener que reconstruir el contexto.
-
-**Lo que quedó cerrado en esta sesión:**
-
-- los dos toques del guion C sobre el deck técnico: descartados los dos
-- el deck técnico: construido, 8 slides, aprobado por César
-- el deck de contexto: reescrito y construido, 8 slides, leído y aprobado como base
-- el método y las reglas de redacción: escritos en `fundamento.md` §9 y en `README.md`
-
-**Decisiones abiertas:**
-
-| # | Pregunta | Contexto |
-|---|---|---|
-| 1 | ¿El deck de contexto se llama `onboarding-recorrido.html`? | el nombre lleva el recorte, no un ordinal. Alternativa registrada: `onboarding-rol-hibrido.html` |
-| 2 | ¿Se borra el deck viejo `onboarding-contexto.html`? | hoy convive con el nuevo, intacto, como registro |
-| 3 | ¿Se aligeran las slides 4 y 6 del deck técnico para publicar en LinkedIn? | son las dos más densas. El ajuste es sacar la tarjeta de verificación de la grilla y bajar la 6 de cuatro casos a tres |
-
-**Idea anotada el 2026-09-21, para la sesión que viene o la siguiente.** Con el
-pipeline ya montado (fundamento, guiones, guion definitivo, deck), lo que falta
-correr es el último tramo: el **paquete de publicación**. La propuesta de César
-es hacer el primer cierre completo sobre **`onboarding-tecnico`**, resolviendo en
-una misma pasada las cuatro salidas:
-
-| Salida | Qué hay que decidir |
-|---|---|
-| Carrusel de LinkedIn | qué slides entran, en qué orden, cuántas. Pueden ser las del deck o una selección |
-| Post de LinkedIn | el texto que acompaña, con su mensaje propio |
-| Sitio personal | la versión de profundidad de la misma pieza |
-| GitHub | qué se muestra desde el repositorio y qué queda enlazado |
-
-La triangulación entre los tres canales es el punto: que el post traiga, el sitio
-sostenga y el repositorio pruebe, sin repetir la misma frase en los tres. La
-definición completa, con sus controles, quedó en
-`comunicacion-estrategica/piezas/README.md`.
-
-Cada publicación va a pedir igual su pasada de revisión y afinado. El pipeline
-ahorra empezar de cero, no reemplaza el pulso semanal.
-
-**Por dónde seguir, en orden de menor fricción:**
-
-1. Las tres decisiones de arriba, que son de un minuto cada una.
-2. El primer paquete de publicación completo sobre `onboarding-tecnico`.
-3. El mismo molde sobre el deck de contexto.
-4. Deck de `shift-left-testing`, con los tres guiones desde el arranque.
-
-**Estado del repositorio al cerrar:** ver el commit de esta sesión sobre `main`.
-
-### Avance de I-8 (2026-09-23)
-
-Primera salida publicada de la serie: la **ficha de proyecto de LinkedIn** (sección
-Proyectos), enlazada al repositorio. Las tres decisiones abiertas de arriba y el
-paquete de `onboarding-tecnico` siguen pendientes, sin cambios.
-
-**Lo que quedó cerrado:**
-
-- descripción aprobada en `comunicacion-estrategica/piezas/linkedin/00-ficha-de-proyecto.md`,
-  con apertura en espejo: el producto se construyó con agentes, y se prueba con agentes
-- portada en castellano arriba del `README.md` del repo, con las capas (QA, orquestación
-  con IA, funcional, producto, ejecución automática) en local y en remoto, más el estado por etapa
-- peso del enfoque vigente: **QA 40 % · IA 40 % · funcional 20 %**
-- `fundamento.md` §9.3: seis términos nuevos de registro profesional (validar, relevar,
-  criterio propio, análisis independiente previo, adaptado y configurado, analista QA)
-- CI: el cron de smoke y regression queda en pausa hasta la etapa de automatización
-- README: se corrigió una línea en UTF-16 que desde el 13/08 hacía que GitHub lo mostrara sin formato
-
-**Pendiente del lado de César, en LinkedIn:** corregir "Managment" en el título del
-proyecto, pegar la descripción y agregar el enlace y las aptitudes.
+Se gestiona fuera de este repositorio.
 
 ---
 
@@ -331,8 +229,6 @@ Surgieron durante la práctica. Todavía no son iniciativa.
 
 - **Elegir próximas historias a practicar:** el backlog de prácticas por historia (README) está vacío después de BK-859. Definir 2-3 candidatas para `test-documentation` y `test-automation`.
 - **Guía nueva a incorporar:** hay una guía que se quiere guardar y listar acá. Pendiente de recibir el contenido.
-- **Sitio personal `cescolqa.github.io`:** repo separado, prototipo de diseño a iterar. Fuera del alcance de este repo; ahora es uno de los canales destino de **I-8**.
-- **Repo público de evidencia (idea del 2026-09-23):** un repositorio aparte, paralelo a este y distinto del sitio, con el detalle y la evidencia de cada práctica o pieza: documentos, extractos, imágenes y material extraído de Jira. Acompaña las publicaciones de **I-8** y ocupa la fila "Presencia en GitHub" del paquete de publicación. Antes de arrancar: confirmar qué contenido de la instancia de Jira de UPEX se puede publicar, y ocultar nombres, correos y datos de staging.
 - **Renombrar este repo (idea del 2026-09-23):** carpeta local + GitHub, para ordenarlo. El procedimiento está verificado y guardado en memoria. Hay tres cosas que migrar a mano, porque si no se cortan sin avisar: la memoria de Claude Code (atada a la ruta), Engram (atado al remote) y `~/.claude.json`. Conviene definir el nombre junto con el del repo de evidencia.
 
 DEF-1 / DEF-2 de BK-859: cerrados como hallazgos de ejercicio. Quedan comentados en

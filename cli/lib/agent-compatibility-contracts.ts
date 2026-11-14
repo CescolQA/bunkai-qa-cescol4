@@ -276,8 +276,8 @@ const EVERY_HOST: Record<KnownMcpId, NormalizedMcpServer> = {
   }),
   'dbhub': server({
     transport: 'stdio',
-    command: 'bunx',
-    args: ['-y', '@bytebase/dbhub@1.2.1', '--config', 'dbhub.toml'],
+    command: 'bun',
+    args: ['x', '-y', '@bytebase/dbhub@1.2.1', '--config', 'dbhub.toml'],
     // `dbhub.toml` interpolates these from the environment the server is
     // LAUNCHED with, and dbhub substitutes the literal `${DBHUB_HOST}` when a
     // variable is absent instead of failing at startup: the loader's filter is
@@ -287,8 +287,8 @@ const EVERY_HOST: Record<KnownMcpId, NormalizedMcpServer> = {
   }),
   'openapi': server({
     transport: 'stdio',
-    command: 'bunx',
-    args: ['-y', '@ivotoby/openapi-mcp-server@1.16.1', '--tools', 'dynamic'],
+    command: 'bun',
+    args: ['x', '-y', '@ivotoby/openapi-mcp-server@1.16.1', '--tools', 'dynamic'],
     envLoader: true,
     dependsOn: ['API_BASE_URL', 'OPENAPI_SPEC_PATH'],
   }),

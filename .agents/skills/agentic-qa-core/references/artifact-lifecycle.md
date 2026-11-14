@@ -22,9 +22,8 @@ the harness — the skills created the artifacts, wrote their bodies, linked the
 them where Jira's `Create` transition dropped them.
 
 The root cause was not prose: it was that the harness had **no declared lifecycle** for
-the TMS work types at all. `.agents/jira-required.yaml` declared statuses and transitions
-for `story`, `bug`, `test_case`, `epic`, `defect`, `improvement`, `tech_story` and
-`tech_debt`, and for nothing else — so no skill could reference a Test Plan / Test
+the TMS work types at all. `.agents/jira-required.yaml` declared lifecycles for the
+work items only, not for the TMS work types — so no skill could reference a Test Plan / Test
 Execution / Test Set / subtask transition even if its author had wanted to.
 
 ---
@@ -37,24 +36,31 @@ decides that, not the skill. Everything after that is the harness's job.
 
 | Artifact | Work type | Created by | Created in | Moved by → target (transition slug) | Terminal |
 |---|---|---|---|---|---|
-| **Story** | `story` | PO (external) | `backlog` | `/shift-left-testing` handoff: `analyze` → `shift_left_qa`, then `estimate` → `estimation` · `/sprint-testing` Execution: `start_testing` → `in_test` · Reporting PASSED: `qa_sign_off` → `qa_approved` · Reporting FAILED (formal gate): `defect_reported` → `blocked` | `deployed_to_production` (released by the team, never by the harness) |
+| **Story** | `story` | PO (external) | `backlog` | `/shift-left-testing` handoff: `analyze` → `shift_left_qa`, then `refined` → `ready_for_dev` · `/sprint-testing` Execution: `start_testing` → `in_test` · Reporting PASSED: `qa_sign_off` → `qa_approved` · Reporting FAILED (formal gate): `defect_reported` → `blocked` | `deployed_to_production` (released by the team, never by the harness) |
 | **Bug / Defect / Improvement** | `bug` / `defect` / `improvement` | `/sprint-testing` Reporting (filed) | `open` | dev owns `start_fixing` → `in_progress` … `fixed_and_deployed` → `ready_for_qa` · `/sprint-testing` retest PASSED: `retest_passed` → `closed` · regression after close: `back` → `ready_for_qa`, or `re_open` → `open` | `closed` |
 | **Product Epic** | `epic` | PO (external) | `backlog` | **the harness never moves a product epic.** `plan` / `ready_to_work` / `complete` belong to the PO | `done` |
 | **QA process epics** (QA Defect Management · QA Test Repository · QA Master Test Plan · QA Test Artifacts) | `epic` | project setup (`qa.qa_epics.*`) | `backlog` | **never moved** — permanent buckets, not work. Do not "complete" one | n/a (stays wherever setup left it) |
-| **Test (TC)** | `test_case` | `/sprint-testing` Planning (jira-xray) · `/test-documentation` Document (jira-native) | `draft` | authoring: `start_design` → `in_design`, `ready_to_run` → `ready` · `/test-documentation` **Candidate** verdict: `automation_review_from_ready` → `in_review`, `approve_to_automate` → `candidate` · **Manual** verdict: `for_manual` → `manual` (from `ready`, see §1.1) · **Deferred**: stays `ready` · `/test-automation`: `start_automation` → `in_automation`, `create_pr` → `pull_request`, `merged` → `automated` | `automated` · `manual` · `deprecated` |
+| **Test (TC)** | `test_case` | `/sprint-testing` Planning (jira-xray) · `/test-documentation` Document (jira-native) | `draft` | authoring: `start_design` → `in_design`, `ready_to_run` → `ready` · `/test-documentation` **Candidate** verdict: `automation_review_from_ready` → `in_review`, `approve_to_automate` → `candidate` · **Manual** verdict: `for_manual` → `manual` (from `ready`, see §1.1) · **Deferred**: stays `ready` · `/test-automation`: `start_automation` → `in_automation`, `create_pr` → `pull_request`, `merged` → `automated` (only once the code is on the production branch, never at a trunk or integration merge: `discovery-driven-doctrine.md` §6) | `automated` · `manual` · `deprecated` |
 | **ATP** (Acceptance Test Plan) | `test_plan` | `/sprint-testing` Planning (find-or-create from the Story's `{{jira.acceptance_test_plan}}` field) | `planning` | Planning end: `designed` → `ready` · Reporting end (ATR filed): `complete` → `completed` | `completed` |
 | **STP** (Sprint Test Plan) | `test_plan` | `/sprint-testing` Session Start, first ticket of the sprint | `planning` | once the sprint scope is set: `designed` → `ready` · sprint close: `complete` → `completed` | `completed` |
 | **FTP** (Feature Test Plan) | `test_plan` | `/sprint-testing` feature-test-planning | `planning` | scope agreed: `designed` → `ready` · stays `ready` for the life of the feature · epic closes: `complete` → `completed` | `completed` |
 | **RTP** (Regression Test Plan) | `test_plan` | `/test-documentation` (promotion target) | `planning` | first promotion: `designed` → `ready`, then **stays `ready`** — it is long-lived, never completed while the product ships | `ready` (long-lived) |
-| **MTP** (Master Test Plan) | `epic` | `/project-context` mode `test-plan` | — | the MTP is the **QA Master Test Plan Epic**, not a Test Plan item (defect-management-doctrine Part 4). Never moved | n/a |
+| **MTP** (Master Test Plan) | `epic` | `/project-context` mode `test-plan` | — | the MTP is the **QA Master Test Plan Epic**, not a Test Plan item (defect-management-doctrine Part 4); its description IS the plan, cached at `.context/PBI/qa-artifacts/master-test-plan.md`. Never moved | n/a |
 | **ATR** (Acceptance Test Results) | `test_execution` | `/sprint-testing` Planning (created with its Test Environment) | `active` | Reporting, after every run status is recorded: `complete` → `close` | `close` |
 | **STR** (Sprint Test Results) | `test_execution` | sprint close — `/sprint-testing` batch close or `/regression-testing`, whoever arrives first | `active` | after the GO / CAUTION / NO-GO verdict is written: `complete` → `close` | `close` |
+| **RTR** (Regression Test Results) | `test_execution` | `/regression-testing` Phase 1, before the CI trigger (created with its Test Environment, assignee self, `testPlan → RTP`) | `active` | after the GO / CAUTION / NO-GO verdict comment is posted on it: `complete` → `close`. One RTR per verdict: an environment re-run before the verdict imports into the same RTR; a re-run after a verdict is a new RTR, never `reactive` | `close` |
 | **Re-Test Execution** | `re_test_execution` | `/sprint-testing` bug retest | `active` | after the repro Test's run is recorded PASSED/FAILED: `complete` → `close` | `close` |
 | **ATS** (Acceptance Test Set) | `test_set` | `/sprint-testing` Planning (Set-first order, step ①) | `designing` | Reporting, once membership is final: `done` → `close` | `close` |
 | **TS** (feature Test Set, optional) | `test_set` | `/test-documentation` (lazily, 1:1 with the Epic) | `designing` | **stays `designing`** — a feature set keeps accepting members for the life of the feature. `done` → `close` only when the Epic itself closes | `close` (at Epic close) |
 | **Precondition** | `precondition` | `/test-documentation` | `active` | **no transition exists in the catalog** — the workflow has `create` and nothing else. It stays `active`; that is correct, not a gap | `active` |
 | **Tech Story / Tech Debt** | `tech_story` / `tech_debt` | dev (external) | `to_do` | dev owns `start_working` / `ready` · `/sprint-testing` Reporting on a coverable tech item: `test_finished` → `automated` (the QA-verified terminal) or `complete` → `completed` when the item carried no test scope | `completed` / `automated` |
+| **Coverage Tech Story** (anchor of a discovery-driven Test, `discovery-driven-doctrine.md` §3) | `tech_story` | QA, after a person approves the gap | `to_do` | QA owns it: `start_working` → `in_progress` when its documentation starts · `ready` → `in_review` once its Tests are documented · `test_finished` → `automated` when they reach `automated`, or `complete` → `completed` when the gap closes with no automated Test (Manual / Deferred) | `automated` / `completed` |
 | **`[QA] Shift-Left Review` subtask** | `subtask` | `/shift-left-testing` Phase 1 | `active` | handoff, after the exhaustive session annotations are posted on it: `complete` → `close` | `close` |
+
+**A row in this table is where the artifact must END UP, not a promise that the move is free.**
+A mapped, available transition can still be refused by the instance's own field validators —
+measured on the ATS `done` → `close` row, refused by several project-specific mandatory-field validators at once. That is
+**§4.2**, not a reason to leave the artifact behind.
 
 ### 1.1 Three edges that do not exist — do not look for them
 
@@ -70,17 +76,15 @@ The catalog is the authority, and it says **no** to these. Route around them, ne
   `include_in_release` → `ready_for_release` → `released`, and the release team owns both.
   QA stops at `qa_approved`.
 
-Catalog-available but deliberately unused by any stage: `test_execution.reactive` and
-`test_set.error` (both re-open a closed container), `test_plan.planned` /
-`test_plan.ready_to_execute` (the `plan_automated` side path). A project that needs one may
-use it; no skill fires it on its own.
+Transitions the catalog lists but no stage fires (the ones that re-open a closed container, the
+automated-plan side path) are legitimate for a project to use; no skill fires them on its own.
 
 ---
 
 ## 2. Ownership rule — set the assignee at CREATE, always
 
 **On CREATE of any QA artifact** — Test Plan (ATP / STP / FTP / RTP), Test Execution
-(ATR / STR / Re-Test), Test Set (ATS / TS), Precondition, Test (TC), and the `[QA]
+(ATR / STR / RTR / Re-Test), Test Set (ATS / TS), Precondition, Test (TC), and the `[QA]
 Shift-Left Review` subtask — **the harness sets `assignee` to the acting QA user (the
 authenticated session identity, i.e. self).**
 
@@ -92,19 +96,28 @@ without an assignee is a blocker waiting to happen.
 Alongside it, on **work items** (story / tech_story / tech_debt / bug / defect /
 improvement) the harness sets `{{jira.qa_assignee}}` to self per
 `defect-management-doctrine.md` Part 2 — **read-before-write, never overwrite an existing
-owner.** `qa_assignee` is the QA owner and is DISTINCT from the native dev `assignee`.
+owner.** `qa_assignee` is the record of the QA who followed the work item (filled in
+Shift-Left, kept for its whole life) and is DISTINCT from the native `assignee`.
 
 **Before EDITING an artifact that already exists**: read its `assignee` first. If it is
 someone else, **ask the user before reassigning** — do not take ownership silently to make
 an edit go through. If the user declines, report the edit as blocked with the owner named.
 
+**The native `assignee` of a work item follows the dev model.** When a Story reaches
+Ready For QA the dev moves `assignee` to the QA named in `{{jira.qa_assignee}}`, and
+transitions that put the QA in `assignee` (`start_testing`, `qa_sign_off`) are
+expected: the harness does not restore a previous owner. `qa_assignee` stays as the
+record of the QA who followed the Story. Canon: `defect-management-doctrine.md` Part 2.
+This ownership rule never relaxes the artifact rule above: QA artifacts are assigned to
+the QA self at create time.
+
 ## 3. Parenting rule — one line, cited
 
-Every `Test` → **QA Test Repository** · every Test Plan (ATP / STP / FTP / RTP) → **QA
+Every `Test` and every coverage Tech Story (`discovery-driven-doctrine.md` §3) → **QA Test Repository** · every Test Plan (ATP / STP / FTP / RTP) → **QA
 Master Test Plan** · every Test Execution, Test Set and Precondition → **QA Test
 Artifacts** · every bug / defect / improvement → **QA Defect Management**. Never a
 product or dev epic. Three axes, never collapsed: **parent** = QA bucket · **link** =
-source coverable · **components** = product module. Canon: `AGENTS.md` §9 +
+source coverable · **components** = product module. Canon: `.agents/instructions/agent-local-context-pbi.md` +
 `defect-management-doctrine.md` Part 4.
 
 ---
@@ -141,8 +154,8 @@ must not end up with silently un-transitioned artifacts. When a transition is ne
    skip nobody saw is the bug this file exists to kill.
 6. **Slug present but Jira REJECTS the transition** (permission, workflow condition, a
    validator demanding a field): report the **exact** error text, do NOT retry blindly, and
-   ask. A condition failure usually means a required field is empty or the acting user is not
-   the assignee — check §2 before blaming the catalog.
+   run **§4.2**. This is a different failure from steps 2-5 — the catalog is right and the
+   instance is gating the move.
 
 ### 4.1 Synonym table — for step 3's best guess
 
@@ -161,6 +174,39 @@ must not end up with silently un-transitioned artifacts. When a transition is ne
 | `automated` (test_case) | AUTOMATED · Automated · Done |
 
 A match is a **suggestion to the user**, never an automatic choice. Present it, wait.
+
+### 4.2 Mapped slug, gated by validators — the transition exists and Jira still says no
+
+§4 steps 2-5 cover a slug the catalog does **not** have. This covers the commoner case: the
+slug resolves, the transition is listed as available, and firing it returns a validation
+error. Measured on a live project (see ADR-0006): closing a Test Set was refused by several
+project-specific mandatory-field validators at once — none of them in the transition catalog,
+all of them added by the project's own screen configuration. A stage that reads that as "transition unavailable" strands the artifact in
+`designing` and still reports itself done.
+
+1. **Read the error in full.** A validator names the fields it wants. A *condition* failure
+   (`you do not have permission`, `the issue is not assigned to you`) is a different thing —
+   check §2 first: an artifact the acting user does not own is the commonest cause, and taking
+   ownership to force an edit through is not automatic (ask).
+2. **Fill what the stage legitimately knows**, then re-fire ONCE. A mandatory field the stage
+   has real content for (the test outline it just authored, the automation type the ROI verdict
+   already decided) is written and the transition retried. This is the normal resolution and
+   needs no user interaction.
+3. **Never invent a value to satisfy a validator.** A token-usage figure, a risk rating or a
+   regression flag the stage does not actually know is fabricated data that outlives the
+   session and is later read as QA's judgement.
+4. **Whatever is left → ONE `AskUserQuestion`**, naming the artifact, the target status, the
+   exact fields the validator demands and which of them the stage cannot answer:
+   *fill them together now* / *leave the artifact at `<current status>`* / *another route the
+   user names*.
+5. **On leave**: the light verifier (§5) takes that line as an explicit stated N/A quoting the
+   validator's own words — never a blank, and never the misleading "no transition available".
+6. **Record it once per project, not once per artifact.** A validator set this heavy is
+   configuration, not an incident: note it in the session `progress.md` checkpoint the first
+   time it fires so later stages of the same run expect it, and raise it with the team — five
+   mandatory fields on a close transition is friction QA pays every sprint.
+   `bun run jira:sync-workflows` will NOT learn it: screen configuration is not part of the
+   transition catalog, so there is nothing to re-sync.
 
 ---
 
@@ -181,6 +227,11 @@ Light stage verifier — <Stage name>
 [ ] Assignee set on every artifact CREATED this stage (§2)
 [ ] Parent = the right QA process epic; components set (§3)
 [ ] Jira fields / comments written (the body actually landed, not just the item)
+    (Shift-Left: `{{jira.ai_effort}}` set · the approval stage: `{{jira.quality_token_usage}}`
+    written when a figure is available, cumulative across returns to QA (read the current
+    value, add this cycle's measured delta, one `QTU cycle N: +x K (total y K) source=<harness|human>`
+    comment, never overwrite). Empty is a valid stated N/A and never fails this verifier.
+    Tokens are measured, never estimated.)
 [ ] progress.md checkpoint appended (session-management.md §7)
 [ ] Session footer printed in chat (session-footer-contract.md)
 ```

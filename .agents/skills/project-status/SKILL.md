@@ -3,6 +3,8 @@ name: project-status
 description: "Live snapshot of this project's configuration — compiled fresh every run from .agents/project.yaml, .env, .mcp.json, and the Jira QA credentials epic, never cached, never written to disk. Use for project-status, live config snapshot, what's wired up right now, check env/mcp/jira/db/git state. Optional focus argument scopes the report to one section (mcp, env, jira, db, git)."
 license: MIT
 compatibility: [claude-code, cursor, codex, opencode]
+metadata:
+  kind: workflow
 ---
 
 # Project Status

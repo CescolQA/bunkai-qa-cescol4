@@ -22,7 +22,7 @@ decisions: what type, what fields, who owns it, where it hangs.**
 ## Part 1 — Issue-type classification (Bug vs Defect vs Improvement)
 
 Choosing the issue type is **mandatory and happens BEFORE filing**. The three
-types share one Jira workflow (`UPEX BUG/DEFECT LIFE CYCLE`) but mean different
+types share one workflow (see `.agents/jira-workflows.json`) but mean different
 things. Misclassification corrupts every downstream metric (defect-escape rate,
 pre-release containment, enhancement backlog).
 
@@ -92,11 +92,12 @@ classifying correctly **up front** — the transitions are a fallback, not the p
 
 ## Part 2 — QA Assignee (the quality owner of the issue)
 
-`qa_assignee` (`{{jira.qa_assignee}}`, single User Picker) names the QA who owns
-testing for an issue. It is the QA-lane parallel of the native `assignee` (the
-dev owner) and is **distinct from `reporter`** — the person who *raised* an issue
-is often not the person who *retests* it. That gap is exactly why this field
-exists and why it carries the per-issue QA accountability that `reporter` cannot.
+`qa_assignee` (`{{jira.qa_assignee}}`, single User Picker) is a RECORD of the QA
+who followed an issue and answers for it. It is distinct from `reporter` (the
+person who *raised* an issue is often not the person who *retests* it) and from
+the native `assignee`, which follows the dev model: it names the current holder
+of the issue and moves to the QA when the Story reaches Ready For QA. The
+record survives every later reassignment, which is why the field exists.
 
 ### Scope — nearly every work item, not just bugs
 
@@ -106,10 +107,13 @@ Test cases — those route through the Test Repository epic, Part 4.)
 
 ### When to set it (binding)
 
-- **On first pickup of a work item to test** — when a QA starts working a Story
-  (or tech-story / tech-debt) for QA, set `qa_assignee` to themselves. Setting it
-  is part of *taking* the ticket, the same moment you transition it into testing.
-- **On filing any Bug / Defect / Improvement** — set `qa_assignee` to the QA who
+- **During Shift-Left**: the first QA pickup of a Story (the refinement pass)
+  sets `qa_assignee` to that QA. It is kept for the Story's whole life, and the
+  dev reads it to know WHO to assign when the Story is deployed (Ready For QA).
+- **On first pickup to test, only if still empty**: a Story (or tech-story /
+  tech-debt) that reached testing without a Shift-Left pass gets `qa_assignee`
+  set to the QA taking it, at `start_testing`.
+- **On filing any Bug / Defect / Improvement**: set `qa_assignee` to the QA who
   is filing (the same authenticated identity creating the report).
 
 ### Who is "the QA" (binding)
@@ -130,6 +134,20 @@ issue has its own QA owner; clobbering it destroys accountability and metrics.
 - Mechanically this requires **read-before-write**: read the current value first;
   write only if empty (or on explicit, justified override). The REST writer
   (Part 6) enforces this — never blind-set the field.
+
+### Native `assignee` follows the dev model (binding)
+
+When a Story reaches Ready For QA, the dev moves the native `assignee` to the QA
+named in `qa_assignee`. Workflow transitions that put the QA in `assignee`
+(`start_testing`, `qa_sign_off`) are therefore expected, and the harness does
+NOT restore a previous owner after them.
+
+1. **Never overwrite `qa_assignee` because `assignee` changed.** The record
+   answers "who followed this Story", the native field answers "who holds it now".
+2. **A Story in testing whose native `assignee` is still someone else** is not
+   something the harness fixes silently: note it in the report and ask before
+   reassigning.
+3. **Never "solve" a mismatch by leaving `qa_assignee` empty.**
 
 ---
 
@@ -163,7 +181,7 @@ JQL filters, and dashboards.
   *Components* admin module, not from the issue dropdown; Jira rejects unknown
   names. `acli` cannot create or edit them (`acli/SKILL.md` §Hard limits), so
   populating them is either an admin task or a REST operation — driven by
-  `scripts/sync-jira-components.ts` through the `/jira-components` command,
+  `scripts/sync-jira-components.ts` through `jira-administration` mode `components`,
   which is plan-based on purpose: the AI proposes the module map, a human
   approves it, and only the approved plan is written. Renaming (which preserves
   issue assignments) is a separate operation from creating.
@@ -221,14 +239,16 @@ components          ->  PRODUCT module/epic  ("what part of the product it affec
 
 | Epic | Holds | Project-configured name |
 |---|---|---|
-| **Master Test Plan epic** | every **Test Plan** (FTP/STP/ATP) | `qa.qa_epics.master_test_plan_epic.name` — **"QA Master Test Plan"** |
+| **Master Test Plan epic** | every **Test Plan** (FTP/STP/ATP/RTP) | `qa.qa_epics.master_test_plan_epic.name` — **"QA Master Test Plan"** |
 | **Test Repository epic** | every **Test** (TC) | `qa.qa_epics.test_repository_epic.name` — **"QA Test Repository"** |
-| **Test Artifacts epic** | every **Test Execution** (STR/ATR), **Precondition**, and **Test Set** — both the per-Story **ATS** (`ATS: {US_ID}: {story title}` — MANDATORY per Story, components INHERITED from the Story) and the optional feature-level **`TS:`** (`TS: {EPIC\|module}: Validate {feature}` — components optional, may cross modules) | `qa.qa_epics.test_artifacts_epic.name` — **"QA Test Artifacts"** |
+| **Test Artifacts epic** | every **Test Execution** (STR/ATR/RTR), **Precondition**, and **Test Set** — both the per-Story **ATS** (`ATS: {US_ID}: {story title}` — MANDATORY per Story, components INHERITED from the Story) and the optional feature-level **`TS:`** (`TS: {EPIC\|module}: Validate {feature}` — components optional, may cross modules) | `qa.qa_epics.test_artifacts_epic.name` — **"QA Test Artifacts"** |
 | **Defect epic** | every **bug/defect/improvement** | `qa.qa_epics.defect_epic.name` — **"QA Defect Management"** |
 
 - The **Master Test Plan epic has a special role**: it is an **Epic** (not a Test
-  Plan work type), is the **parent of all Test Plans** (FTP/STP/ATP), mirrors
-  `.context/master-test-plan.md` + points to the official QA team repository, and is
+  Plan work type), is the **parent of all Test Plans** (FTP/STP/ATP/RTP), carries
+  the Master Test Plan itself in its description (source of truth; cached by the
+  sync at `.context/PBI/qa-artifacts/master-test-plan.md`) + points to the official
+  QA team repository, and is
   cross-linked (`relates to`) to its three sibling QA epics (Test Repository, Test
   Artifacts, Defect Management) — so the four form a navigable QA-governance cluster.
 - **Test Sets split by altitude.** The per-Story **ATS** (Acceptance Test Set,
@@ -276,7 +296,14 @@ first time a sync reports the name-prefix fallback.
 When a skill is about to file a Bug/Defect/Improvement (or a Test), it resolves
 the relevant process epic by the configured name:
 
-1. **Exists** → parent the new issue to it. (This is the steady state.)
+1. **Exists** → parent the new issue to it **and cache its key** into
+   `.agents/project.yaml` `qa.qa_epics.<epic>.key` when that leaf is still
+   `null` (or holds a stale key). Discovery without cache-back is the measured
+   failure (see ADR-0006): all four Epics existed in Jira while every `key` was
+   `null`, so each session re-discovered them — or read the `null` as "absent"
+   and proposed creating duplicates of Epics that were already there. The cache
+   is the whole point of the leaf; leaving it `null` after a successful lookup
+   is a defect, not a no-op.
 2. **Absent** → create it once as the project's QA process epic, write the
    project's defect-management (or test-repository) **strategy summary into the
    epic description**, record its key into `.agents/project.yaml`
@@ -291,7 +318,12 @@ the relevant process epic by the configured name:
 
 Filling the report richly is not optional polish — these fields *are* the
 defect-management metrics (JQL filters, dashboards, escape/containment rates).
-A report that skips them is incomplete.
+A report that skips them is incomplete. This table is the per-work-type
+obligation, and the only place it is stated. `.agents/jira-required.yaml`
+`required:` is a different thing: one catalog of which fields must exist on the
+instance and what each falls back to when absent. A field this table requires
+that the instance lacks follows its `fallback:` there; it never stops being
+required here.
 
 | Field | Slug / native | Required | Source |
 |---|---|---|---|
@@ -322,13 +354,13 @@ field.
 one-line justification when business urgency diverges from technical severity
 (e.g. a `trivial`-severity typo in the landing hero may warrant `High` priority).
 
-| Severity (`{{jira.severity}}`) | Priority (native) |
+| Severity (`{{jira.severity}}`, option slugs declared in `.agents/jira-required.yaml`) | Priority (native) |
 |---|---|
-| `critica` | Highest |
-| `mayor` | High |
-| `moderada` | Medium |
-| `menor` | Low |
-| `trivial` | Lowest |
+| `{{jira.severity.critica}}` | Highest |
+| `{{jira.severity.mayor}}` | High |
+| `{{jira.severity.moderada}}` | Medium |
+| `{{jira.severity.menor}}` | Low |
+| `{{jira.severity.trivial}}` | Lowest |
 
 ---
 
@@ -360,7 +392,7 @@ Load `/acli` first — it owns the syntax, auth, and the REST-PUT pattern below.
 ## Part 7 — Where this fires (per skill)
 
 - **`/sprint-testing`** — primary filer. Sets `qa_assignee` when a Story is taken
-  into testing (Stage 1); classifies + files Bug/Defect/Improvement with the full
+  into testing (Stage 1) and the Shift-Left pass left it empty; classifies + files Bug/Defect/Improvement with the full
   matrix in Stage 3; parents to the Defect epic; links to the source Story.
 - **`/regression-testing`** — a regression failure is classified and filed **in
   Jira** (Bug if the feature is live above Staging, Defect if pre-release) with

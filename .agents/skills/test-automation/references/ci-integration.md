@@ -41,7 +41,7 @@ export default defineConfig({
 
   use: {
     baseURL,
-    trace: env.isCI ? 'retain-on-failure' : 'on-first-retry',
+    trace: 'retain-on-failure', // NOT `on-first-retry`: with `retries: 0` there is never a first retry, so a local failure would produce no trace at all
     screenshot: config.reporting.screenshotOnFailure ? 'only-on-failure' : 'off',
     video: env.isCI && config.reporting.videoOnFailure ? 'retain-on-failure' : 'off',
     headless: env.isCI || config.browser.headless,
@@ -73,15 +73,31 @@ export default defineConfig({
       dependencies: ['api-setup'],
       use: {} },
 
-    { name: 'smoke',
+    // ONE SMOKE PROJECT PER SURFACE. A single project spanning
+    // `{e2e,integration}` has to pick ONE `use` block, and picking the UI one
+    // hands a browser storageState — and therefore the session COOKIE — to API
+    // tests. A test that clears the Bearer token to assert 401 then gets 200,
+    // because the cookie still authenticates. Measured in this boilerplate:
+    // the same test passed under `--project=integration` and failed under
+    // `--project=smoke`. Each half mirrors its full-suite sibling plus the grep.
+    { name: 'smoke-ui',
       grep: /@critical/,
-      testMatch: '**/{e2e,integration}/**/*.test.ts',
-      dependencies: ['ui-setup', 'api-setup'],
+      testMatch: '**/e2e/**/*.test.ts',
+      dependencies: ['ui-setup'],
       use: { ...devices['Desktop Chrome'], storageState: config.auth.storageStatePath } },
+
+    { name: 'smoke-api',
+      grep: /@critical/,
+      testMatch: '**/integration/**/*.test.ts',
+      dependencies: ['api-setup'],
+      use: {} },
 
     { name: 'global-teardown',
       testMatch: /global\.teardown\.ts/,
       testDir: './tests/teardown' },
+
+    { name: 'sandbox',                 // isolated experiments: `*.sandbox.ts`, no dependencies,
+      testMatch: /.*\.sandbox\.ts/ },   // so no setup, no auth state and no teardown run with it
   ],
 
   outputDir: 'test-results',
@@ -95,8 +111,9 @@ Rules this template encodes:
 - **Authentication via setup projects** — projects that need a logged-in state depend on `ui-setup` or `api-setup` and consume the generated `storageState` file. Do not login in `beforeEach` of every test.
 - **`forbidOnly: !!process.env.CI`** — `test.only` is legal locally (fast iteration) but fails the build on CI. Catches accidental commits.
 - **`retries: 0` everywhere** — locally and in CI. Tests are deterministic by doctrine; a failure is a signal to investigate, never something to mask with a retry.
-- **Serial execution is the shipped default** — `fullyParallel: false` + `workers: 1`. Parallelism is a deliberate future upgrade once the suite is proven stable, not a knob to flip casually.
+- **Serial execution is the default** — see `fullyParallel` and `workers` in `playwright.config.ts`. Parallelism is a deliberate future upgrade once the suite is proven stable, not a knob to flip casually.
 - **Teardown is a PROJECT** — `global-teardown` is activated by the `teardown:` property on `global-setup`, not by a `globalTeardown` hook and not by `dependencies`.
+- **`--no-deps` also skips the teardown.** Playwright ignores a project's `teardown` together with its `dependencies`, so `--project=e2e --no-deps` runs no setup AND no `global-teardown`: whatever the run creates stays behind. Use it only against state you set up by hand.
 
 ---
 
@@ -106,10 +123,16 @@ The setup projects gate the test projects. Visualised:
 
 ```
 global-setup
- ├── ui-setup  ──► e2e
- └── api-setup ──► integration
-                                    (both → global-teardown)
+ ├── ui-setup  ──► e2e, smoke-ui
+ └── api-setup ──► integration, smoke-api
+                                    (all → global-teardown)
+
+sandbox          (no dependencies, no teardown)
 ```
+
+`smoke-ui` / `smoke-api` are the `@critical` slice of each surface, one project per surface so
+an API test never inherits the browser `storageState` (see the comment in the template). CI's
+smoke suite runs both.
 
 ### 2.1 Generated auth artifacts
 
@@ -134,9 +157,9 @@ The reporter array is load-bearing. Reporters run in order and the first one can
 1. **`KataReporter`** (custom) — colored terminal tree, prints step boundaries, reads the NDJSON written by `@atc` to show per-ATC status. Goes first so its step events are registered before Allure grabs them.
 2. **`html`** — Playwright's built-in HTML report. Lives in `playwright-report/`. `open: 'never'` prevents it from auto-opening locally (annoying in CI-like local runs).
 3. **`json`** — machine-readable summary for tooling (`test-results/results.json`).
-4. **`junit`** — XML for CI tools (`test-results/junit.xml`). Always on, local and CI.
+4. **`junit`** — XML for CI tools (`test-results/junit.xml`). Always on, local and CI. Never imported into Xray: a testcase without a `test_key` would become a new Test there; the Xray write-back sends one entry per ATC from `reports/atc_results.json` instead.
 5. **`allure-playwright`** — writes to `config.reporting.allureResultsDir`. The `bun run allure:generate` script post-processes this directory into a static site.
-6. **`github`** (optional, commented out in the shipped config) — annotates PRs with failure locations when enabled in GitHub Actions. Not recommended with matrix strategies (errors multiply in the UI).
+6. **`github`** (opt-in) — annotates PRs with failure locations when enabled in GitHub Actions. Not recommended with matrix strategies (errors multiply in the UI).
 
 ### 3.1 What `KataReporter` produces
 
@@ -188,7 +211,7 @@ The deliberate divergences are few. **`retries` and `workers` are NOT among them
 | Setting | Local | CI | Reason |
 |---------|-------|-----|--------|
 | `forbidOnly` | `false` | `true` | Let devs iterate with `.only`, block it on merge. |
-| `trace` | `'on-first-retry'` | `'retain-on-failure'` | Local: keep disk light. CI: always capture failures for postmortem. |
+| `trace` | `'retain-on-failure'` | `'retain-on-failure'` | NOT a divergence. `'on-first-retry'` locally is a trap while `retries: 0`: there is no first retry, so the failure you just got produces no trace. A green run writes nothing either way. |
 | `video` | `'off'` | `'retain-on-failure'` (when `config.reporting.videoOnFailure`) | Same rationale. |
 | `headless` | `config.browser.headless` | forced `true` | CI runners have no display. |
 | `github` reporter | off | opt-in (commented in shipped config) | Writes PR annotations when enabled. |
@@ -213,9 +236,9 @@ The config reads through `config/variables.ts`, the single source of truth. It d
 | `TEST_ENV` | `config/variables.ts` | Selects the environment entry in the internal URL map AND the credential set. `config.baseUrl` (frontend, feeds `use.baseURL`) and `config.apiUrl` (API host, feeds `ApiBase`) both come from that map — there are NO `BASE_URL` / `API_BASE_URL` env vars. |
 | `LOCAL_USER_EMAIL` / `LOCAL_USER_PASSWORD` | auth setup projects | Local credentials |
 | `STAGING_USER_EMAIL` / `STAGING_USER_PASSWORD` | auth setup projects | Staging credentials |
-| `AUTO_SYNC` | `jiraSync.ts`, the workflows' `Sync Results to TMS` step | Enable the TMS write-back. It runs as a step AFTER the test step, not inside the teardown (see atc-tracing reference) |
+| `AUTO_SYNC` | `jiraSync.ts`, the workflows' `Sync Results to TMS` step, the regression `XrayImport` job | Enable the TMS write-back. It runs as a step AFTER the test step, not inside the teardown (see atc-tracing reference) |
 | `TMS_PROVIDER` | `jiraSync.ts` | `xray` / `jira` / `none` |
-| `STP_EXECUTION_KEY` | `jiraSync.ts` | **Xray only.** Target of the write-back: the key of the **STR** Test Execution linked to the sprint STP — never the STP itself (the sync reads the issue type and refuses a Test Plan). Unset → each run mints a new, unparented Execution. |
+| `STP_EXECUTION_KEY` | `jiraSync.ts` | **Xray only.** Target of the write-back: the key of the **RTR** Test Execution (or the sprint-close **STR**) — never a Test Plan (the sync reads the issue type and refuses a Test Plan). Unset → each run mints a new, unparented Execution. |
 
 ### 5.1 Rules
 
@@ -231,7 +254,7 @@ The project-level sharding used in CI pipelines is out of scope here. This secti
 
 ### 6.1 Parallelism tuning
 
-- **Default**: `fullyParallel: false` + `workers: 1` — serial execution is the shipped default, local and CI. Terminal output stays readable and shared-state bugs cannot hide behind interleaving.
+- **Default**: serial execution (`fullyParallel` and `workers` in `playwright.config.ts`), local and CI. Terminal output stays readable and shared-state bugs cannot hide behind interleaving.
 - **Stress-testing for future parallelism**: before proposing a workers bump, prove the suite survives concurrency by overriding at the command line.
   ```bash
   bun run test -- --workers=8 --repeat-each=5
@@ -243,11 +266,11 @@ The project-level sharding used in CI pipelines is out of scope here. This secti
 Use sharding locally only when debugging CI-style execution order. Two-shard split:
 
 ```bash
-bunx playwright test --shard=1/2
-bunx playwright test --shard=2/2
+bunx --bun playwright test --pass-with-no-tests --shard=1/2
+bunx --bun playwright test --pass-with-no-tests --shard=2/2
 ```
 
-Each shard gets a deterministic subset of the test files — useful for reproducing a "test fails only in shard 2" issue. The global `--shard` flag is orthogonal to `--project`: you can shard a single project with `--project=integration --shard=1/2`.
+Each shard gets a deterministic subset of the test files (a shard that matches nothing fails with "No tests found" unless `--pass-with-no-tests` is passed) — useful for reproducing a "test fails only in shard 2" issue. The global `--shard` flag is orthogonal to `--project`: you can shard a single project with `--project=integration --shard=1/2`.
 
 ### 6.3 Merging reports from local shards
 
@@ -255,7 +278,18 @@ Each shard gets a deterministic subset of the test files — useful for reproduc
 bunx playwright merge-reports --reporter=html ./blob-report
 ```
 
-Required only if you set `reporter: 'blob'` per shard. Normal authoring loops do not need this.
+Required only if you set `reporter: 'blob'` per shard. The blob reporter clears its output folder when a run starts, so move or upload each shard's `blob-report/` before the next run writes there. Normal authoring loops do not need this.
+
+### 6.4 The runner is Bun
+
+Every Playwright run in this repo (the `test*` scripts, `allure:run`, `allure:agent`, the CI jobs) goes through `bunx --bun playwright`. Without `--bun`, `bunx playwright` starts the runner on Node; `--bun` is what moves it to the Bun runtime. Limits Playwright documents for the Bun runner, which matter here:
+
+- No watch mode: UI mode does not re-run on a file change, and `--only-changed` does not follow imports.
+- `--tsconfig` and the JSX options of `tsconfig.json` have no effect, and custom ESM loaders are unsupported.
+- Stack traces lack async frames and API names lose their class (`click` instead of `locator.click`), so step titles, locations and error messages can differ from a Node run. A message regex in `playwright.config.ts` (the Allure `categories`) must be checked against a Bun-run failure.
+- A test's console output does not reach the trace or UI mode.
+
+`--ui` and `--debug` need a display and have no recorded Bun run in this repo: if one misbehaves, run that one command on Node (`bunx playwright test --ui`).
 
 ---
 
@@ -299,7 +333,7 @@ bun run test -- --project=e2e --browser=firefox
 
 ```bash
 # Open the HTML report from the last run
-bunx playwright show-report
+bunx --bun playwright show-report
 
 # Generate Allure site from allure-results/
 bun run allure:generate
@@ -333,7 +367,7 @@ Two-command discipline for the test author:
 | `bun run kata:manifest` | After adding/renaming a Component, ATC, or Steps method | Regenerates `kata-manifest.json` in place |
 | `bun run kata:manifest:check` | Before committing | Fails fast (exit 1) if the committed manifest is out of date |
 
-`.husky/pre-commit` runs `:check` automatically when staged files touch `tests/components/`, `scripts/kata-manifest.ts`, or `kata-manifest.json` itself. Commits that don't touch those paths skip the gate (no perf penalty).
+The pre-commit hook runs `:check` automatically when staged files touch the paths `.husky/framework-gates.sh` names. Commits that don't touch those paths skip the gate (no perf penalty).
 
 ### 7.5 Manifest troubleshooting
 
@@ -342,7 +376,7 @@ Two-command discipline for the test author:
 | `--check` exits 1 with "stale" | Component or ATC change not regenerated | `bun run kata:manifest && git add kata-manifest.json` |
 | `--check` exits 1 with "missing" | `kata-manifest.json` not committed yet | `bun run kata:manifest && git add kata-manifest.json` (first-time only) |
 | ATC missing from manifest after regen | Used template literal `` @atc(`PROJ-${id}`) `` instead of string literal | Change to `@atc('PROJ-XXX')` — the scanner only matches string literals |
-| Phantom ATC in manifest | `@atc(...)` example inside a JSDoc/comment was captured | Confirm the scanner is comment-aware (commit `c339533` fixed this); ensure the comment line begins with `//` or `*` |
+| Phantom ATC in manifest | `@atc(...)` example inside a JSDoc/comment was captured | Confirm the scanner is comment-aware; ensure the comment line begins with `//` or `*` |
 | Component missing from manifest | File listed in `EXCLUDED_FILES` (`scripts/kata-manifest.ts`) | Rename the file, or remove it from the exclusion list |
 | Class name in manifest looks wrong | First `export class PascalCase` in the file is not the intended one | Make the intended class the first export; or refactor the file |
 | Husky gate fires on unrelated commit | Staged files include `tests/components/**` (e.g. README inside the dir) | Move the unrelated file out of `tests/components/`, or accept the gate run |
@@ -352,7 +386,7 @@ Two-command discipline for the test author:
 ## 8. Gotchas
 
 1. **Dependency projects do not re-run between test projects.** `ui-setup` runs once per invocation. If you change auth credentials mid-session, invalidate `.auth/` manually (`rm -rf .auth`).
-2. **Serial today does not license shared state.** The shipped config runs `fullyParallel: false` + `workers: 1`, but a test that would fail under parallelism has shared state — locate it and remove it now; do not reach for `test.describe.serial`, and do not let serial execution hide the bug that blocks the future workers bump.
+2. **Serial execution does not license shared state.** The config may run serially (see `fullyParallel` and `workers` in `playwright.config.ts`), but a test that would fail under parallelism has shared state — locate it and remove it now; do not reach for `test.describe.serial`, and do not let serial execution hide the bug that blocks the future workers bump.
 3. **Project `testMatch` is case-sensitive on Linux, case-insensitive on macOS.** CI is Linux. Match the pattern exactly on disk.
 4. **The `global-teardown` PROJECT runs even if all tests were skipped.** It is wired via the `teardown:` property on the `global-setup` project (not a `globalTeardown` hook). Use it for artifact cleanup and the run summary — but NOT for the TMS sync: it finishes before `KataReporter.onEnd()` writes `reports/atc_results.json`, so the write-back is a separate `bun run test:sync` step after the process exits.
 5. **The `baseURL` applies to `page.goto('/path')` only.** API requests go through `ApiBase` which uses `config.apiUrl` from `config/variables.ts`. They are independent.

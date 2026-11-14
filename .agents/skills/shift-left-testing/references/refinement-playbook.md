@@ -42,7 +42,7 @@ The Refinement subagent's job is to produce a high-signal artifact for PO + Dev 
 | Story (title, description, ACs, priority, labels, sprint, parent epic, comments) | `bun run jira:sync-issues get {STORY_KEY} --include-comments`, then read the synced `.md` (NEVER `acli view` — returns `null` for custom fields) |
 | Team Discussion | Synced `comments.md` — same extraction rules as `session-entry-points.md` §Step 1b |
 | Parent epic (if any) | `bun run jira:sync-issues get {EPIC_KEY}`, then read the synced epic `.md` — description + risk callouts only |
-| Project-wide context | `.context/business/business-data-map.md`, `.context/business/business-feature-map.md`, `.context/business/business-api-map.md`, `.context/master-test-plan.md` |
+| Project-wide context | the business context skills (`bun run context:map business-data-context` / `business-e2e-context` / `business-api-context`), `.context/PBI/qa-artifacts/master-test-plan.md` |
 | Module context (if it exists) | `.context/PBI/epics/EPIC-<EPIC_KEY>-<slug>/module-context.md` (module = Epic, 1:1) |
 | Code (light read) | `{{BACKEND_REPO}}/{{BACKEND_ENTRY}}` + `{{FRONTEND_REPO}}/{{FRONTEND_ENTRY}}` — read enough to confirm feasibility, NOT to reproduce |
 | Common gap catalog | `refinement-questions.md` (this skill) |
@@ -78,7 +78,7 @@ If `.context/PBI/epics/EPIC-<EPIC_KEY>-<slug>/stories/STORY-<STORY_KEY>-<slug>/`
 
 ```markdown
 # {{PROJECT_KEY}}-{n}: {Title}
-**Ticket:** {{PROJECT_KEY}}-{n} | **Module (= Epic):** {EPIC_KEY} {epic title} | **Status:** {Backlog | Shift-Left QA | Estimation | Ready For Dev} | **Sprint:** {n/a — pre-sprint}
+**Ticket:** {{PROJECT_KEY}}-{n} | **Module (= Epic):** {EPIC_KEY} {epic title} | **Status:** {Backlog | Shift-Left QA | Ready For Dev} | **Sprint:** {n/a — pre-sprint}
 
 ## Acceptance Criteria (original)
 - AC1: ...
@@ -156,7 +156,7 @@ Read sprint-testing/references/acceptance-test-planning.md §"Phase 4 — Test D
 
 | Phase 4 sub-step | Shift-Left action |
 |------------------|------------------|
-| Coverage estimate (Positive / Negative / Boundary / Integration / API counts) | **INCLUDE**. Drives PO estimation. |
+| Coverage estimate (Positive / Negative / Boundary / Integration / API counts) | **INCLUDE**. Feeds the AI Effort call and the split decision. |
 | Rationale paragraph | INCLUDE. Short, 2-3 sentences. |
 | Parametrization tables | **EXCLUDE**. Deferred to in-sprint. |
 | Per-outline structure (Title, Related scenario, Type, Priority, Test level, Preconditions, Test steps, Expected result, Test data JSON, Post-conditions) | **REPLACED** by outline NAME + 1-line precondition + 1-line expected. No test-data JSON, no numbered steps. |
@@ -226,10 +226,10 @@ The orchestrator presents the per-Story summary to the user, waits for OK, then 
 - **No Jira mutations.** All updates land in Phase 3.
 - **No test execution.** No smoke, no DB queries, no API calls. Refinement is doc-only.
 - **No parametrization tables, no test-data JSON, no Faker recipes.** Deferred to in-sprint planning.
-- **No TC creation.** TCs are formalized in Stage 4 (`/test-documentation`).
+- **No TC creation.** `/sprint-testing` Stage 1 (Modality jira-xray) or Stage 4 `/test-documentation` (Modality jira-native) creates them, per `sprint-testing/SKILL.md` §"TC creation timing".
 - **No git operations.** No branch, no commit.
 - **No new ATP / ATR Jira issues.** Phase 3 publishes the ATP to the `{{jira.acceptance_test_plan}}` field only — nobody in this skill creates TMS items. The Test Plan issue is created later by `/sprint-testing` Stage 1 from the field content.
-- **No subtask mutations.** The `[QA] Shift-Left Review` tracking subtask is owned by the orchestrator (Phase 1: find-or-create → In Progress; Phase 3: annotations + Done) — the Refinement subagent never touches it.
+- **No subtask mutations.** The `[QA] Shift-Left Review` tracking subtask is owned by the orchestrator (Phase 1: find-or-create → `{{jira.status.subtask.active}}`; Phase 3: annotations + `{{jira.status.subtask.close}}`) — the Refinement subagent never touches it.
 - **No `evidence/` folder.** Feature does not exist yet.
 - **No "approval from user" mid-refinement.** Subagents do not prompt the user — they finish and return. The orchestrator presents and waits.
 
@@ -241,7 +241,7 @@ The orchestrator presents the per-Story summary to the user, waits for OK, then 
 2. **PO/Dev confirmation marker.** Any inferred scenario MUST carry `NEEDS PO/DEV CONFIRMATION` — verbatim, in English, in the local file and (later) in the Jira comment.
 3. **Quality via technique, not via minimization.** Outline count = whatever the technique triggers yield (EP partitions + BVA boundaries + state transitions + decision-table rules), not a number picked to "look thorough" OR to "stay lean". Padding (an outline exploring nothing new) and under-derivation (a range with no boundary outline, a status field with no invalid-transition outline) are BOTH failures. A 4-AC Story with two ranges and a state machine will legitimately exceed 6 outlines.
 4. **Cite, do not duplicate.** `acceptance-test-planning.md` is the source of truth for Phases 1-5 mechanics. If a future change to that file affects shift-left, the change propagates automatically.
-5. **Coverage estimate matters.** PO uses the per-Type counts to estimate Story points. Always include the table even if some Types are 0.
+5. **Coverage estimate matters.** The per-Type counts feed the AI Effort call and the split decision (`references/ai-effort-checklist.md`): many Boundary or Integration outlines push toward Medium or High, and a High Story gets a size note (a warning, never a gate) in the handoff comment. Always include the table even if some Types are 0.
 6. **Module-context reuse.** If `.context/PBI/epics/EPIC-<EPIC_KEY>-<slug>/module-context.md` exists (module = Epic, 1:1), read it and skip module-level code exploration. Story-level reads only.
 7. **Output language**: artifact + Jira-bound content in English. Mirror user's language only in conversation. AGENTS.md §1 Rule #14.
 

@@ -5,23 +5,32 @@
   "perComponentCommit": {
     "skills": "35f296d05ac55452b0db924f34ec37643393d2c9",
     "commands": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
-    "scripts": "35f296d05ac55452b0db924f34ec37643393d2c9",
+    "scripts": "f11c8f57dae35dbf92c23865cb9b18103440c867",
     "docs": "35f296d05ac55452b0db924f34ec37643393d2c9",
-    "cli": "35f296d05ac55452b0db924f34ec37643393d2c9",
-    "vscode": "35f296d05ac55452b0db924f34ec37643393d2c9",
-    "husky": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
-    "agents-docs": "35f296d05ac55452b0db924f34ec37643393d2c9",
+    "cli": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "vscode": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "husky": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "agents-docs": "f11c8f57dae35dbf92c23865cb9b18103440c867",
     "claude-config": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
-    "tooling": "a31b6e1908ee69b224042d7e7a07c7f3efbebaa8",
-    "env-template": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
-    "agent-compatibility": "0c1b4e11856bdd2a288d657f5863a9cbf816cc47",
-    "codex-config": "903d5f6b2f9fca12ebc13458e37409c7d35a3202",
-    "agent-root-config": "903d5f6b2f9fca12ebc13458e37409c7d35a3202"
+    "tooling": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "env-template": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "agent-compatibility": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "codex-config": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "agent-root-config": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "instructions": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "config-core": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "tests-utils": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "env-schema": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "worktree-include": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "orca-config": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "pi-adapter": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "pi-config": "f11c8f57dae35dbf92c23865cb9b18103440c867",
+    "playwright-cli-config": "f11c8f57dae35dbf92c23865cb9b18103440c867"
   },
   "syncedComponents": [],
   "ignoreFileSync": {
     ".gitignore": {
-      "lastSyncedSha": "82195b81ce755d511e8da13bbd672adae0959232",
+      "lastSyncedSha": "b36c54ec990a6664d5492897138d797e6a44f892",
       "appendedLines": [
         ".context/reports/*",
         "!.context/reports/README.md",
@@ -42,22 +51,56 @@
         "!skills-lock.json",
         "!**/skills-lock.json",
         ".backups*/",
-        ".template/last-apply.json"
+        ".template/last-apply.json",
+        ".playwright/profiles/",
+        ".playwright-cli/",
+        "storage-state-*.json",
+        "!.env.schema",
+        "!.env.core.schema",
+        "!.env.provider.schema",
+        "env.d.ts",
+        ".template/doctrine-ledger.json",
+        ".pi/*",
+        "!.pi/mcp.json",
+        "!.pi/settings.json",
+        "!.pi/SYSTEM.md",
+        "!.pi/APPEND_SYSTEM.md",
+        "!.pi/extensions/",
+        "!.pi/skills/",
+        "!.pi/prompts/",
+        "!.pi/themes/",
+        ".context/*",
+        "!.context/README.md",
+        "!.context/project-config.md",
+        "!.context/ADR/",
+        "!.context/regression-history/",
+        "!.context/sprint/",
+        "!.context/reports/",
+        "!.context/PBI/",
+        ".agents/skills/skill-creator/",
+        ".agents/skills/diagram-design/"
       ]
     },
     ".prettierignore": {
-      "lastSyncedSha": "2d65bedc55be87885be51510bc1b977c8aef67c2",
+      "lastSyncedSha": "a4d3bb7e47a1f6c25853369a5f130adaef6f18b3",
       "appendedLines": [
         ".scratch/",
         ".session/",
-        ".backups*/"
+        ".backups*/",
+        ".pi/*",
+        "!.pi/mcp.json",
+        "!.pi/settings.json",
+        "!.pi/extensions/",
+        "!.pi/skills/",
+        "!.pi/prompts/",
+        "!.pi/themes/"
       ]
     }
   },
   "packageJsonSync": {
     "package.json": {
       "scripts": {
-        "lastSyncedSha": "477cbad473d1d9f96311a8edb9d9d8463b621c50",
+        "lastSyncedSha": "ee5fe5972a39545d4308a6f967c6cc36bfb9d96b",
         "appliedKeys": [
           "agents:compat",
           "agents:compat:check",
@@ -67,24 +110,52 @@
           "jira:components",
           "jira:url",
           "tests:map",
-          "skills:evals"
+          "skills:evals",
+          "agents:schema",
+          "agents:schema:check",
+          "board",
+          "board:check",
+          "board:up",
+          "browser:profiles",
+          "context:coverage",
+          "context:map",
+          "docs",
+          "docs:build",
+          "docs:check",
+          "env:set",
+          "evidence",
+          "harness:env",
+          "harness:env:check",
+          "instructions:audit",
+          "instructions:check",
+          "jira:baseline",
+          "shared:check",
+          "sync",
+          "tests:explain:render",
+          "vars:schema",
+          "vars:schema:check",
+          "worktree:audit",
+          "worktree:provision",
+          "xray:payload"
         ]
       },
       "devDependencies": {
-        "lastSyncedSha": "477cbad473d1d9f96311a8edb9d9d8463b621c50",
-        "appliedKeys": []
+        "lastSyncedSha": "ee5fe5972a39545d4308a6f967c6cc36bfb9d96b",
+        "appliedKeys": [
+          "varlock"
+        ]
       },
       "dependencies": {
-        "lastSyncedSha": "477cbad473d1d9f96311a8edb9d9d8463b621c50",
+        "lastSyncedSha": "ee5fe5972a39545d4308a6f967c6cc36bfb9d96b",
         "appliedKeys": []
       },
       "lint-staged": {
-        "lastSyncedSha": "477cbad473d1d9f96311a8edb9d9d8463b621c50",
+        "lastSyncedSha": "ee5fe5972a39545d4308a6f967c6cc36bfb9d96b",
         "appliedKeys": []
       }
     }
   },
-  "cliVersion": "8.4",
-  "lastSyncedAt": "2026-09-17T16:33:46.637Z",
+  "cliVersion": "8.5",
+  "lastSyncedAt": "2026-11-14T14:06:57.211Z",
   "variableSystemVersion": 1
 }

@@ -118,3 +118,12 @@ docs/training/comunicacion-estrategica/
 
 # Personal work notes: local only, not checked
 work/
+
+# ----- 2026-11-14 (sync) -----
+.pi/*
+!.pi/mcp.json
+!.pi/settings.json
+!.pi/extensions/
+!.pi/skills/
+!.pi/prompts/
+!.pi/themes/

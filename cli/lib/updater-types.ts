@@ -224,6 +224,12 @@ export interface PackageJsonKeptKey {
   resolution: 'skip' | 'mine'
 }
 
+/** A boilerplate-only path the cleanup kept: the project edited its copy, protects it, or upstream's copy could not be read. */
+export interface BoilerplateCopyKept {
+  path: string
+  reason: 'edited' | 'protected' | 'unverified'
+}
+
 export interface RunSummary {
   applied: AppliedFile[]
   skipped: DeltaEntry[]
@@ -244,6 +250,20 @@ export interface RunSummary {
   localEditsOverwritten?: LocalEditOverwritten[]
   /** `package.json` keys kept at the project's value this run (upstream differs). */
   packageJsonKept?: PackageJsonKeptKey[]
+  /** `package.json` keys appended this run (planned, on a dry-run), with their upstream value. */
+  packageJsonAppended?: { file: string, section: string, key: string, value: string }[]
+  /** Test siblings of protected files the run did not deliver or overwrite. */
+  testSiblingsHeldBack?: { path: string, protectedPath: string }[]
+  /** Upstream's unedited copies of boilerplate-only files this run removed (`cleanupBoilerplateCopies`). */
+  boilerplateCopiesRemoved?: string[]
+  /** Boilerplate-only paths the project holds that the cleanup kept, with why. */
+  boilerplateCopiesKept?: BoilerplateCopyKept[]
+  /** Where the removed copies were saved (`.backups/update-<ts>/`), when any were removed. */
+  boilerplateCleanupBackup?: string | null
+  /** Protected updater files a parent older than this updater overwrote, and what the re-exec child did about them (`repairParentOverwrites`). */
+  selfUpdateRepair?: { restored: string[], unloadable: string[], backupDir: string | null }
+  /** The self-update was undone and the run aborted: the new updater does not load (`selfUpdateImportError`), with the protected files it kept. */
+  selfUpdateBlocked?: { protectedPaths: string[], error: string }
   /** Paths recorded in `.template/last-apply.json`: the updater's own uncommitted output, exempt from the next dirty-tree guard. */
   lastApplyPaths?: number
   /** Set by the wrapper's parity hook when it saved the prompt file (`UpdaterConfig.promptFile`). */
@@ -263,6 +283,8 @@ export interface DeprecatedFile {
   component: string
   reason: string
   deprecatedSince: string
+  /** Copy the file to the run's `.backups/` directory before removing it: set when a project may have edited it. */
+  backup?: boolean
 }
 
 export interface GitVersion {
@@ -324,7 +346,7 @@ export interface IgnoreDelta {
  * package you may not use appears in your manifest" — whereas the cost of
  * excluding it is that the `cli` component, which is synced wholesale and
  * imports several packages declared only here, ships code without the package
- * and leaves `bun run up` crashing on import in every downstream repo.
+ * and leaves `bun sync` crashing on import in every downstream repo.
  *
  * `lint-staged` is included for the same reason: `.husky/pre-commit` is synced
  * and shells out to `bunx lint-staged`, whose config lives in package.json and
@@ -342,6 +364,8 @@ export interface PackageJsonSpec {
 export interface PackageJsonKeyDrift {
   localValue: string
   upstreamValue: string
+  /** Upstream's value at the last sync (the lock's `lastSyncedSha`), when the clone holds it. */
+  cursorValue?: string
 }
 
 export interface PackageJsonSectionDelta {
@@ -364,7 +388,7 @@ export interface PackageJsonDelta {
 export interface PackageJsonKeyOption {
   /** The exact key name (value submitted by multiselect). */
   value: string
-  /** Display label, e.g. `"test:smoke" → "playwright test --project=smoke"`. */
+  /** Display label, e.g. `"test:smoke" → "playwright test --project=smoke-ui --project=smoke-api"`. */
   label: string
   /** Whether the key is checked by default in the multiselect. */
   checked: boolean
@@ -500,6 +524,19 @@ export interface UpdaterConfig {
   deprecatedFiles: DeprecatedFile[]
   bootstrapOnlyPaths: string[]
   /**
+   * Protected files whose `.test.*` sibling is held back while the project's
+   * copy differs from upstream's (`testSiblingsToHoldBack`). The wrapper passes
+   * the resolved watchlist.
+   */
+  holdTestSiblingsOf?: string[]
+  /**
+   * Boilerplate-only files (the boilerplate's own tests, snapshots, fixtures,
+   * maintainer scripts) to REMOVE from a project that already holds upstream's
+   * unedited copy (`cleanupBoilerplateCopies`). Unset in the boilerplate's own
+   * checkout, where the cleanup is inert.
+   */
+  cleanupRepoOnly?: { paths: string[], patterns: RegExp[] }
+  /**
    * Generated, per-repo files that live INSIDE a synced component but must NEVER
    * be synced (each repo regenerates its own). Matched by exact repo-relative
    * path. Excluded from every detection path — bootstrap, content reconcile, and
@@ -523,10 +560,18 @@ export interface UpdaterConfig {
    *
    * The scaffold side is enforced separately by `TEMPLATE_EXCLUDES` in
    * `packages/create-agentic-qa/src/prepare.ts`; a sync-reachable entry
-   * usually belongs in both, or `bun run up` re-delivers what the scaffold
+   * usually belongs in both, or `bun sync` re-delivers what the scaffold
    * pruned.
    */
   repoOnlyPaths?: string[]
+  /**
+   * On top of `repoOnlyPaths`, matched against the repo-relative path: upstream
+   * paths no consumer receives that a prefix cannot name (a file NAME shape
+   * spread across folders, such as the boilerplate's own unit tests). Applies
+   * to every delivery route, the self-update of the updater included
+   * (`isRepoOnlyForRun`).
+   */
+  repoOnlyPatterns?: RegExp[]
   /**
    * Extra repo-relative paths added to the sparse-checkout of the template
    * clone. Not synced — they exist so afterApply hooks can READ the upstream
@@ -552,5 +597,13 @@ export interface UpdaterConfig {
   hooks?: {
     afterApply?: (summary: RunSummary) => Promise<void>
     skillsResolver?: (templateDir: string) => string[]
+    /**
+     * Runs right before the process hands itself to another updater (the
+     * self-update re-exec, or the upstream updater a `--dry-run` previews
+     * with). The parent's event loop is blocked while the child runs, so a
+     * live page must be handed over here: the hook stops what it serves and
+     * returns the env the child needs to pick it up (installer-ui plan §6).
+     */
+    beforeReexec?: (info: { kind: 'self-update' | 'preview', from: string, to: string }) => Promise<Record<string, string>>
   }
 }

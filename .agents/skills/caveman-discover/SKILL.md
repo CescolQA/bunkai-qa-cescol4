@@ -7,6 +7,8 @@ description: >
   the Caveman discovery prompt, says "discover workflows", or asks to break
   LLM spend down by workflow. The repo should already route through the
   Caveman gateway (the caveman-setup skill does that part).
+metadata:
+  kind: workflow
 ---
 
 You are labeling this repository's LLM workflows for Caveman Cloud. A

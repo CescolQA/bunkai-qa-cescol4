@@ -50,6 +50,8 @@ testing:
   # Read as {{TC_CREATION_STAGE}}; unset or unrecognized is treated as `auto`.
   tc_creation_stage: auto
 
+harnesses: null
+
 qa:
   formal_blocked_gate: true # When true and the substrate exposes a `blocked` story status, FAILED stories dispatch `defect_reported` (in_test -> blocked). When false (or no `blocked` slug), the skill leaves the story in `in_test` with the linked bug — non-strict fallback. See sprint-testing/references/sprint-orchestration.md Briefing 4 Step 5.
   qa_artifact_label: QA-Artifact # Jira label applied to the 4 QA process epics (qa_epics below) so tooling can tell a QA bucket from a product epic. Matches scripts/sync-jira-issues.ts DEFAULT_QA_ARTIFACT_LABEL — landed after this project's project.yaml was bootstrapped, backfilled manually 2026-08-25 (missing its own updater backfill hook, see qa_epics/qa_assignee pattern in cli/update-boilerplate.ts).
@@ -77,6 +79,38 @@ qa:
     defect_epic:
       name: QA Defect Management # convention name; the `QA ` prefix marks a process epic, not product
       key: null # discovered/created at runtime, then cached here (e.g. PROJ-123)
+
+board:
+  source: auto
+  tickets_file: .context/sprint/tickets.yaml
+  jql: null
+  bug_jql: null
+  ticket_key_pattern: null
+  timezone: null
+  statuses:
+    tickets:
+      not_ready: null
+      in_test: null
+      tested: null
+      blocked: null
+      dropped: null
+    bugs:
+      open: null
+      fixed: null
+      resolved: null
+      discarded: null
+    tests:
+      PASSED: [PASSED, passed]
+      FAILED: [FAILED, failed]
+      NOT RUN: [TODO, EXECUTING, ABORTED, n_r]
+      BLOCKED: [blocked]
+      DEFERRED: []
+  people: null
+  evidence:
+    allowed_hosts: [claude.ai]
+  brand:
+    name: null
+    logo: null
 
 # Git workflow for THIS project — the SOURCE OF TRUTH read by the git-flow-master skill
 # before any git/gh operation. Ships `null` (template): on the first git intent git-flow-master
@@ -117,6 +151,29 @@ git_strategy:
     policy_source: verified # verified | accepted | declared. `verified` = host matches the yaml exactly.
     strategy_source: chosen # inherited | chosen. CHOSEN 2026-09-17: César reconfirmed solo-main and its Q4 policy (allowed / admin_bypass true / 0 reviews) via git-flow-master Strategy Setup — single-branch mechanics already matched real usage, nothing to rematerialize.
 
+orchestration:
+  max_workers: 4
+  default_agent: claude
+  default_model: claude-sonnet-5-5
+  default_effort: medium
+  conductor_model: claude-opus-5-5
+  conductor_effort: high
+  subagent_model: sonnet
+  permission_modes:
+    conductor: auto
+    worker: bypass
+    subagent: inherit
+  model_overrides:
+    - topics: [security, auth, migration, rollback, architecture]
+      tier: worker
+      model: claude-opus-5-5
+      effort: high
+  orchestrator_name: Orca
+  orchestrator_cli: orca
+  message_verb: orca orchestration
+  terminal_verb: orca terminal
+  orchestrator_skills: [orca-cli, orchestration]
+
 # Files `bun run up` must keep as THIS project's own. Read by `cli/update-boilerplate.ts`
 # at the start of every run and merged into the protected watchlist (AGENTS.md,
 # .agents/project.yaml, .mcp.json, opencode.jsonc, .codex/config.toml,
@@ -130,6 +187,13 @@ git_strategy:
 # nested list is skipped by vars:check like git_strategy and qa.qa_epics.
 updater:
   protected_paths: [.vscode/settings.json] # e.g. [scripts/lint-vars.ts, .agents/skills/acli/SKILL.md]
+
+secrets:
+  provider: local
+  onepassword:
+    vault: null
+    account: null
+    auth: app
 
 # Per-environment config. Add/remove environments freely (production, dev, qa, uat, etc.).
 # Each environment must define ALL four keys: web_url, api_url, db_mcp, api_mcp.

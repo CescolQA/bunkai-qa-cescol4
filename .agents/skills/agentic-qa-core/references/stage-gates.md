@@ -38,7 +38,7 @@ answered YES or a justified N/A) — not vibes. "N/A" is a valid answer only whe
 The pipeline is **eight named stages**. Stages are named by word, never by number.
 The number collided in two directions at once: the old "Stage 4" hosted IQL steps
 4 *and* 5, and "Stage 1" already meant something else inside the legacy TMLC prose
-under `docs/methodology/`. The table below is the **only** place the historical
+that used to live under docs/methodology. The table below is the **only** place the historical
 numbering appears; anything that still cites `stage-gates.md §Stage N` resolves
 through it.
 
@@ -47,18 +47,30 @@ through it.
 | **Shift-Left** | `shift-left-testing` | pre-sprint (batch) | L1 — Prevention | (Stage 0) |
 | **Planning** | `sprint-testing` | in-sprint | L1 — Prevention | (Stage 1) |
 | **Execution** | `sprint-testing` | in-sprint | L2 — Early Detection | (Stage 2) |
+| **Execution** (exploration without a ticket) | `exploratory-testing` | in-sprint or post-sprint | L2 — Early Detection | (none) |
 | **Reporting** | `sprint-testing` | in-sprint | L2 — Early Detection | (Stage 3) |
 | **Documentation** | `test-documentation` | post-sprint | L3 — Continuous Detection | (Stage 4) |
 | **Automation** | `test-automation` | post-sprint | L3 — Continuous Detection | (Stage 5) |
 | **Regression** | `regression-testing` | post-sprint | L3 — Continuous Detection | (Stage 6) |
-| **Observation** | *none yet* | production | L4 — Production Observation | (never had one) |
+| **Observation** | *no owning skill* | production | L4 — Production Observation | (never had one) |
 
 **Observation is declared, not implemented.** It has **no skill**; its operating
 unit is an **agentic routine** (a recurring or autonomous run, not a user-invoked
 skill), and its capability level is **L4**. It is named here so the pipeline is
-honest about where it currently stops: nothing under `.agents/skills/` executes it
-today. It deliberately carries **no DoD checklist** below — an empty checklist
+honest about where it stops: no skill under `.agents/skills/` owns it. It deliberately carries **no DoD checklist** below — an empty checklist
 would read as an implemented gate that an orchestrator could tick.
+
+**Exploration without a ticket is a second entry into the Execution stage**, not a new stage, and
+`exploratory-testing` owns it: its scope is a flow, a module or a whole-product sweep instead of a
+ticket, and it produces characterized scenarios (`oracle: observed`) for a person to confirm, each
+marked against existing coverage (`discovery-driven-doctrine.md` §1, §4). Its contract, lifecycle and
+DoD rows below are its own; the ticket-scoped Execution rows stay `sprint-testing`'s.
+
+**A sprint run through a fleet is not a new stage either.** `sprint-conductor` boots, watches and closes
+a fleet of `sprint-testing` workers (one per issue) from the Sprint Board; each worker runs Planning,
+Execution and Reporting on its own issue, and the DoD rows of those stages stay `sprint-testing`'s. What
+the conductor adds is verification at each close: it reads the issue's status back itself and checks the
+artifacts, never the report alone (`sprint-conductor/references/round-close.md`).
 
 **Sprint close is not a stage.** It is the batch boundary where the sprint-altitude
 artifacts (STP / STR) are closed out, and it is reached from Reporting or from
@@ -85,26 +97,39 @@ DoD item it never verified.
 | 4 | high — supervision by monitoring, not by approval |
 | 5 | full — no routine human involvement |
 
-**No stage in this pipeline runs above 3.** That ceiling is the architectural
-decision behind "skills do not run end-to-end autonomously", not an accident of
-how much has been built.
+**No stage in this pipeline runs above 3, except Regression, which may reach 4
+on a clean GO.** That ceiling is the architectural decision behind "skills do not
+run end-to-end autonomously", not an accident of how much has been built. The
+Regression exception is deliberate: a run with zero failures needs no human
+approval to advance, while any CAUTION or NO-GO is signed by a person.
 
 ### Contract table
 
 | Stage | The agent does | The person signs | Evidence that must survive | Autonomy | Separate verifier |
 |---|---|---|---|---|---|
-| **Shift-Left** | Rewrites ACs as Given/When/Then with concrete data, surfaces gaps and ambiguities, authors the pre-sprint ATP into the Story field, applies the Test-Design Checklist | The batch of candidate Stories and the per-Story summary; never lets the Story pass `Estimation` | Rewritten ACs, gaps as open questions to PO/Dev, dated label, review subtask | **2** | **none** — the PO/Dev refining the Story is the natural reviewer |
+| **Shift-Left** | Rewrites ACs as Given/When/Then with concrete data, surfaces gaps and ambiguities, authors the pre-sprint ATP into the Story field, applies the Test-Design Checklist, sets `AI Effort` | The batch of candidate Stories and the per-Story summary; never lets the Story pass `Ready For Dev` without `AI Effort` set | Rewritten ACs, gaps as open questions to PO/Dev, dated label, review subtask | **2** | **none** — the PO/Dev refining the Story is the natural reviewer |
 | **Planning** | Creates ATS → ATP → ATR set-first, derives TCs or outlines per modality, decides the UI/API/DB surfaces by triage + veto + risk score | The Story Explanation checkpoint (the skill explains the story and waits) | ATP as a Test Plan item, ATR carrying its Test Environment (hard gate), coverage stated on both axes | **2** | **none** |
 | **Execution** | Runs smoke as Go/No-Go, executes the outlines, explores past them across the trifuerza, proposes bugs with derived severity | The triage of every bug and the **filing** of every bug; any security/auth severity recalibration | Screenshots under the PBI `evidence/` folder, smoke demonstrably run first | **3** | **none** |
+| **Execution** (exploration without a ticket) | Writes the charter, fans out recon across UI / API / DB, refutes every Medium+ anomaly, settles disagreements in the main thread, marks every candidate NEW / WEAK / COVERED against existing coverage, drafts bugs and coverage Tech Story proposals | The charter (unless the request already said go); every oracle answer ("is this intended?"); the **filing** of every bug; every coverage Tech Story; every module-context write | `charter.md`, one finding file per finding (confirmed and refuted), `candidate-scenarios.md` with marks and outcomes, captures verified on disk, `created_rows` re-read gone | **3** | **none** — the Refute step is an internal adversarial check, not a separate verifier |
 | **Reporting** | Fills the ATR, writes the QA comment, creates and verifies the traceability links | The workflow transition (`qa_sign_off` / `defect_reported`) | ATR as a Test Execution item, links resolved and verified in direction | **2** | **none** |
-| **Sprint close** | Creates or completes the sprint STR (first-to-arrive creates it, the other completes it), sets its Test Environment, links STR → STP via the `testPlan` edge | The STP's closure — its final scope/progress and the transition to its terminal state | STR as a Test Execution item carrying its Test Environment, STR → STP link resolved, STP at its terminal state | **2** | **none** |
+| **Sprint close** | Creates or completes the sprint STR (first-to-arrive creates it, the other completes it), sets its Test Environment, links STR → STP via the `testPlan` edge and STR → RTP (dual membership) | The STP's closure — its final scope/progress and the transition to its terminal state | STR as a Test Execution item carrying its Test Environment, STR → STP and STR → RTP links resolved, STP at its terminal state | **2** | **none** |
 | **Documentation** | Derives scenarios by technique, scores ROI, proposes Candidate / Manual / Deferred, persists only the regression-worthy ones | **Every ROI verdict**, the regression epic, the Test Set | ROI score per scenario; the >50% Candidate/Manual alarm answered | **2** | **recommended** — a second agent re-reads the verdicts against the ATR |
-| **Automation** | Writes `spec.md` + `automation-plan.md`, then KATA code with `@atc`, then runs the three verifiers and opens the PR | The plan **before a line of code**; the merge; the call at the third revision loop | Tests green, types clean, lint clean, `@atc` ids resolving to real tickets, manifest fresh | **2 → 3** inside the approved plan | **required** — `/pr-review-lead` or `/judgment-day`, in a clean context |
-| **Regression** | Runs the suite, classifies every failure, computes pass-rate and trend, emits GO / CAUTION / NO-GO, writes the STR | The CAUTION verdict; never invents the sprint number | Allure report; ≥5 runs of history before the word FLAKY is allowed (below that: INSUFFICIENT HISTORY); rate computed over the last N = min(10, available); STR → STP | **3** (4 for a clean GO) | **none** |
+| **Automation** | Takes only TCs with a signed Candidate verdict (the TC source gate; never creates or scores a Test), writes `spec.md` + `automation-plan.md`, then KATA code with `@atc`, then runs the three verifiers and hands off to `/git-flow-master`, which opens the PR (`/test-automation` never runs git itself) | The plan **before a line of code**; the merge; the call at the third revision loop | Tests green, types clean, lint clean, `@atc` ids resolving to real tickets, manifest fresh | **2 → 3** inside the approved plan | **required** — `/pr-review-lead` or `/judgment-day`, in a clean context |
+| **Regression** | Runs the suite, classifies every failure, computes pass-rate and trend, emits GO / CAUTION / NO-GO, writes the RTR (one per verdict, `testPlan → RTP`); the STR only when the run is the sprint close | The CAUTION verdict; never invents the sprint number | Allure report; ≥5 runs of history before the word FLAKY is allowed (below that: INSUFFICIENT HISTORY, which counts as REGRESSION for the verdict); run counts from `reports/test-outcomes.json` (Allure only for failure detail and history, or for counts when that file is missing); rate computed over the last N = min(10, available); RTR → RTP (STR → STP and STR → RTP at sprint close) | **3** (4 for a clean GO) | **none** |
 | **Observation** | *(agentic routine, no skill)* Watches SLOs, error budget, RUM and canary signals; opens items into the backlog; feeds the next Shift-Left pass | The SLOs and the error-budget policy; the decision to stop releases | Product metrics against the project's own targets | **3** | **n/a** |
 
 Read the table with the DoD checklist of the same stage, not instead of it: the
 DoD is the exit bar, the contract is the operating licence.
+
+**Signed ROI before automation is a hard gate.** The person's signature on every
+Candidate verdict (Documentation) is what lets a TC into Automation, and it has no
+collapse path: a TC that is missing, unsigned or not `candidate` goes back to
+`test-documentation`, never into a Test that Automation creates itself.
+
+The "The person signs" column is also the fourth escalation kind of
+`decision-protocol.md` §5: what it lists for the running stage goes to a person,
+and a technical call inside the approved plan that it does not list is the
+agent's, decided and reported. The protocol changes no Autonomy value.
 
 ### Feedforward and feedback
 
@@ -117,8 +142,8 @@ governed — it is either unguided or uncorrected.
 | **Feedback** | corrects the work *after* it happens | the DoD checklists below; the executable gates (`bun run test`, `types:check`, `lint:check`, `skills:check`, `kata:manifest:check`); the regression suite and its failure classification; the separate verifier where the contract demands one |
 
 Feedforward is cheap and pre-emptive, feedback is expensive and late, and the two
-trade off against each other. That is why **Automation** — the only stage whose
-autonomy reaches 3 — is also the only stage with a mandatory separate verifier:
+trade off against each other. That is why **Automation** — a stage whose
+autonomy rises from 2 to 3 inside the approved plan — is also the only stage with a mandatory separate verifier:
 more rope on the way in is paid for with a harder check on the way out.
 
 ---
@@ -133,14 +158,15 @@ terminal there) is `artifact-lifecycle.md` §1. Do not restate it; resolve again
 
 | Stage | Artifacts whose status this stage owns | Where they must be when the stage closes |
 |---|---|---|
-| **Shift-Left** | Story · `[QA] Shift-Left Review` subtask | Story at `estimation` (via `analyze` → `estimate`, stopping there); subtask at `close` (via `complete`) |
+| **Shift-Left** | Story · `[QA] Shift-Left Review` subtask | Story at `ready_for_dev` (via `analyze` → `refined`, stopping there) with `{{jira.ai_effort}}` set; subtask at `close` (via `complete`) |
 | **Planning** | ATP · ATS · ATR · sprint TCs (xray) · STP | ATP at `ready` (via `designed`); ATS still `designing` (membership is not final until Reporting); ATR `active` **carrying its Test Environment**; TCs at `ready` (via `start_design` → `ready_to_run`), parented to **QA Test Repository**; STP at `ready` once the sprint scope is set |
-| **Execution** | Story / coverable | at `in_test` (via `start_testing`), `qa_assignee` set to self |
-| **Reporting** | ATR · ATS · ATP · Story · filed Bug/Defect/Improvement | ATR at `close` (via `complete`, after every run status is recorded); ATS at `close` (via `done`); ATP at `completed` (via `complete`); Story at `qa_approved` or `blocked`; each filed issue at `open`, parented to **QA Defect Management** |
+| **Execution** | Story / coverable | at `in_test` (via `start_testing`), `qa_assignee` set (filled in Shift-Left; self when still empty) |
+| **Execution** (exploration without a ticket) | filed Bug / Improvement · coverage Tech Story (only those a person approved) | each filed issue at `open`, parented to **QA Defect Management**; each coverage Tech Story at the status its `create` transition lands it, parented to **QA Test Repository** (`artifact-lifecycle.md` §1, row "Coverage Tech Story"); no Test is created here |
+| **Reporting** | ATR · ATS · ATP · Story · filed Bug/Defect/Improvement | ATR at `close` (via `complete`, after every run status is recorded); ATS at `close` (via `done`); ATP at `completed` (via `complete`); Story at `qa_approved` (`{{jira.quality_token_usage}}` written when a figure is available) or `blocked`; each filed issue at `open`, parented to **QA Defect Management** |
 | **Sprint close** | STP · STR | STP at `completed` (via `complete`); STR at `close` (via `complete`) after the verdict is written |
 | **Documentation** | promoted TCs · RTP · feature TS · Preconditions | Candidate TCs at `candidate` (via `automation_review_from_ready` → `approve_to_automate`); Manual TCs at `manual` (via `for_manual`, **from `ready` — there is no `in_review` → `manual` edge**); Deferred TCs stay `ready`; RTP at `ready` and **stays there** (long-lived, never `completed`); feature TS stays `designing`; Preconditions stay `active` (no transition exists) |
-| **Automation** | TCs in scope | `in_automation` at Code start (via `start_automation`); `pull_request` when the ticket PR opens (via `create_pr`); `automated` ONLY after the suite PR merges to `main` with CI green (via `merged`) |
-| **Regression** | STR · RTP | STR at `close` (via `complete`) after the verdict; RTP **untouched at `ready`** — a regression run never completes the plan it ran from |
+| **Automation** | TCs in scope | `in_automation` at Code start (via `start_automation`); `pull_request` when the ticket PR opens (via `create_pr`); `automated` ONLY once the code is on the production branch (`git_strategy.branches.production`) with CI green (via `merged`), never at a trunk or integration merge (`discovery-driven-doctrine.md` §6) |
+| **Regression** | RTR · STR · RTP | RTR at `close` (via `complete`) after the verdict comment is posted on it, one RTR per verdict; STR at `close` (via `complete`) only when the run is the sprint close; RTP **untouched at `ready`** — a regression run never completes the plan it ran from |
 | **Observation** | *(no skill, no artifacts)* | n/a |
 
 **Ownership and parenting are part of the same gate.** Every artifact CREATED by a
@@ -182,6 +208,7 @@ the stage NEEDS REVISION.
     `trivially atomic` justification
 [ ] Coverage estimate reflects the real 1:N (not a minimized count)
 [ ] Inferred scenarios marked NEEDS PO/DEV CONFIRMATION
+[ ] `{{jira.ai_effort}}` set (Low/Medium/High; a High carries a size note and still moves on, a split is optional)
 [ ] NO TMS test entities created (outlines only); label + transition applied
 [ ] Artifact statuses match §"Lifecycle expectations per stage"; light stage verifier run
 ```
@@ -219,8 +246,35 @@ the stage NEEDS REVISION.
 [ ] Smoke pass run first (Go/No-Go) before deep exploration
 [ ] Planned outlines executed AND exploration probed beyond them
 [ ] Newly-discovered partition/boundary/transition folded back into the outline set
-[ ] Evidence captured under the PBI folder; outline/Test status updated
+[ ] Evidence captured under the PBI folder; outline/Test status updated: PASSED / FAILED only
+    on observation in the precondition's environment, else NOT RUN with its ladder reason
+    (`discovery-driven-doctrine.md` §5)
 [ ] Bugs filed with story + AC traceability where found
+[ ] Artifact statuses match §"Lifecycle expectations per stage"; light stage verifier run
+```
+
+### Execution (exploration without a ticket) — `exploratory-testing`, Charter / Recon / Refute / Tie-break / Handoff
+
+```
+[ ] Scope mode picked (flow / module / sweep), not a ticket key; charter written and confirmed
+[ ] The module context read for every in-scope module
+[ ] Coverage view built before Recon (the gap list, or the session's coverage-view.json, with
+    `TMS not read` stated when the TMS was not read) and passed to every Recon agent
+[ ] Every Recon report in the structured schema, `created_rows` present even when empty;
+    a failed or skipped surface recorded as "not covered this round"
+[ ] Every Medium+ anomaly sent to a refute-mandated verifier; every disagreement settled by the
+    main-thread tie-break (decisive query + live code read)
+[ ] One finding file per finding, CONFIRMED and REFUTED alike
+[ ] Every candidate marked NEW / WEAK / COVERED (a weak, stale or unverified cover never makes
+    COVERED) and carrying `oracle: observed | confirmed | not intended`; PASSED / FAILED only on
+    observation in the precondition's environment, else NOT RUN with its ladder reason
+    (`discovery-driven-doctrine.md` §5)
+[ ] Oracle questions, bug filings, Tech Stories and module-context writes asked by weight and
+    signed by a person; every approved write read back
+[ ] Module-context harvest asked for every touched module, or recorded as skipped
+[ ] A `DEFERRED (execution)` with no coverable keeps its follow-up on the coverage Tech Story, or
+    as a Handoff item until that Story is approved
+[ ] Every `created_rows` entry re-read gone
 [ ] Artifact statuses match §"Lifecycle expectations per stage"; light stage verifier run
 ```
 
@@ -229,9 +283,12 @@ the stage NEEDS REVISION.
 ```
 [ ] ATR authored as a **Test Execution** item (`ATR: {STORY-KEY}: Story Testing`); Story custom field only as fallback
 [ ] QA comment posted; ticket transitioned to the correct status
+[ ] On approval, `{{jira.quality_token_usage}}` written when a figure is available (cumulative: current value read, this cycle's delta added, one `QTU cycle N` comment; comment fallback when the field is absent); no figure -> left empty, a valid stated N/A that never fails this verifier
+[ ] No case left `BLOCKED`; every `DEFERRED (execution)` recorded in the ATR and listed in the QA comment
 [ ] Regression follow-up noted for any regression-worthy bug (Stage-4 hand-off); bug retest (xray):
     repro Test's run recorded PASSED/FAILED in the retest Execution
-[ ] Traceability verified — xray: Story↔ATS (`test` slug, coverage) + ATS membership complete +
+[ ] Traceability verified — xray: Story↔ATS (`test` slug, coverage) + ATS membership complete
+    (Xray membership AND one TC→ATS link per member, `traceability-linking.md` §9) +
     Story↔ATP / Story↔ATR (administrative); native: field/comment containers populated
 [ ] Artifact statuses match §"Lifecycle expectations per stage"; light stage verifier run
 ```
@@ -242,8 +299,9 @@ the stage NEEDS REVISION.
 [ ] The sprint **STR** (`STR: Sprint#{N}: Regression Testing`, Test Execution item, parent
     QA Test Artifacts) exists — first-to-arrive creates it, the other completes it
 [ ] The STR carries its **Test Environment** (same hard gate as the ATR): no environment → DoD failure
-[ ] The STR links to the sprint STP via the `testPlan` edge (`STR → STP`); the STP is closed out
-    with its final scope/progress and transitioned to its terminal state
+[ ] The STR links to the sprint STP via the `testPlan` edge (`STR → STP`) and to the RTP
+    (`STR → RTP`, dual membership); the STP is closed out with its final scope/progress and
+    transitioned to its terminal state
 [ ] Skip-with-a-stated-note ONLY when the `Test Plan` / `Test Execution` work types are absent
     (no field fallback at sprint altitude) — never a silent skip
 [ ] Artifact statuses match §"Lifecycle expectations per stage"; light stage verifier run
@@ -257,7 +315,12 @@ Analyze:
 [ ] Candidate scenarios derived by technique (1:N), cross-cutting deferral explicit
 Prioritize:
 [ ] ROI applied → each scenario is exactly one of Candidate / Manual / Deferred
-[ ] Most scenarios Deferred (re-apply Phase 0 if >50% land Candidate/Manual)
+[ ] Candidate / Manual fired only after the person signed it; the ROI comment carries the
+    `Verdict signed:` line (`test-documentation/references/tms-conventions.md` §9)
+[ ] Most scenarios Deferred (re-apply Phase 0 if >50% land Candidate/Manual; a discovery
+    batch per chunk of one anchor)
+[ ] Discovery intake: COVERED dropped with a line, WEAK as a strengthen proposal for the
+    existing test (no new Test), anchors and oracle answers read back from Jira
 [ ] Bug-driven: golden rule applied (regression-worthy bug reuses/creates a Test)
 Document:
 [ ] Persist ONLY regression-worthy (Candidate/Manual); Deferred = report only,
@@ -272,6 +335,9 @@ Document:
 
 ```
 Plan:
+[ ] TC source gate passed: every TC in scope read from the TMS this run at `candidate`, its
+    `Verdict signed:` comment created and last updated before this run started; Manual and
+    recorded-Deferred Tests listed out of scope; none created, scored or signed by this stage
 [ ] Only Candidate verdicts in scope; spec.md derives ATCs by technique (1:N)
 [ ] Test-Design Checklist applied (BVA where ranges exist; EP partitions distinct)
 Code:
@@ -293,6 +359,14 @@ Review:
 [ ] Every failure classified (REGRESSION / FLAKY / KNOWN / ENVIRONMENT / NEW TEST)
 [ ] Pass-rate + trend computed; no silent truncation of skipped/dropped tests
 [ ] GO / CAUTION / NO-GO verdict stated with the evidence behind it
+[ ] The RTR (Test Execution, parent QA Test Artifacts) exists BEFORE the CI trigger and CI
+    imported into ITS key (never the shared sprint secret)
+[ ] The RTR carries its Test Environment and an assignee (self)
+[ ] The RTR links to the RTP via the `testPlan` edge (`RTR → RTP`); the RTP stays `ready`
+[ ] The verdict comment is posted on the RTR, then `complete` → `close`; a re-run after the
+    verdict opens a NEW RTR
+[ ] Modality jira-native: no RTR item, skip with a stated note; results = per-Test status
+    writes + the `[LOCAL]` report
 [ ] Artifact statuses match §"Lifecycle expectations per stage"; light stage verifier run
 ```
 
@@ -301,7 +375,7 @@ Review:
 ### Observation — no checklist
 
 Intentionally empty. Observation has no owning skill and no DoD; its operating
-unit is an agentic routine that does not exist in this repo yet. Writing a
+unit is an agentic routine, not a skill. Writing a
 checklist here would hand an orchestrator a gate it cannot actually verify.
 
 ---

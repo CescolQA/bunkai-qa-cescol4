@@ -7,6 +7,8 @@ description: >
   evaluate a candidate change, or act on the current Caveman optimization
   report. Require a logged-in Caveman CLI connection and explicit approval;
   never infer money or actuation from a profile.
+metadata:
+  kind: workflow
 ---
 
 # Evaluate an optimization observation

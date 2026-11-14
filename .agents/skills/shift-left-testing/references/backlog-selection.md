@@ -15,7 +15,7 @@ This reference is for **pre-sprint batch grooming**. It does NOT cover in-sprint
 | Candidate Story IDs (explicit mode) | User argument: `UPEX-100,101,102` or natural-language list |
 | Candidate Story IDs (JQL mode) | `[ISSUE_TRACKER_TOOL]` search using the query in §JQL Query below (trivial key+summary+status+type+labels list — `acli search` is fine here) |
 | Story metadata (detailed: description, ACs, comments) | `bun run jira:sync-issues get <STORY_KEY> --include-comments` (batch: `jql "<query>"`), then read the synced `.md`. NEVER `acli view` — returns `null` for custom fields. For the candidate triage itself (type/labels/priority) the trivial `acli search` list above suffices; sync only when a refined-AC-grade read is needed. |
-| Project-wide context | `.context/business/business-data-map.md`, `.context/business/business-feature-map.md`, `.context/business/business-api-map.md`, `.context/master-test-plan.md` |
+| Project-wide context | the business context skills (`bun run context:map business-data-context` / `business-e2e-context` / `business-api-context`, `--section <id>` for one entity or endpoint group), `.context/PBI/qa-artifacts/master-test-plan.md` |
 | Jira workflow values | `.agents/jira-workflows.json` -> `{{jira.status.story.*}}` |
 
 ---
@@ -28,7 +28,6 @@ AND issueType = Story
 AND status in (
   "{{jira.status.story.backlog}}",
   "{{jira.status.story.shift_left_qa}}",
-  "{{jira.status.story.estimation}}",
   "{{jira.status.story.ready_for_dev}}"
 )
 ORDER BY priority DESC, created DESC
@@ -83,7 +82,7 @@ This step prevents accidental double-work and gives the user explicit control ov
 
 ## Step 3 — Veto table (beats risk score)
 
-Apply before scoring. Same rubric as `acceptance-test-planning.md` §0.1 — duplicated here for the subagent's convenience but the source of truth is the sprint-testing reference.
+Apply before scoring. Adapted from `acceptance-test-planning.md` §0.1 for pre-sprint Stories; this table is authoritative for shift-left selection.
 
 ### SKIP REFINEMENT (drop from refinement set, log reason)
 
@@ -118,7 +117,7 @@ If veto fires, write the reason into the candidate row and skip Step 4.
 | Dynamic data (API / DB) | +3 | Not hardcoded / static |
 | Explicit ACs present | +2 | Acceptance criteria defined in the Story |
 | User-facing | +2 | Affects UI or visible behavior |
-| High effort | +2 | Story-point estimate >= 5 OR description >= 600 words |
+| High effort | +2 | AI Effort = High OR description >= 600 words |
 | High priority | +1 | Priority High or Critical |
 | Multi-component | +1 | Multiple codebase areas touched (frontend + backend, multiple services) |
 | External dependency | +1 | Mentions third-party API, library upgrade, partner integration |
@@ -137,7 +136,7 @@ If veto fires, write the reason into the candidate row and skip Step 4.
 
 For HIGH-risk candidates only, the Selection subagent does a quick feasibility probe:
 
-- Read `business-data-map.md` and `business-api-map.md`. Does the data model support the Story's ACs?
+- Read the data and API maps (`bun run context:map business-data-context`, `bun run context:map business-api-context`). Does the data model support the Story's ACs?
 - Read `master-test-plan.md`. Are there test-data fixtures for this entity / flow?
 - If neither answers "yes", flag the candidate with a `DATA-FEASIBILITY-RISK` marker. The refinement subagent will surface this as a critical PO question in Phase 2.
 
@@ -202,7 +201,7 @@ The user replies with OKs or overrides. The orchestrator persists the FINAL acce
 3. **JQL result-set sanity.** > 12 Stories in a single session burns user attention. Suggest splitting (e.g. by epic, by priority, by sprint candidate). 1-12 is the practical sweet spot.
 4. **Data-feasibility-risk is a SOFT flag**. It does not block — it surfaces a critical PO question in Phase 2. The Story still enters refinement.
 5. **Score is advisory, not authoritative.** The user can override LOW skips into the refinement set if they smell hidden complexity.
-6. **No execution.** The Selection subagent does NOT run smoke tests, DB queries, or API calls. Feasibility is established from `.context/business/*` reads only.
+6. **No execution.** The Selection subagent does NOT run smoke tests, DB queries, or API calls. Feasibility is established from the business context maps (read through `bun run context:map`) only.
 
 ---
 

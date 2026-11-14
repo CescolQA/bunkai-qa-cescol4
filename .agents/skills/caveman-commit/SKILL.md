@@ -5,6 +5,8 @@ description: >
   intent and reasoning. Conventional Commits format. Subject ≤50 chars, body only when "why"
   isn't obvious. Use when user says "write a commit", "commit message", "generate commit",
   "/commit", or invokes /caveman-commit. Auto-triggers when staging changes.
+metadata:
+  kind: workflow
 ---
 
 Write commit messages terse and exact. Conventional Commits format. No fluff. Why over what.
@@ -27,7 +29,7 @@ Write commit messages terse and exact. Conventional Commits format. No fluff. Wh
 - Reference issues/PRs at end: `Closes #42`, `Refs #17`
 
 **What NEVER goes in:**
-- "This commit does X", "I", "we", "now", "currently" — the diff says what
+- "This commit does X", "I", "we", "now", "currently" — the diff says what <!-- volatile-ok: quoted words to avoid, not a claim -->
 - "As requested by..." — use Co-authored-by trailer
 - "Generated with Claude Code" or any AI attribution — unless the user's own rule requires an `Assisted-by`/AI-attribution trailer, then add it as a trailer
 - Emoji (unless project convention requires)

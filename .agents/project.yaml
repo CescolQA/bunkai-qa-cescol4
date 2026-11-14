@@ -186,7 +186,7 @@ orchestration:
 # ignored. Empty by default. Read directly by the updater (not a {{VAR}} source): the
 # nested list is skipped by vars:check like git_strategy and qa.qa_epics.
 updater:
-  protected_paths: [.vscode/settings.json, cli/lib/agent-compatibility-contracts.ts] # contracts: dbhub/openapi inner launch is `bun x`, not `bunx` (bunx spawned by varlock fails on Windows: "Invalid Argument '-y'"; verified 2026-11-14). Drop once upstream fixes it.
+  protected_paths: [.vscode/settings.json, cli/lib/agent-compatibility-contracts.ts, package.json] # contracts: dbhub/openapi inner launch is `bun x`, not `bunx` (bunx spawned by varlock fails on Windows: "Invalid Argument '-y'"; verified 2026-11-14). package.json: playwright test scripts run on Node (`bunx playwright test`, no `--bun`): under the Bun runtime the worker spawn fails on Windows (worker path "@C:/..." is treated as a package to install; verified 2026-11-14). Drop both once upstream fixes them.
   # e.g. [scripts/lint-vars.ts, .agents/skills/acli/SKILL.md]
 
 secrets:

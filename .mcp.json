@@ -4,13 +4,6 @@
       "command": "bunx",
       "args": ["-y", "@upstash/context7-mcp@4.0.3"]
     },
-    "tavily": {
-      "type": "http",
-      "url": "https://mcp.tavily.com/mcp/",
-      "headers": {
-        "Authorization": "Bearer ${TAVILY_API_KEY}"
-      }
-    },
     "playwright": {
       "command": "bunx",
       "args": [
@@ -64,13 +57,6 @@
         "--tools",
         "dynamic"
       ]
-    },
-    "postman": {
-      "type": "http",
-      "url": "https://mcp.postman.com/mcp",
-      "headers": {
-        "Authorization": "Bearer ${POSTMAN_API_KEY}"
-      }
     }
   }
 }

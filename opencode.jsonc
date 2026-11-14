@@ -28,14 +28,6 @@
       "command": ["bunx", "-y", "@upstash/context7-mcp@4.0.3"],
       "enabled": true
     },
-    "tavily": {
-      "type": "remote",
-      "url": "https://mcp.tavily.com/mcp/",
-      "enabled": true,
-      "headers": {
-        "Authorization": "Bearer {env:TAVILY_API_KEY}"
-      }
-    },
     "playwright": {
       "type": "local",
       "command": [
@@ -67,14 +59,6 @@
       "type": "local",
       "command": ["bunx","-p","varlock@1.20.0","varlock","run","--no-redact-stdout","--inject","vars","--filter","API_BASE_URL,OPENAPI_SPEC_PATH","--","bunx","-y","@ivotoby/openapi-mcp-server@1.16.1","--tools","dynamic"],
       "enabled": true
-    },
-    "postman": {
-      "type": "remote",
-      "url": "https://mcp.postman.com/mcp",
-      "enabled": true,
-      "headers": {
-        "Authorization": "Bearer {env:POSTMAN_API_KEY}"
-      }
     }
   },
 

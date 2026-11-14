@@ -16,11 +16,6 @@ args = [
   "@upstash/context7-mcp@4.0.3",
 ]
 
-[mcp_servers.tavily]
-url = "https://mcp.tavily.com/mcp/"
-bearer_token_env_var = "TAVILY_API_KEY"
-enabled = true
-
 [mcp_servers.dbhub]
 command = "bunx"
 enabled = true
@@ -79,8 +74,3 @@ args = [
   "--viewport-size",
   "1920x1080",
 ]
-
-[mcp_servers.postman]
-url = "https://mcp.postman.com/mcp"
-bearer_token_env_var = "POSTMAN_API_KEY"
-enabled = true

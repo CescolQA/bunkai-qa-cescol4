@@ -18,6 +18,7 @@ Lifecycle: an entry starts as a row in **Backlog**, moves to **Active practices*
 |---|---|---|---|
 | BK-509 — Create a project inside a workspace | shift-left | Cerrada (2026-08-26) — Fase 1 análisis a ciegas, Fase 2 `/shift-left-testing` real, Fase 3 comparación 3 vías | [`BK-509-create-project-in-workspace/`](./BK-509-create-project-in-workspace/) |
 | BK-859 — Leave a workspace | sprint-testing | Cerrada (2026-09-10) — pasos 1-7 hechos (brief acotado + rampa + modelo de roles + reconocimiento in-app + pasada ciega sellada + pasada asistida con 4 técnicas y matriz de 28 casos + ejecución parcial 7 PASS / 2 defectos + comparativa). Paso 8 y fixtures C/D fuera de alcance | [`BK-859-leave-a-workspace/`](./BK-859-leave-a-workspace/) |
+| BK-2139 — Show the saved display name in the sidebar user block | sprint-testing | Ejecutada (2026-11-23): Gherkin refinado, 12 Tests en Xray, PASSED 12/12, DoD firmado por el Tech Lead y Ready For Release. Pendiente: Stage 4 (ROI) y cierre del ATS | [`BK-2139-sidebar-display-name/`](./BK-2139-sidebar-display-name/) |
 
 ## Backlog
 

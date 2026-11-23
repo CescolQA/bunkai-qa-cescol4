@@ -4,7 +4,7 @@
 
 | Artefacto | Clave | Estado | Padre |
 |---|---|---|---|
-| Historia | BK-2139 | QA Approved | BK-85 Account & Settings |
+| Historia | BK-2139 | Ready For Release (DoD firmado por Ely) | BK-85 Account & Settings |
 | Tests TC1-TC12 | BK-2425 … BK-2436 | READY | BK-70 QA Test Repository |
 | ATS | BK-2438 | Designing (pendiente de ROI) | BK-515 QA Test Artifacts |
 | ATP | BK-2439 | Completed | BK-514 QA Master Test Plan |

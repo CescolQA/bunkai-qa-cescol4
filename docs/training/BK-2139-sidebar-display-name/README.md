@@ -24,7 +24,7 @@
 |---|---|
 | Historia | BK-2139 · Account: mostrar el nombre guardado en el bloque de usuario de la barra lateral |
 | Ambiente | staging |
-| Resultado | PASSED 12/12, sin defectos, historia en QA Approved |
+| Resultado | PASSED 12/12, sin defectos; Ely firmó el DoD y pasó la historia a Ready For Release |
 | Artefactos | ATP BK-2439 (Completed) · ATS BK-2438 (Designing, pendiente de ROI) · ATR BK-2440 (Close) · 12 Tests BK-2425 … BK-2436 |
 | Pendiente | Stage 4 (ROI): completar los 5 campos que pide el flujo para cerrar el ATS |
 | Observaciones fuera de la historia | 4 (O1 a O4), anotadas en el ATR |

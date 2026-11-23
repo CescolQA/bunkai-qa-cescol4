@@ -40,6 +40,7 @@
 | 2 | 12 corridas en PASSED con comentario y capturas (las de la cuenta personal quedaron locales) |
 | 3 | cierre del ATR y del ATP; el ATS no cerró por un validador del flujo (pide datos de ROI) |
 | 4 | comentario de QA en la historia y pase a QA Approved |
+| 5 | Ely revisó el ATR, firmó el DoD ("Meets the minimum comfortably") y pasó la historia a Ready For Release |
 
 ## Qué revisar en este checkpoint
 
